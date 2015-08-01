@@ -1,0 +1,6 @@
+{% extends 'sso/root.html' %}
+
+{% block navbar_right_link %}
+    <li><a href=""><strong>{{ request.user.first_name }}</strong></a></li>
+    <li><a href="{% url 'account:logout' %}">Logout</a></li>
+{% endblock %}

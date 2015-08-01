@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title> {% block title %} {% endblock %} </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'sso/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'sso/css/root.css' %}"/>
+    {% block cssLinks %}
+    {% endblock %}
+</head>
+
+<body>
+
+<div id="error-alert" class="alert alert-danger alert-dismissiable navbar-fixed-top container" role="alert"
+     style="z-index: 2000;width: 600px; display:none;">
+    <button id="error-alert-close" type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">×</span></button>
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+
+    <div id="error-alert-content"></div>
+</div>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {% comment %}
+                <a class="navbar-brand" href="{% url 'index' %}">Anon Post</a>
+            {% endcomment %}
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% comment %}
+                    <li><a href="{% url 'home:index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                {% endcomment %}
+                {% block navbar_left_link %}
+                {% endblock %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% block navbar_right_link %}
+                {% endblock %}
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container">
+    {% block body %}
+    {% endblock %}
+</div>
+
+<script type="text/javascript" src="{% static 'sso/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'sso/js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'sso/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'sso/js/root.js' %}"></script>
+{% block jsLinks %}
+{% endblock %}
+</body>
+</html>

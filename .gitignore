@@ -1,0 +1,6 @@
+.idea/
+*.sqlite3
+media/
+staticfiles/
+*.pyc
+sso/settings_user.py
