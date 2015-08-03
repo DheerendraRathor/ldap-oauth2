@@ -1,0 +1,19 @@
+{% extends "sso/logged_in.html" %}
+
+{% load i18n %}
+{% block body %}
+    <div class="center-block">
+        <h3 class="text-center">{% trans "Your applications" %}</h3>
+        {% if applications %}
+            <ul>
+                {% for application in applications %}
+                    <li><a href="{{ application.get_absolute_url }}">{{ application.name }}</a></li>
+                {% endfor %}
+            </ul>
+
+            <a class="btn btn-success" href="{% url "oauth:register" %}">New Application</a>
+        {% else %}
+            <p>{% trans "No applications defined" %}. <a href="{% url 'oauth:register' %}">{% trans "Click here" %}</a> {% trans "if you want to register a new one" %}</p>
+        {% endif %}
+    </div>
+{% endblock %}

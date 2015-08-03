@@ -1,0 +1,54 @@
+{% extends "sso/logged_in.html" %}
+
+{% load i18n %}
+{% load static %}
+{% block body %}
+    <div class="center-block">
+        <div class="media">
+            <div class="media-left media-middle">
+                <a href="#">
+                    {% static 'sso/img/default_logo.jpg' as default_image %}
+                    <img class="media-object"
+                         src="{{ application.logo.url|default:default_image}}" width="100" height="100" alt="Application Logo">
+                </a>
+            </div>
+            <div class="media-body">
+                <h3 class="media-heading">{{ application.name }}</h3>
+                {{ application.description }}
+            </div>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="id_client_id">{% trans 'Client id' %}</label>
+                <input id="id_client_id" class="form-control" value="{{ application.client_id }}" disabled/>
+            </div>
+
+            <div class="form-group">
+                <label for="id_client_secret">{% trans 'Client Secret' %}</label>
+                <textarea id="id_client_secret" rows="4" class="form-control" disabled>{{ application.client_secret }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="id_client_type">{% trans 'Client Type' %}</label>
+                <input id="id_client_type" class="form-control" value="{{ application.client_type }}" disabled/>
+            </div>
+
+            <div class="form-group">
+                <label for="id_client_grant">{% trans 'Authorization Grant Type' %}</label>
+                <input id="id_client_grant" class="form-control" value="{{ application.authorization_grant_type }}" disabled/>
+            </div>
+
+            <div class="form-group">
+                <label for="id_client_uri">{% trans 'Redirect URI' %}</label>
+                <textarea id="id_client_uri" rows="4" class="form-control" disabled>{{ application.redirect_uris }}</textarea>
+            </div>
+        </form>
+
+        <div class="btn-toolbar">
+            <a class="btn btn-default" href="{% url "oauth:list" %}">{% trans "Go Back" %}</a>
+            <a class="btn btn-primary" href="{% url "oauth:update" application.id %}">{% trans "Edit" %}</a>
+            <a class="btn btn-danger" href="{% url "oauth:delete" application.id %}">{% trans "Delete" %}</a>
+        </div>
+    </div>
+{% endblock %}
