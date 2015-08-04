@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'oauth2_provider',
+    'corsheaders',
     'captcha',
     'account',
     'application',
@@ -76,6 +77,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 )
 
 ROOT_URLCONF = 'sso.urls'
@@ -162,6 +164,7 @@ OAUTH2_PROVIDER_APPLICATION_MODEL='application.Application'
 OAUTH2_PROVIDER = {
     'SCOPES': {
         'basic': 'Basic profile information',
+        'music': 'Get user music preference',
     },
     'OAUTH2_VALIDATOR_CLASS': 'application.validators.CustomOAuth2Validator',
 }

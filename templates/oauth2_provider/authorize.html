@@ -2,7 +2,7 @@
 
 {% load i18n %}
 {% load static %}
-{% load zip_list %}
+{% load scope %}
 {% block body %}
     <div class="center-block">
         {% if not error %}
@@ -29,21 +29,37 @@
                     {% endif %}
                 {% endfor %}
 
-                <p>{% trans "Application requires following permissions" %}</p>
+                <h3>{% trans "Application requires following permissions" %}</h3>
 
-                <ul>
-                    {% for scope, description in scopes|zip:scopes_descriptions %}
-                        <li><b>{{ scope }}:</b> {{ description }}</li>
+                <ul class="list-unstyled">
+                    <li>
+                        <div class="checkbox">
+                            <label>
+                                <input checked disabled type="checkbox" id="basic_scope" name="scopes_array"
+                                       value="basic"/>
+                                Basic information including your first name, last name and email
+                            </label>
+                        </div>
+                    </li>
+                    {% for scope, description in scopes|zip:scopes_descriptions|remove_basic_scope %}
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input checked type="checkbox" id="{{ scope }}_scope" name="scopes_array"
+                                           value="{{ scope }}"/>
+                                    {{ description }}
+                                </label>
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
 
                 {{ form.errors }}
                 {{ form.non_field_errors }}
 
-
                 {{ form.captcha }}
 
-                <div class="control-group">
+                <div class="form-group">
                     <div class="controls">
                         <input type="submit" class="btn btn-large btn-danger" value="Cancel"/>
                         <input type="submit" class="btn btn-large btn-success" name="allow" value="Authorize"/>
@@ -56,4 +72,8 @@
             <p>{{ error.description }}</p>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block jsLinks %}
+    <script src="{% static 'oauth2_provider/js/authorize.js' %}" type="application/javascript"></script>
 {% endblock %}

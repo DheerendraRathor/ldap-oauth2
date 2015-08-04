@@ -53,3 +53,12 @@ class ApplicationDeleteView(ApplicationOwnerIsUserMixin, DeleteView):
 class CustomAuthorizationView(AuthorizationView):
 
     form_class = AllowFormWithRecaptch
+
+    def form_valid(self, form):
+        scopes = form.cleaned_data.get('scope', '')
+        scopes = set(scopes.split(' '))
+        scopes.add('basic')
+        scopes = ' '.join(list(scopes))
+        form.cleaned_data['scope'] = scopes
+        return super(CustomAuthorizationView, self).form_valid(form)
+
