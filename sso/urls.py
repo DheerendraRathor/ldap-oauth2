@@ -23,8 +23,8 @@ import oauth2_provider.urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^o/', include(application.urls, namespace='oauth')),
-    url(r'^o/', include(oauth2_provider.urls, namespace='oauth2_provider')),
+    url(r'^oauth/', include(application.urls, namespace='oauth')),
+    url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),
     url(r'^account/', include(account.urls, namespace='account')),
 ]
 
