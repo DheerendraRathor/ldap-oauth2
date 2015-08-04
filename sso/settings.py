@@ -21,9 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 's&l6h=axv@d=q0x(@3uz31lxe2q)wiz84j95*u!eu6#xsqchw0'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -167,6 +164,7 @@ OAUTH2_PROVIDER = {
         'music': 'Get user music preference',
     },
     'OAUTH2_VALIDATOR_CLASS': 'application.validators.CustomOAuth2Validator',
+    'REQUEST_APPROVAL_PROMPT': 'auto',
 }
 
 from settings_user import *
