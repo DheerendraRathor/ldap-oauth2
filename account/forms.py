@@ -2,7 +2,12 @@ __author__ = 'dheerendra'
 
 from django import forms
 
+
 class LoginForm(forms.Form):
+    """
+    Login form for users and application developers
+    Designed to work with bootstrap
+    """
     username = forms.CharField(
         help_text='Enter Username',
         widget=forms.TextInput(
