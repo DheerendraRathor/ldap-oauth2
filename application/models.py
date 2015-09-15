@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 
+
 def application_logo(instance, filename):
     filename = filename.split('.')
     if len(filename) > 1:
@@ -14,8 +15,11 @@ def application_logo(instance, filename):
         ext = "jpg"
     return os.path.join("app_logo", uuid4().hex + "." + ext)
 
-class Application(AbstractApplication):
 
+class Application(AbstractApplication):
+    """
+    Extended oauth2_provider.models.AbstractApplication to include application description and logo
+    """
     description = models.TextField()
     logo = models.ImageField(upload_to=application_logo, blank=True, null=True)
 

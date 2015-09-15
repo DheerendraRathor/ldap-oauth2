@@ -20,12 +20,14 @@ from django.conf import settings
 import account.urls
 import application.urls
 import oauth2_provider.urls
+import user_resource.urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^oauth/', include(application.urls, namespace='oauth')),
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),
     url(r'^account/', include(account.urls, namespace='account')),
+    url(r'^user/', include(user_resource.urls, namespace='user')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

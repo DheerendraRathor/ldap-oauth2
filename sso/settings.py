@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import ldap
-from django_auth_ldap.config import LDAPSearch
+from django_auth_ldap.config import LDAPSearch, LDAPGroupType
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,7 +38,7 @@ AUTH_LDAP_SERVER_URI = "ldap://ldap.iitb.ac.in"
 
 AUTH_LDAP_BIND_DN = ""
 AUTH_LDAP_BIND_PASSWORD = ""
-AUTH_LDAP_USER_SEARCH = LDAPSearch("dc=iitb,dc=ac,dc=in",
+AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=People,dc=iitb,dc=ac,dc=in",
                                    ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 
 AUTH_LDAP_USER_ATTR_MAP = {
@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'captcha',
     'account',
     'application',
+    'user_resource',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,6 +112,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_URL = 'account:login'
 
+# TODO: Fix this! Use named url
 LOGIN_REDIRECT_URL = '/'
 
 STATICFILES_DIRS = (
@@ -160,11 +162,21 @@ OAUTH2_PROVIDER_APPLICATION_MODEL='application.Application'
 
 OAUTH2_PROVIDER = {
     'SCOPES': {
-        'basic': 'Basic profile information',
-        'music': 'Get user music preference',
+        'basic': 'Basic profile information including first name, last name and email',
+        'phone': 'Your contact number including additional numbers',
+        'insti_address': 'Your address inside institute',
+        'program': 'Your roll number, department, course, joining year and graduation year',
+        'secondary_emails': 'Your alternate emails',
     },
     'OAUTH2_VALIDATOR_CLASS': 'application.validators.CustomOAuth2Validator',
     'REQUEST_APPROVAL_PROMPT': 'auto',
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }
 
 from settings_user import *
