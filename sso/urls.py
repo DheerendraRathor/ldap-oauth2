@@ -21,8 +21,10 @@ import account.urls
 import application.urls
 import oauth2_provider.urls
 import user_resource.urls
+from .views import IndexRedirectView
 
 urlpatterns = [
+    url(r'^$', IndexRedirectView.as_view(), name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^oauth/', include(application.urls, namespace='oauth')),
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),

@@ -20,7 +20,7 @@ if [ "$KILL" = true ] ; then
     exit 1
 fi
 
-gunicorn iitbapp.wsgi \
+gunicorn sso.wsgi \
     --bind=0.0.0.0:$PORT \
      -c gunicorn_conf.py \
     --log-level=info \
