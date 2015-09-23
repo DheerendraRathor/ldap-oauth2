@@ -10,3 +10,35 @@ NOCAPTCHA = True
 RECAPTCHA_USE_SSL = True
 
 DEBUG = False
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+ALLOWED_HOSTS = ['*']
+
+# Email server settings
+EMAIL_HOST = "smtp-auth.iitb.ac.in"
+EMAIL_PORT = 25
+
+EMAIL_HOST_USER = ""
+
+EMAIL_HOST_PASSWORD = ""
+
+EMAIL_FROM = ""
+
+EMAIL_BACKEND = "core.notification.IITBEmailBackend"
+
+SERVER_EMAIL = ""
+
+EMAIL_SUBJECT_PREFIX = '[LDAPSSO] '
+
+ADMINS = (
+    ('Dheerendra Rathor', 'dheeru.rathor14@gmail.com'),
+)
+
+MEDIA_URL = "http://gymkhana.iitb.ac.in/ldapsso/media/"
+
+STATIC_URL = "/static/"
+
+SESSION_COOKIE_PATH = "/ldapsso/"
+
+CSRF_COOKIE_PATH = "/ldapsso/"
