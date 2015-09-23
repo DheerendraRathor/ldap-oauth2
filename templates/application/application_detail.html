@@ -9,7 +9,7 @@
                 <a href="#">
                     {% static 'sso/img/default_logo.jpg' as default_image %}
                     <img class="media-object"
-                         src="{{ application.logo.url|default:default_image}}" width="100" height="100" alt="Application Logo">
+                         src="{{ application.get_logo_url|default_if_none:default_image}}" width="100" height="100" alt="Application Logo">
                 </a>
             </div>
             <div class="media-body">

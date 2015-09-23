@@ -5,6 +5,8 @@ import os
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.conf import settings
+from urlparse import urljoin
 
 
 def application_logo(instance, filename):
@@ -22,6 +24,14 @@ class Application(AbstractApplication):
     """
     description = models.TextField()
     logo = models.ImageField(upload_to=application_logo, blank=True, null=True)
+
+    def get_logo_url(self):
+        try:
+            url = self.logo.url
+            url = urljoin(settings.MEDIA_URL, url)
+        except ValueError:
+            url = None
+        return url
 
     def get_absolute_url(self):
         return reverse('oauth:detail', args=[str(self.id)])
