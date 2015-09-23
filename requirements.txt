@@ -12,6 +12,7 @@ gevent==1.0.2
 greenlet==0.4.9
 gunicorn==19.3.0
 oauthlib==1.0.1
+psycopg2==2.6.1
 python-ldap==2.4.20
 six==1.9.0
 wsgiref==0.1.2
