@@ -6,3 +6,4 @@ staticfiles/
 sso/settings_user.py
 .coverage
 htmlcov
+*.log

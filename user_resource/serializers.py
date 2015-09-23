@@ -34,10 +34,8 @@ class UserSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs)
         fields = self.context.get('fields')
-        if fields is None:
+        if not isinstance(fields, list) and not isinstance(fields, set):
             fields = []
-        else:
-            fields = fields.split(',')
         fields.extend(default_fields)
 
         if fields is not None:

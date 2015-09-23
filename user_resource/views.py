@@ -41,6 +41,6 @@ class UserViewset(viewsets.GenericViewSet):
             }
             return Response(error_message, status=HTTP_400_BAD_REQUEST)
 
-        allowed_fields = set(fields).intersection(set(granted_fields))
-        user_serialized = self.get_serializer(user_queryset, context={'fields': allowed_fields}).data
+        allowed_fields = list(set(fields).intersection(set(granted_fields)))
+        user_serialized = UserSerializer(user_queryset, context={'fields': allowed_fields}).data
         return Response(user_serialized)

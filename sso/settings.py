@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import ldap
-from django_auth_ldap.config import LDAPSearch, LDAPGroupType
+from django_auth_ldap.config import LDAPSearch
+import logging.config
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -118,7 +119,7 @@ LOGIN_REDIRECT_URL = '/'
 STATICFILES_DIRS = (
     # Add all static files here. use os.path.join(BASE_DIR, 'your/staticfile/path')
     os.path.join(BASE_DIR, 'static/'),
-    )
+)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -158,7 +159,7 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 
-OAUTH2_PROVIDER_APPLICATION_MODEL='application.Application'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'application.Application'
 
 OAUTH2_PROVIDER = {
     'SCOPES': {
@@ -179,4 +180,81 @@ REST_FRAMEWORK = {
     )
 }
 
+LOGGING_CONFIG = None
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s [%(asctime)s] [%(name)s] [%(module)s] [Process:%(process)d] '
+                      '[Thread:%(thread)d] %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'suppress_deprecated_warnings': {
+            '()': 'sso.filters.SuppressDeprecatedWarnings',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file_django': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'formatter': 'verbose'
+        },
+        'file_application': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/application.log'),
+            'formatter': 'verbose',
+            'filters': ['suppress_deprecated_warnings'],
+        },
+        'file_feed': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/feeds.log'),
+            'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file_application'],
+            'level': 'INFO',
+        },
+        'gcm': {
+            'handlers': ['file_application'],
+            'level': 'DEBUG',
+        },
+        'requests': {
+            'handlers': ['file_application'],
+            'level': 'WARNING',
+        },
+        'django': {
+            'handlers': ['file_django', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'feed': {
+            'handlers': ['file_feed'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+
+}
+logging.config.dictConfig(LOGGING)
+
 from settings_user import *
+

@@ -41,4 +41,4 @@ class RegistrationForm(forms.ModelForm):
         }
 
 class AllowFormWithRecaptch(AllowForm):
-    captcha = ReCaptchaField()
+    pass
