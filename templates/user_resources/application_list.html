@@ -33,15 +33,17 @@
                         <div id="application{{ application.id }}" class="panel-collapse collapse" role="tabpanel"
                              aria-labelledby="headingOne">
                             <div class="panel-body">
-                                {{ application.description }} <br>
-                                This application has following permission:
-                                <ul>
-                                    {% for scope in scopes %}
-                                        <li>
-                                            {{ scope }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
+                                {{ application.description }} <br><br>
+                                <b>
+                                    This application has following permission:
+                                    <ul>
+                                        {% for scope in scopes %}
+                                            <li>
+                                                {{ scope }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </b>
                             </div>
                         </div>
                     </div>
