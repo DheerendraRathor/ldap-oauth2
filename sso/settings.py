@@ -114,7 +114,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 LOGIN_URL = 'account:login'
 
 # TODO: Fix this! Use named url
-LOGIN_REDIRECT_URL = 'oauth:list'
+LOGIN_REDIRECT_URL = 'user:settings'
 
 STATICFILES_DIRS = (
     # Add all static files here. use os.path.join(BASE_DIR, 'your/staticfile/path')

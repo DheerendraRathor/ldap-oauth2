@@ -82,4 +82,4 @@ class ApplicationRevokeView(LoginRequiredMixin, View):
     def get(self, request, pk):
         user = request.user
         AccessToken.objects.filter(user=user, application_id=pk).delete()
-        return redirect('user:index')
+        return redirect('user:settings')

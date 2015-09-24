@@ -9,6 +9,6 @@ router.register('user', UserViewset, base_name='user')
 
 urlpatterns = [
     url(r'^api/', include(router.urls, namespace='api')),
-    url(r'^$', UserApplicationListView.as_view(), name='index'),
+    url(r'^settings/', UserApplicationListView.as_view(), name='settings'),
     url(r'^revoke_app/(?P<pk>\d+)/', ApplicationRevokeView.as_view(), name='revoke_app'),
 ]
