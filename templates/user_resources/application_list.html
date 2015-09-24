@@ -1,0 +1,55 @@
+{% extends 'sso/logged_in.html' %}
+
+{% load static %}
+{% block body %}
+    {% static 'sso/img/default_logo.jpg' as default_image %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Apps connected to your account</h1>
+
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {# applications is a dictionary of application to scopes #}
+                {% for application, scopes in applications.items %}
+                    <div class="panel panel-default">
+                        <div role="button" data-toggle="collapse" data-parent="#accordion"
+                             data-target="#application{{ application.id }}"
+                             class="panel-heading" role="tab">
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <img class="media-object"
+                                         src="{{ application.get_logo_url|default_if_none:default_image }}"
+                                         width="50" height="50" alt="Application Logo">
+                                </div>
+                                <div class="media-body media-middle">
+                                    <h3 class="media-heading">{{ application.name }}</h3>
+                                </div>
+                                <div class="media-right media-middle">
+                                    <a href="{% url 'user:revoke_app' application.id %}"
+                                       class="btn btn-danger revoke-button">Revoke</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="application{{ application.id }}" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                {{ application.description }} <br>
+                                This application has following permission:
+                                <ul>
+                                    {% for scope in scopes %}
+                                        <li>
+                                            {{ scope }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                {% empty %}
+                    No apps found
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
