@@ -10,5 +10,5 @@
             Unknown User
         {% endif %}
     </strong></a></li>
-    <li><a href="{% url 'account:logout' %}">Logout</a></li>
+    <li><a href="{% url 'account:logout' %}?next={{ request.path }}">Logout</a></li>
 {% endblock %}

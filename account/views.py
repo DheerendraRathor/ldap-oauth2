@@ -48,5 +48,6 @@ class LoginView(View):
 class LogoutView(View):
 
     def get(self, request):
+        next_ = request.GET.get('next', 'account:login')
         logout(request)
-        return redirect('account:login')
+        return redirect(next_)
