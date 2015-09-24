@@ -9,6 +9,8 @@ NOCAPTCHA = True
 
 RECAPTCHA_USE_SSL = True
 
+PROJECT_URL = 'http://gymkhana.iitb.ac.in/sso/'
+
 DEBUG = False
 
 CORS_ORIGIN_ALLOW_ALL = True

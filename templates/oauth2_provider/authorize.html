@@ -12,7 +12,8 @@
                         <a href="#">
                             {% static 'sso/img/default_logo.jpg' as default_image %}
                             <img class="media-object"
-                                 src="{{ application.get_logo_url|default_if_none:default_image }}" width="100" height="100"
+                                 src="{{ application.get_logo_url|default_if_none:default_image }}" width="100"
+                                 height="100"
                                  alt="Application Logo">
                         </a>
                     </div>
@@ -57,14 +58,15 @@
                 {{ form.errors }}
                 {{ form.non_field_errors }}
 
-                {{ form.captcha }}
-
                 <div class="form-group" style="margin-top: 20px;">
                     <div class="controls">
                         <input type="submit" class="btn btn-large btn-danger" value="Cancel"/>
                         <input type="submit" class="btn btn-large btn-success" name="allow" value="Authorize"/>
                     </div>
                 </div>
+                <h4>
+                    <b>You can revoke access by visiting the url <a href="{{ PROJECT_URL }}">{{ PROJECT_URL }}</a></b>
+                </h4>
             </form>
 
         {% else %}
