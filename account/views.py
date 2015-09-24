@@ -1,8 +1,11 @@
 from django.shortcuts import redirect, render
+from django.http.response import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.views.generic import View
 from .forms import LoginForm
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
+from urllib import quote_plus
 
 
 class LoginView(View):
@@ -48,5 +51,9 @@ class LoginView(View):
 class LogoutView(View):
 
     def get(self, request):
+        next_ = str(request.GET.get('next', settings.LOGIN_REDIRECT_URL))
+        next_ = quote_plus(next_)
+        login_url = reverse('account:login')
+        redirect_to = '%s?next=%s' % (login_url, next_) if next_ else login_url
         logout(request)
-        return redirect('account:login')
+        return HttpResponseRedirect(redirect_to)
