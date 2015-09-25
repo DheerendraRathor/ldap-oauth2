@@ -22,6 +22,7 @@
                         {{ application.description }}
                     </div>
                 </div>
+                <i>Developed by - <a href='mailto:{{ application.user.email }}'>{{ application.user.username }}</a></i>
                 {% csrf_token %}
 
                 {% for field in form %}
@@ -64,9 +65,10 @@
                         <input type="submit" class="btn btn-large btn-success" name="allow" value="Authorize"/>
                     </div>
                 </div>
-                <h4>
-                    <b>You can revoke access by visiting the url <a href="{{ PROJECT_URL }}">{{ PROJECT_URL }}</a></b>
-                </h4>
+                <h5>
+                    <b>You can revoke access by visiting the url
+                        <a target='_blank' href="{{ PROJECT_URL }}">{{ PROJECT_URL }}</a></b>
+                </h5>
             </form>
 
         {% else %}
