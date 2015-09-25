@@ -48,6 +48,15 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email": 'mail',
 }
 
+AUTH_PROFILE_MODULE = 'account.UserProfile'
+
+AUTH_LDAP_PROFILE_ATTR_MAP = {
+    'description': 'description',
+    'roll_number': 'employeeNumber',
+    'type': 'employeeType',
+    'mobile': 'mobile',
+}
+
 
 # Application definition
 
