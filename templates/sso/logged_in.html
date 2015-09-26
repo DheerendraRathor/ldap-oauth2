@@ -13,9 +13,9 @@
         </div>
     </li>
     <li><a href=""><strong>
-        {% if request.user != None %}
+        {% if request.user %}
             {{ request.user.first_name }}
-        {% elif user != None %}
+        {% elif user %}
             {{ user.first_name }}
         {% else %}
             Unknown User
