@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from django.views.generic import ListView, View
 from braces.views import LoginRequiredMixin
-
-from oauth2_provider.models import AccessToken, RefreshToken
+from oauth2_provider.models import AccessToken
 from oauth2_provider.settings import oauth2_settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from django.forms.models import model_to_dict
 
 from .serializers import UserSerializer
 from .oauth import scope_to_field_map, default_fields, user_fields
+from .forms import InstituteAddressForm, ProgramForm
 
 
 class UserViewset(viewsets.GenericViewSet):
@@ -78,8 +79,26 @@ class UserApplicationListView(LoginRequiredMixin, ListView):
 
 
 class ApplicationRevokeView(LoginRequiredMixin, View):
-
     def get(self, request, pk):
         user = request.user
         AccessToken.objects.filter(user=user, application_id=pk).delete()
         return redirect('user:settings')
+
+
+class UserHomePageView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        try:
+            insti_address_form = InstituteAddressForm(initial=model_to_dict(user.instituteaddress))
+        except AttributeError:
+            insti_address_form = InstituteAddressForm()
+        try:
+            program_form = ProgramForm(initial=model_to_dict(user.program))
+        except AttributeError:
+            program_form = ProgramForm()
+        return render(request, 'user_resources/home.html',
+                      {
+                          'insti_address_form': insti_address_form,
+                          'program_form': program_form,
+                      }
+                      )

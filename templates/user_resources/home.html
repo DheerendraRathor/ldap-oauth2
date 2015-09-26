@@ -1,0 +1,95 @@
+{% extends 'sso/logged_in.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    User: Home
+{% endblock %}
+
+{% block cssLinks %}
+    <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/home.css' %}"/>
+{% endblock %}
+
+{% block jsLinks %}
+    <script type="application/javascript" src="{% static 'user_resource/js/home.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            <form role="form" action="/" method="post">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Institute Address</legend>
+                    {% csrf_token %}
+                    {% if insti_address_form.errors %}
+                        <ul>
+                            {% for error in insti_address_form.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="form-group {% if insti_address_form.hostel.errors %} has-error {% endif %}">
+                        {{ insti_address_form.hostel.label_tag }}
+                        {{ insti_address_form.hostel }}
+                    </div>
+                    <div class="form-group {% if insti_address_form.room.errors %} has-error {% endif %}">
+                        {{ insti_address_form.room.label_tag }}
+                        {{ insti_address_form.room }}
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+            <form role="form" action="/" method="post" style="margin-top: 40px;">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Program</legend>
+                    {% csrf_token %}
+                    {% if program_form.errors %}
+                        <ul>
+                            {% for error in program_form.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% for field in program_form %}
+                        <div class="form-group {% if field.errros %} has-error {% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form role="form" action="/" method="post">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Contact Numbers</legend>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="phone[]">
+                            <a class="add-input input-group-addon backgroundless-input-group-addon" href="#">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+            <form role="form" action="/" method="post" style="margin-top: 40px;">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Emails</legend>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input class="form-control" type="email" name="email[]">
+                            <a class="add-input input-group-addon backgroundless-input-group-addon" href="#">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+fieldset.fieldset-border {
+    padding: 10px;
+    border: darkgray 2px solid;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+legend.marginless {
+    margin-bottom: 5px;
+}
+
+.input-group .form-control:first-child {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+
+.backgroundless-input-group-addon {
+    background-color: inherit;
+    border: white 0px solid;
+}
