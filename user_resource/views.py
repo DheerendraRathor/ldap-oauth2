@@ -105,6 +105,7 @@ class UserHomePageView(LoginRequiredMixin, View):
         user_profile = user.userprofile
         gpo_email = user.email
         ldap_number = user_profile.mobile
+        roll_number = user_profile.roll_number
 
         return render(request, 'user_resources/home.html',
                       {
@@ -114,6 +115,7 @@ class UserHomePageView(LoginRequiredMixin, View):
                           'secondary_emails': secondary_emails,
                           'gpo_email': gpo_email,
                           'ldap_number': ldap_number,
+                          'roll_number': roll_number,
                       }
                       )
 

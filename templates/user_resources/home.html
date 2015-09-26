@@ -50,6 +50,13 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    {% if roll_number %}
+                        <div class="form-group">
+                            <label for="roll_number">Roll Number:</label>
+                            <input class="form-control" id="roll_number" type="text" value="{{ roll_number }}"
+                                   disabled/>
+                        </div>
+                    {% endif %}
                     {% for field in program_form %}
                         <div class="form-group {% if field.errros %} has-error {% endif %}">
                             {{ field.label_tag }}
@@ -67,13 +74,14 @@
                     {% csrf_token %}
                     {% if ldap_number and ldap_number != '' %}
                         <div class="form-group">
-                            <input class="form-control" type="text" value="{{ ldap_number }} (fetched from ldap)" disabled/>
+                            <input class="form-control" type="text" value="{{ ldap_number }}" disabled/>
                         </div>
                     {% endif %}
                     {% for mobile_number in mobile_numbers %}
                         <div class="form-group">
                             <div class="input-group">
-                                <input class="form-control" type="text" name="phone" value="{{ mobile_number.number }}"/>
+                                <input class="form-control" type="text" name="phone"
+                                       value="{{ mobile_number.number }}"/>
                                 <a class="remove-input input-group-addon backgroundless-input-group-addon" href="#">
                                     <span class="glyphicon glyphicon-minus"></span>
                                 </a>
