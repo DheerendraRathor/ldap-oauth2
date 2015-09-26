@@ -12,7 +12,7 @@
             </ul>
         </div>
     </li>
-    <li><a href=""><strong>
+    <li><a href="{% url 'user:home' %}"><strong>
         {% if request.user %}
             {{ request.user.first_name }}
         {% elif user %}
