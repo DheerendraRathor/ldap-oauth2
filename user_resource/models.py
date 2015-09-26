@@ -1,6 +1,25 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
+
+
+def validate_join_year(value):
+    current_year = timezone.now().year
+    if value < 1958:
+        raise ValidationError(_('%d! Are you kidding me? IITB was not even there back then!' % value))
+    if value > current_year:
+        raise ValidationError(_('Welcome kiddo, welcome to IITB in future!'))
+
+
+def validate_graduation_year(value):
+    current_year = timezone.now().year
+    if value < 1958:
+        raise ValidationError(_('%d! Are you kidding me? IITB was not even there back then!' % value))
+    if value > (current_year + 6):
+        raise ValidationError(_('Please enter your expected graduation year'))
+
 
 class InstituteAddress(models.Model):
     HOSTEL_CHOICES = [
@@ -25,8 +44,8 @@ class InstituteAddress(models.Model):
     ]
 
     user = models.OneToOneField(User, related_name='insti_address')
-    room = models.CharField(max_length=8)
-    hostel = models.CharField(max_length=8, choices=HOSTEL_CHOICES)
+    room = models.CharField(max_length=8, null=True, blank=True)
+    hostel = models.CharField(max_length=8, choices=HOSTEL_CHOICES, null=True, blank=True)
 
 
 class Program(models.Model):
@@ -48,23 +67,27 @@ class Program(models.Model):
         ['PH', 'Physics'],
     ]
 
-    CURRENT_YEAR = timezone.now().year
-
-    JOIN_YEAR = [(y,y) for y in range(CURRENT_YEAR, CURRENT_YEAR - 6, -1)]
-
-    GRADUATION_YEAR = [(y,y) for y in range(CURRENT_YEAR, CURRENT_YEAR + 6)]
+    DEGREES = [
+        ['BTECH', 'Bachelor of Technology'],
+        ['MTECH', 'Master of Technology'],
+        ['DD', 'Dual Degree'],
+        ['MSC', 'Master of Science'],
+        ['PHD', 'PhD'],
+        ['MDES', 'Master of Design'],
+        ['MPHIL', 'Master of Philosophy'],
+        ['MMG', 'Master of Management']
+    ]
 
     user = models.OneToOneField(User, related_name='program')
-    roll_number = models.CharField(max_length=16, null=True, blank=True)
     department = models.CharField(max_length=8, choices=DEPARTMENT_CHOICES, null=True, blank=True)
-    join_year = models.CharField(max_length=4, choices=JOIN_YEAR, null=True, blank=True)
-    graduation_year = models.CharField(max_length=4, choices=GRADUATION_YEAR, null=True, blank=True)
+    join_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_join_year])
+    graduation_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_graduation_year])
+    degree = models.CharField(max_length=6, choices=DEGREES)
 
 
 class ContactNumber(models.Model):
     user = models.ForeignKey(User, related_name='contacts')
     number = models.CharField(max_length=16)
-    is_primary = models.BooleanField(default=False)
 
 
 class SecondaryEmail(models.Model):
