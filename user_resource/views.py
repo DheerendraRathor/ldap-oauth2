@@ -15,6 +15,7 @@ from django.forms.models import model_to_dict
 from .serializers import UserSerializer
 from .oauth import scope_to_field_map, default_fields, user_fields
 from .forms import InstituteAddressForm, ProgramForm
+from .models import Program, InstituteAddress, ContactNumber, SecondaryEmail
 
 
 class UserViewset(viewsets.GenericViewSet):
@@ -86,19 +87,89 @@ class ApplicationRevokeView(LoginRequiredMixin, View):
 
 
 class UserHomePageView(LoginRequiredMixin, View):
+
     def get(self, request):
         user = request.user
         try:
-            insti_address_form = InstituteAddressForm(initial=model_to_dict(user.instituteaddress))
-        except AttributeError:
+            insti_address_form = InstituteAddressForm(initial=model_to_dict(user.insti_address))
+        except (AttributeError, InstituteAddress.DoesNotExist):
             insti_address_form = InstituteAddressForm()
+
         try:
             program_form = ProgramForm(initial=model_to_dict(user.program))
-        except AttributeError:
+        except (AttributeError, Program.DoesNotExist):
             program_form = ProgramForm()
+
+        mobile_numbers = ContactNumber.objects.all().filter(user=user).order_by('-id')
+        secondary_emails = SecondaryEmail.objects.all().filter(user=user).order_by('-id')
+        user_profile = user.userprofile
+        gpo_email = user.email
+        ldap_number = user_profile.mobile
+
         return render(request, 'user_resources/home.html',
                       {
                           'insti_address_form': insti_address_form,
                           'program_form': program_form,
+                          'mobile_numbers': mobile_numbers,
+                          'secondary_emails': secondary_emails,
+                          'gpo_email': gpo_email,
+                          'ldap_number': ldap_number,
                       }
                       )
+
+
+class UpdateInstiAddressView(LoginRequiredMixin, View):
+
+    def post(self, request):
+        user = request.user
+        form = InstituteAddressForm(data=request.POST)
+        if form.is_valid():
+            insti_address = form.save(commit=False)
+            insti_address.user = user
+            insti_address.save()
+        return redirect('user:home')
+
+
+class UpdateProgramView(LoginRequiredMixin, View):
+
+    def post(self, request):
+        user = request.user
+        form = ProgramForm(data=request.POST)
+        if form.is_valid():
+            program = form.save(commit=False)
+            program.user = user
+            program.save()
+        return redirect('user:home')
+
+
+class UpdateMobileNumberView(LoginRequiredMixin, View):
+    def post(self, request):
+        user = request.user
+        mobiles = request.POST.getlist('phone')
+        mobiles = set([mobile for mobile in mobiles if mobile != ''])
+        saved_mobiles = set([contact.number for contact in user.contacts.all()])
+        mobiles_to_update = mobiles - saved_mobiles
+        mobiles_to_delete = saved_mobiles - mobiles
+        if mobiles_to_update:
+            ContactNumber.objects.bulk_create([ContactNumber(user=user, number=number) for number in mobiles_to_update])
+        if mobiles_to_delete:
+            ContactNumber.objects.filter(user=user).filter(number__in=mobiles_to_delete).delete()
+        return redirect('user:home')
+
+
+class UpdateSecondaryEmailView(LoginRequiredMixin, View):
+    def post(self, request):
+        user = request.user
+        emails = request.POST.getlist('email')
+        emails = set([email for email in emails if email != ''])
+        saved_emails = set([secondary_email.email for secondary_email in user.secondary_emails.all()])
+        emails_to_update = emails - saved_emails
+        emails_to_delete = saved_emails - emails
+        if emails_to_update:
+            SecondaryEmail.objects.bulk_create([SecondaryEmail(user=user, email=email) for email in emails_to_update])
+        if emails_to_delete:
+            SecondaryEmail.objects.filter(user=user).filter(email__in=emails_to_delete).delete()
+        return redirect('user:home')
+
+
+

@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block cssLinks %}
+    <!--suppress HtmlFormInputWithoutLabel -->
     <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/home.css' %}"/>
 {% endblock %}
 
@@ -16,7 +17,7 @@
 {% block body %}
     <div class="row">
         <div class="col-md-6">
-            <form role="form" action="/" method="post">
+            <form role="form" action="{% url 'user:update_address' %}" method="post">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Institute Address</legend>
                     {% csrf_token %}
@@ -38,7 +39,7 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
-            <form role="form" action="/" method="post" style="margin-top: 40px;">
+            <form role="form" action="{% url 'user:update_program' %}" method="post" style="margin-top: 40px;">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Program</legend>
                     {% csrf_token %}
@@ -60,13 +61,28 @@
             </form>
         </div>
         <div class="col-md-6">
-            <form role="form" action="/" method="post">
+            <form role="form" action="{% url 'user:update_mobile' %}" method="post">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Contact Numbers</legend>
                     {% csrf_token %}
+                    {% if ldap_number and ldap_number != '' %}
+                        <div class="form-group">
+                            <input class="form-control" type="text" value="{{ ldap_number }} (fetched from ldap)" disabled/>
+                        </div>
+                    {% endif %}
+                    {% for mobile_number in mobile_numbers %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="phone" value="{{ mobile_number.number }}"/>
+                                <a class="remove-input input-group-addon backgroundless-input-group-addon" href="#">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
                     <div class="form-group">
                         <div class="input-group">
-                            <input class="form-control" type="text" name="phone[]">
+                            <input class="form-control" type="text" name="phone">
                             <a class="add-input input-group-addon backgroundless-input-group-addon" href="#">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
@@ -75,13 +91,28 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
-            <form role="form" action="/" method="post" style="margin-top: 40px;">
+            <form role="form" action="{% url 'user:update_email' %}" method="post" style="margin-top: 40px;">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Emails</legend>
                     {% csrf_token %}
+                    {% if gpo_email %}
+                        <div class="form-group">
+                            <input class="form-control" type="email" value="{{ gpo_email }}" disabled/>
+                        </div>
+                    {% endif %}
+                    {% for email in secondary_emails %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="email" value="{{ email.email }}"/>
+                                <a class="remove-input input-group-addon backgroundless-input-group-addon" href="#">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
                     <div class="form-group">
                         <div class="input-group">
-                            <input class="form-control" type="email" name="email[]">
+                            <input class="form-control" type="email" name="email">
                             <a class="add-input input-group-addon backgroundless-input-group-addon" href="#">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
