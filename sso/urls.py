@@ -21,10 +21,11 @@ import account.urls
 import application.urls
 import oauth2_provider.urls
 import user_resource.urls
-from .views import IndexRedirectView
+from .views import IndexRedirectView, DocView
 
 urlpatterns = [
     url(r'^$', IndexRedirectView.as_view(), name='index'),
+    url(r'^doc/$', DocView.as_view(), name='doc'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^oauth/', include(application.urls, namespace='oauth')),
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),

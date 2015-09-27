@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'account',
     'application',
     'user_resource',
+    'core',
 )
 
 MIDDLEWARE_CLASSES = (
