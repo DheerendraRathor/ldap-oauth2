@@ -9,7 +9,8 @@
 {% block body %}
     <h4>Writing a new application to is quite easy since the whole implementation is following the
         <a href="https://tools.ietf.org/html/rfc6749" target="_blank">RFC 6749</a> for OAuth 2.0</h4>
-    <p><a href="http://tutorials.jenkov.com/oauth2/overview.html" target="_blank">Here</a> is a nice tutorial for OAuth 2.0</p>
+    <p><a href="http://tutorials.jenkov.com/oauth2/overview.html" target="_blank">Here</a> is a nice tutorial for OAuth
+        2.0</p>
 
     <h3>Registering application</h3>
     <ul class="doc">
@@ -124,10 +125,8 @@ code=AUTHORIZATION_CODE&redirect_uri=REDIRECT_URI&grant_type=authorization_code
     <ul class="doc">
         <li>
             To revoke client access, create the following http request
-
-            {% url 'oauth2_provider:revoke-token' as revoke_token_url %}
 <pre>
-POST {{ revoke_token_url }} HTTP/1.1
+POST {% url 'oauth2_provider:revoke-token' %} HTTP/1.1
 Host: {{ request.get_host }}
 Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
@@ -139,5 +138,152 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
             <em>refresh_token</em>
 
         </li>
+    </ul>
+
+    <h3>Accessing API</h3>
+    <ul class="doc">
+        By now you have created API, got access_token and authenticated user. But still you don't know who the user is?
+        For that purpose you need to access user resources API. Currently API is limited to few user resources only and
+        in future we're planning to expand it a lot. <br>
+        User data is stored at <a href="{% url 'user:home' %}" target="_blank">sso</a> server. And as an application
+        developer you should encourage users to update their data there.
+
+        <li>
+            Available user resources are:
+            <ul>
+                <li>
+                    <b>basic:</b> Basic resource includes <code>id</code>, <code>username</code>,
+                    <code>first_name</code>, <code>last_name</code> and <code>email</code>. You need to have
+                    <b>basic</b> scope for this
+                </li>
+                <li>
+                    <b>contacts:</b> Phone resource includes all the contact number provided by client. You need to have
+                    <b>phone</b> scope
+                    for this
+                </li>
+                <li>
+                    <b>insti_address:</b> This resource includes user's room number and hoste number. You need <b>insti_address</b>
+                    scope for this
+                </li>
+                <li>
+                    <b>program:</b> Program includes user's roll number, joining year, (expected) graduation year,
+                    department and degree. You need to have <b>program</b> scope for this
+                </li>
+                <li>
+                    <b>secondary_emails:</b> This resource includes user's emails other than default ldap email. You
+                    need to have <b>secondary_emails</b> scope for this
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            To access user's resources make a GET request to
+            {% url 'user:api:user-list' as user_resource_url %}
+            <code>{% absolute_url user_resource_url %}?fields=RESOURCE_LIST</code>. <code>fields</code> is optional
+            parameter
+            and by default it includes <code>basic</code> fields. <code>RESOURCE_LIST</code> is comma-separated list of
+            user resources. You should include <code>access_token</code> in request header as
+<pre>
+GET {{ user_resource_url }} HTTP/1.1
+Host: {{ request.get_host }}
+Authorization: Bearer ACCESS_TOKEN
+</pre>
+        </li>
+        <li>
+            The output for <code>{% absolute_url user_resource_url %}?fields=program,contacts,insti_address,secondary_emails</code>
+            will look like (assuming you've enough scopes)
+<pre>
+{
+  "id": 1,
+  "username": "username",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "email": "username@iitb.ac.in",
+  "program": {
+    "id": 1,
+    "roll_number": "123456789",
+    "department": "DEPARTMENT",
+    "join_year": 2012,
+    "graduation_year": 2016,
+    "degree": "DEGREE"
+  },
+  "secondary_emails": [
+    {
+      "id": 1,
+      "email": "user_email@gmail.com"
+    }
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "number": "9876543210"
+    }
+  ],
+  "insti_address": {
+    "id": 1,
+    "room": "room_number",
+    "hostel": "HOSTEL",
+  }
+}
+</pre>
+            Here you'll get only resources permitted by user in scope.
+        </li>
+        <li>
+            <code>DEPARTMENT</code> list:
+            <ul>
+                <li><b>AE:</b> <em>Aerospace Engineering</em></li>
+                <li><b>BB:</b> <em>Biosciences and Bioengineering</em></li>
+                <li><b>CHE:</b> <em>Chemical Engineering</em></li>
+                <li><b>CH:</b> <em>Chemistry</em></li>
+                <li><b>CLE:</b> <em>Civil Engineering</em></li>
+                <li><b>CSE:</b> <em>Computer Science & Engineering</em></li>
+                <li><b>ES:</b> <em>Earth Sciences</em></li>
+                <li><b>EE:</b> <em>Electrical Engineering</em></li>
+                <li><b>ESE:</b> <em>Energy Science and Engineering</em></li>
+                <li><b>HSS:</b> <em>Humanities & Social Science</em></li>
+                <li><b>IDC:</b> <em>Industrial Design Centre</em></li>
+                <li><b>MM:</b> <em>Mathematics</em></li>
+                <li><b>ME:</b> <em>Mechanical Engineering</em></li>
+                <li><b>MEMS:</b> <em>Metallurgical Engineering & Materials Science</em></li>
+                <li><b>PH:</b> <em>Physics</em></li>
+            </ul>
+        </li>
+        <li>
+            <code>DEGREE</code> list:
+            <ul>
+                <li><b>BTECH:</b> <em>Bachelor of Technology</em></li>
+                <li><b>MTECH:</b> <em>Master of Technology</em></li>
+                <li><b>DD:</b> <em>Dual Degree</em></li>
+                <li><b>MSC:</b> <em>Master of Science</em></li>
+                <li><b>PHD:</b> <em>PhD</em></li>
+                <li><b>MDES:</b> <em>Master of Design</em></li>
+                <li><b>MPHIL:</b> <em>Master of Philosophy</em></li>
+                <li><b>MMG:</b> <em>Master of Management</em></li>
+            </ul>
+        </li>
+        <li>
+            <code>HOSTEL</code> list:
+            <ul>
+                <li><b>1:</b> <em>Hostel 1</em></li>
+                <li><b>2:</b> <em>Hostel 2</em></li>
+                <li><b>3:</b> <em>Hostel 3</em></li>
+                <li><b>4:</b> <em>Hostel 4</em></li>
+                <li><b>5:</b> <em>Hostel 5</em></li>
+                <li><b>6:</b> <em>Hostel 6</em></li>
+                <li><b>7:</b> <em>Hostel 7</em></li>
+                <li><b>8:</b> <em>Hostel 8</em></li>
+                <li><b>9:</b> <em>Hostel 9</em></li>
+                <li><b>10:</b> <em>Hostel 10</em></li>
+                <li><b>11:</b> <em>Hostel 11</em></li>
+                <li><b>12:</b> <em>Hostel 12</em></li>
+                <li><b>13:</b> <em>Hostel 13</em></li>
+                <li><b>14:</b> <em>Hostel 14</em></li>
+                <li><b>15:</b> <em>Hostel 15</em></li>
+                <li><b>16:</b> <em>Hostel 16</em></li>
+                <li><b>tansa:</b> <em>Tansa</em></li>
+                <li><b>qip:</b> <em>QIP</em></li>
+            </ul>
+        </li>
+
     </ul>
 {% endblock %}

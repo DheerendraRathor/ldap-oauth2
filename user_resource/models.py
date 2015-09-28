@@ -75,7 +75,7 @@ class Program(models.Model):
         ['PHD', 'PhD'],
         ['MDES', 'Master of Design'],
         ['MPHIL', 'Master of Philosophy'],
-        ['MMG', 'Master of Management']
+        ['MMG', 'Master of Management'],
     ]
 
     user = models.OneToOneField(User, related_name='program')
