@@ -157,6 +157,14 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
                     <b>basic</b> scope for this
                 </li>
                 <li>
+                    <b>mobile:</b> Mobile includes mobile number of client fetched from LDAP. You need to have
+                    <b>phone</b> scope for this
+                </li>
+                <li>
+                    <b>roll_number:</b> Roll number includes roll number of client fetched from LDAP. You need to have
+                    <b>program</b> scope for this
+                </li>
+                <li>
                     <b>contacts:</b> Phone resource includes all the contact number provided by client. You need to have
                     <b>phone</b> scope
                     for this
@@ -166,7 +174,7 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
                     scope for this
                 </li>
                 <li>
-                    <b>program:</b> Program includes user's roll number, joining year, (expected) graduation year,
+                    <b>program:</b> Program includes user's joining year, (expected) graduation year,
                     department and degree. You need to have <b>program</b> scope for this
                 </li>
                 <li>
@@ -199,9 +207,10 @@ Authorization: Bearer ACCESS_TOKEN
   "first_name": "First Name",
   "last_name": "Last Name",
   "email": "username@iitb.ac.in",
+  "mobile": "0123456789",
+  "roll_number": "123456789",
   "program": {
     "id": 1,
-    "roll_number": "123456789",
     "department": "DEPARTMENT",
     "join_year": 2012,
     "graduation_year": 2016,

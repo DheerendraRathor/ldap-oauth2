@@ -6,23 +6,28 @@ from .oauth import default_fields, user_fields
 
 
 class ProgramSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Program
+        exclude = ['user']
 
 
 class SecondaryEmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SecondaryEmail
+        exclude = ['user']
 
 
 class ContactNumberSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactNumber
+        exclude = ['user']
 
 
 class InstituteAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = InstituteAddress
+        exclude = ['user']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,6 +35,8 @@ class UserSerializer(serializers.ModelSerializer):
     secondary_emails = SecondaryEmailSerializer(many=True)
     contacts = ContactNumberSerializer(many=True)
     insti_address = InstituteAddressSerializer()
+    mobile = serializers.CharField(source='userprofile.mobile')
+    roll_number = serializers.CharField(source='userprofile.roll_number')
 
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs)
