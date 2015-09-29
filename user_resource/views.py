@@ -41,7 +41,7 @@ class UserViewset(viewsets.GenericViewSet):
             fields = []
         else:
             fields = fields.split(',')
-            fields = map(unicode.strip, fields)
+            fields = [field.strip() for field in fields if field.strip()]
         fields = set(fields)
         all_fields = set(default_fields + user_fields)
         undefined_fields = list(fields - all_fields)
