@@ -6,15 +6,12 @@ html {
 body {
     padding-top: 70px;
     word-wrap: break-word;
-    margin-bottom: 40px;
 }
 
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 40px;
   background-color: #c3c3c7;
 }
 
