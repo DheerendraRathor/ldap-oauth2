@@ -124,7 +124,11 @@ class UpdateInstiAddressView(LoginRequiredMixin, View):
 
     def post(self, request):
         user = request.user
-        form = InstituteAddressForm(data=request.POST)
+        try:
+            insti_address = user.insti_address
+        except InstituteAddress.DoesNotExist:
+            insti_address = None
+        form = InstituteAddressForm(data=request.POST, instance=insti_address)
         if form.is_valid():
             insti_address = form.save(commit=False)
             insti_address.user = user
@@ -136,7 +140,11 @@ class UpdateProgramView(LoginRequiredMixin, View):
 
     def post(self, request):
         user = request.user
-        form = ProgramForm(data=request.POST)
+        try:
+            program = user.program
+        except Program.DoesNotExist:
+            program = None
+        form = ProgramForm(data=request.POST, instance=program)
         if form.is_valid():
             program = form.save(commit=False)
             program.user = user

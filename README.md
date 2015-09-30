@@ -30,3 +30,9 @@ Fields:
 * **insti_address**: *insti_address*
 * **program**: *program*
 * **secondary_emails**: *secondary_emails*
+
+TODO:
+-----
+* Atomize permissions
+* Add endpoint to send email on behalf of app
+
