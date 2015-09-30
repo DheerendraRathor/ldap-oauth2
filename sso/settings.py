@@ -91,12 +91,12 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'sso.urls'
 
-TEMPLATE_BASE_DIR = os.path.join(BASE_DIR, "templates")
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_BASE_DIR],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,11 +110,6 @@ TEMPLATES = [
         },
     },
 ]
-
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
 
 WSGI_APPLICATION = 'sso.wsgi.application'
 

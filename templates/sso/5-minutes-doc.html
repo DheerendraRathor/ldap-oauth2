@@ -187,7 +187,8 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
         <li>
             To access user's resources make a GET request to
             {% url 'user:api:user-list' as user_resource_url %}
-            <code>{% absolute_url user_resource_url %}?fields=RESOURCE_LIST</code>. <code>fields</code> is optional
+            {% absolute_url user_resource_url as user_resource_abs_url %}
+            <code>{{ user_resource_abs_url }}?fields=RESOURCE_LIST</code>. <code>fields</code> is optional
             parameter
             and by default it includes <code>basic</code> fields. <code>RESOURCE_LIST</code> is comma-separated list of
             user resources. You should include <code>access_token</code> in request header as
@@ -198,7 +199,7 @@ Authorization: Bearer ACCESS_TOKEN
 </pre>
         </li>
         <li>
-            The output for <code>{% absolute_url user_resource_url %}?fields=program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
+            The output for <code>{{ user_resource_abs_url }}?fields=program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
             will look like (assuming you've enough scopes)
 <pre>
 {
