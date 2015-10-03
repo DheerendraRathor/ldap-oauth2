@@ -171,11 +171,14 @@ OAUTH2_PROVIDER_APPLICATION_MODEL = 'application.Application'
 
 OAUTH2_PROVIDER = {
     'SCOPES': {
-        'basic': 'Basic profile information including first name, last name and email',
+        'basic': 'Know who you are on this site',
+        'profile': 'Basic profile information which includes first_name and last_name',
+        'ldap': 'Your ldap information which includes your ldap username and email',
         'phone': 'Your contact number including additional numbers',
         'insti_address': 'Your address inside institute',
         'program': 'Your roll number, department, course, joining year and graduation year',
         'secondary_emails': 'Your alternate emails',
+        'send_mail': 'Send email to you via SSO',
     },
     'OAUTH2_VALIDATOR_CLASS': 'application.validators.CustomOAuth2Validator',
     'REQUEST_APPROVAL_PROMPT': 'auto',

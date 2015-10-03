@@ -55,3 +55,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = copy.deepcopy(default_fields).extend(user_fields)
+
+
+class SendMailSerializer(serializers.Serializer):
+    pass

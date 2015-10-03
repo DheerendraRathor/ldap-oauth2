@@ -11,6 +11,7 @@ from oauth2_provider.models import AccessToken
 from oauth2_provider.settings import oauth2_settings
 from django.shortcuts import redirect, render
 from django.forms.models import model_to_dict
+from rest_framework.decorators import detail_route
 
 from .serializers import UserSerializer
 from .oauth import scope_to_field_map, default_fields, user_fields
@@ -54,6 +55,10 @@ class UserViewset(viewsets.GenericViewSet):
         allowed_fields = list(set(fields).intersection(set(granted_fields)))
         user_serialized = UserSerializer(user_queryset, context={'fields': allowed_fields}).data
         return Response(user_serialized)
+
+    @detail_route(methods=['POST'], required_scopes=['send_mail'])
+    def send_mail(self, request):
+        pass
 
 
 class UserApplicationListView(LoginRequiredMixin, ListView):
