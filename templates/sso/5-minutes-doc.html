@@ -9,8 +9,8 @@
 {% block body %}
     <h4>Writing a new application to is quite easy since the whole implementation is following the
         <a href="https://tools.ietf.org/html/rfc6749" target="_blank">RFC 6749</a> for OAuth 2.0</h4>
-    <p><a href="http://tutorials.jenkov.com/oauth2/overview.html" target="_blank">Here</a> is a nice tutorial for OAuth
-        2.0</p>
+    <h4><a href="http://tutorials.jenkov.com/oauth2/overview.html" target="_blank">Here</a> is a nice tutorial for OAuth
+        2.0</h4>
 
     <h3>Registering application</h3>
     <ul class="doc">
@@ -44,8 +44,9 @@
             <code>REDIRECT_URI</code>. <code>scope</code> is a string of space separated scopes.
             <ul>
                 Available scopes are
-                <li><strong>basic</strong>: <em>Basic profile information including first name, last name and email</em>
-                </li>
+                <li><strong>basic</strong>: <em>It includes your user id from SSO server (not the ldap id)</em></li>
+                <li><strong>profile</strong>: <em>Your first_name and last_name</em></li>
+                <li><strong>ldap</strong>: <em>Your ldap username and email</em></li>
                 <li><strong>phone</strong>: <em>Your contact number including additional numbers</em></li>
                 <li><strong>insti_address</strong>: <em>Your address inside institute</em></li>
                 <li><strong>program</strong>: <em>Your roll number, department, course, joining year and graduation
@@ -152,9 +153,21 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
             Available user resources are:
             <ul>
                 <li>
-                    <b>basic:</b> Basic resource includes <code>id</code>, <code>username</code>,
-                    <code>first_name</code>, <code>last_name</code> and <code>email</code>. You need to have
-                    <b>basic</b> scope for this
+                    <b>basic:</b> Basic resource includes <code>id</code> only. You need to have <b>basic</b> scope for
+                    this
+                </li>
+                <li>
+                    <b>first_name:</b> First name of the user. You need to have <b>profile</b> scope for this
+                </li>
+                <li>
+                    <b>last_name:</b> Last name of the user. You need to have <b>profile</b> scope for this
+                </li>
+                <li>
+                    <b>username:</b> LDAP username of the user. You need to have <b>ldap</b> scope for this
+                </li>
+                <li>
+                    <b>email:</b> LDAP email (username@iitb.ac.in) of the user. You need to have
+                    <b>ldap</b> scope for this
                 </li>
                 <li>
                     <b>mobile:</b> Mobile includes mobile number of client fetched from LDAP. You need to have
@@ -166,16 +179,15 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
                 </li>
                 <li>
                     <b>contacts:</b> Phone resource includes all the contact number provided by client. You need to have
-                    <b>phone</b> scope
-                    for this
+                    <b>phone</b> scope for this
                 </li>
                 <li>
-                    <b>insti_address:</b> This resource includes user's room number and hoste number. You need <b>insti_address</b>
-                    scope for this
+                    <b>insti_address:</b> This resource includes user's room number and hoste number. You need
+                    <b>insti_address</b> scope for this
                 </li>
                 <li>
-                    <b>program:</b> Program includes user's joining year, (expected) graduation year,
-                    department and degree. You need to have <b>program</b> scope for this
+                    <b>program:</b> Program includes user's joining year, (expected) graduation year, department and
+                    degree. You need to have <b>program</b> scope for this
                 </li>
                 <li>
                     <b>secondary_emails:</b> This resource includes user's emails other than default ldap email. You
@@ -199,7 +211,7 @@ Authorization: Bearer ACCESS_TOKEN
 </pre>
         </li>
         <li>
-            The output for <code>{{ user_resource_abs_url }}?fields=program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
+            The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
             will look like (assuming you've enough scopes)
 <pre>
 {
