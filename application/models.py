@@ -24,6 +24,8 @@ class Application(AbstractApplication):
     """
     description = models.TextField()
     logo = models.ImageField(upload_to=application_logo, blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    modified_on = models.DateTimeField(auto_now=True)
 
     def get_logo_url(self):
         try:
