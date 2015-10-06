@@ -2,11 +2,6 @@
  * Created by dheerenr on 6/7/15.
  */
 
-$(document).ready(function(){
-    var footerHeight = $("footer").height();
-    $("body").css('padding-bottom', footerHeight + 10);
-});
-
 if (!String.prototype.format) {
     String.prototype.format = function () {
         var args = arguments;

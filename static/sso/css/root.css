@@ -1,18 +1,16 @@
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    height: 100%;
 }
 
 body {
-    padding-top: 70px;
     word-wrap: break-word;
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #c3c3c7;
+    margin-top: 10px;
+    bottom: 0;
+    width: 100%;
+    background-color: #c3c3c7;
 }
 
 .footer .container {

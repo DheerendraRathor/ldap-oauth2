@@ -12,7 +12,7 @@
     <h4><a href="http://tutorials.jenkov.com/oauth2/overview.html" target="_blank">Here</a> is a nice tutorial for OAuth
         2.0</h4>
 
-    <h3>Registering application</h3>
+    <h3 id="registration">Registering application</h3>
     <ul class="doc">
         <li>To register an application open <a href="{% url 'oauth:register' %}" target="_blank">this link</a></li>
         <li>Provide a nice name to your application, write a brief description and add a cool little logo</li>
@@ -25,7 +25,7 @@
             <a href="{% url 'oauth:list' %}" target="_blank">list of applications</a></li>
     </ul>
 
-    <h3>Authorization workflow</h3>
+    <h3 id="authorization_workflow">Authorization workflow</h3>
     <ul class="doc">
         <li>
             To authenticate a client, add some button to your webpage for login like
@@ -52,6 +52,7 @@
                 <li><strong>program</strong>: <em>Your roll number, department, course, joining year and graduation
                     year</em></li>
                 <li><strong>secondary_emails</strong>: <em>Your alternate emails</em></li>
+                <li><strong>send_mail</strong>: <em>Allow application to send you email via SSO</em></li>
             </ul>
             If nothing is provided in <code>scope</code> parameter then <strong>basic</strong> scope will be assumed.
             <br>
@@ -64,7 +65,7 @@
         </li>
     </ul>
 
-    <h3>Token Exchange</h3>
+    <h3 id="token_exchange">Token Exchange</h3>
     <ul class="doc">
         Now assuming that you've received <code>AUTHORIZATION_CODE</code> after client has authorized itself.
         <code>AUTHORIZATION_CODE</code> is short lived code. You need to redeem it quickly to get
@@ -108,7 +109,7 @@ code=AUTHORIZATION_CODE&redirect_uri=REDIRECT_URI&grant_type=authorization_code
         </li>
     </ul>
 
-    <h3>Refreshing Token</h3>
+    <h3 id="refresh_token">Refreshing Token</h3>
     <ul class="doc">
         Since <code>access_token</code> will expire quickly, you need to generate new <code>access_token</code> with
         <code>refresh_token</code>
@@ -122,7 +123,7 @@ code=AUTHORIZATION_CODE&redirect_uri=REDIRECT_URI&grant_type=authorization_code
         </li>
     </ul>
 
-    <h3>Revoking Token</h3>
+    <h3 id="revoke_token">Revoking Token</h3>
     <ul class="doc">
         <li>
             To revoke client access, create the following http request
@@ -141,7 +142,7 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
         </li>
     </ul>
 
-    <h3>Accessing API</h3>
+    <h3 id="user_resources_api">Accessing API</h3>
     <ul class="doc">
         By now you have created API, got access_token and authenticated user. But still you don't know who the user is?
         For that purpose you need to access user resources API. Currently API is limited to few user resources only and
@@ -308,4 +309,59 @@ Authorization: Bearer ACCESS_TOKEN
         </li>
 
     </ul>
+
+    <h3 id="send_mail_api">Send Mail API</h3>
+    <ul class="doc">
+        This application also provides a "send mail" API, which allows your application to send email to user from
+        a simple endpoint. You need to have <code>send_mail</code> permission from user for this to work
+        <li>
+            Create a POST request like this:
+<pre>
+POST {% url 'user:api:user-send-mail' %} HTTP/1.1
+Host: {{ request.get_host }}
+Authorization: Bearer ACCESS_TOKEN
+Content-Type: application/json
+
+
+{
+    "subject": "Hello World",
+    "message": "Lorem Ipsum",
+    "reply_to": [
+        "email_address_1@example.com",
+        "email_address_2@exapple.com"
+    ]
+}
+</pre>
+            <ul>
+                <li>
+                    Final subject will be "[SSO] [&lt;APPLICATION_NAME&gt;] &lt;YOUR SUBJECT&gt;". This is automatically
+                    generated.
+                </li>
+                <li>
+                    Final message will have these line appended:
+<pre>
+Sent via SSO by Test
+
+You received this message because you've provided the email sending permission to the application
+</pre>
+                </li>
+                <li>
+                    <code>reply_to</code> is list of email address where you want your user to reply. Most of the mail
+                    servers honor this protocol and by clicking on "reply" will directly reply to these emails.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <strong>DISCLAIMER:</strong>
+            <em>We do not store emails in our database. We do store <code>Message-ID</code>, failure state, application
+                and user for each email. This is stored for debugging and performance improvement purposes</em>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block jsLinks %}
+    <script src="{% static 'sso/js/anchor.min.js' %}" type="application/javascript"></script>
+    <script type="application/javascript">
+        anchors.add('h3');
+    </script>
 {% endblock %}
