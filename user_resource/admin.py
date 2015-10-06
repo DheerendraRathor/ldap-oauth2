@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import InstituteAddress, Program, ContactNumber, SecondaryEmail
+from .models import InstituteAddress, Program, ContactNumber, SecondaryEmail, SentMessage
 
 
 class InstituteAddressAdmin(admin.ModelAdmin):
@@ -18,7 +18,12 @@ class SecondaryEmailAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'email']
 
 
+class SentMessageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'message_id', 'status', 'error_message']
+
+
 admin.site.register(InstituteAddress, InstituteAddressAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(ContactNumber, ContactNumberAdmin)
 admin.site.register(SecondaryEmail, SecondaryEmailAdmin)
+admin.site.register(SentMessage, SentMessageAdmin)

@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from application.models import Application
 
 
 def validate_join_year(value):
@@ -93,3 +94,12 @@ class ContactNumber(models.Model):
 class SecondaryEmail(models.Model):
     user = models.ForeignKey(User, related_name='secondary_emails')
     email = models.EmailField()
+
+
+class SentMessage(models.Model):
+    message_id = models.CharField(max_length=256)
+    sender = models.ForeignKey(Application)
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=True)
+    error_message = models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)

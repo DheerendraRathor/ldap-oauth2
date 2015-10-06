@@ -20,4 +20,5 @@ scope_to_field_map = {
     'insti_address': ['insti_address', ],
     'program': ['program', 'roll_number', ],
     'secondary_emails': ['secondary_emails', ],
+    'send_mail': [],
 }

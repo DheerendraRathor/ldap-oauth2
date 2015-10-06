@@ -1,4 +1,6 @@
 from collections import defaultdict
+from smtplib import SMTPException
+import logging
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -11,12 +13,15 @@ from oauth2_provider.models import AccessToken
 from oauth2_provider.settings import oauth2_settings
 from django.shortcuts import redirect, render
 from django.forms.models import model_to_dict
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import list_route
+from django.core.mail import EmailMessage
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, SendMailSerializer
 from .oauth import scope_to_field_map, default_fields, user_fields
 from .forms import InstituteAddressForm, ProgramForm
-from .models import Program, InstituteAddress, ContactNumber, SecondaryEmail
+from .models import Program, InstituteAddress, ContactNumber, SecondaryEmail, SentMessage
+
+logger = logging.getLogger(__name__)
 
 
 class UserViewset(viewsets.GenericViewSet):
@@ -56,9 +61,48 @@ class UserViewset(viewsets.GenericViewSet):
         user_serialized = UserSerializer(user_queryset, context={'fields': allowed_fields}).data
         return Response(user_serialized)
 
-    @detail_route(methods=['POST'], required_scopes=['send_mail'])
+    @list_route(methods=['POST'], required_scopes=['send_mail'])
     def send_mail(self, request):
-        pass
+        token = request.auth
+        app = token.application
+        app_admin = token.application.user
+        user = self.get_queryset().first()
+        mail = SendMailSerializer(data=request.data)
+        if mail.is_valid():
+            subject = '[SSO] [%s] %s' % (app.name, mail.validated_data.get('subject'))
+            body = ('%s\n\n'
+                    'Sent via SSO by %s\n\n'
+                    'You received this message because you\'ve provided the email sending'
+                    ' permission to the application')
+            body = body % (mail.validated_data.get('message'), app.name)
+            from_email = '%s <%s>' % (app_admin.first_name, app_admin.email)
+            email_message = EmailMessage(
+                subject=subject,
+                body=body,
+                from_email=from_email,
+                to=[user.email],
+                reply_to=mail.validated_data.get('reply_to'),
+            )
+            message = email_message.message()
+            sent_message = SentMessage(
+                message_id=message['Message-ID'],
+                sender=app,
+                user=user,
+            )
+            response_data = {}
+            try:
+                email_message.send()
+                sent_message.status = True
+                response_data['status'] = True
+            except SMTPException as e:
+                sent_message.status = False,
+                sent_message.error_message = e.message
+                logger.error(e)
+                response_data['status'] = False
+            sent_message.save()
+            return Response(response_data)
+        else:
+            return Response(mail.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class UserApplicationListView(LoginRequiredMixin, ListView):
@@ -92,7 +136,6 @@ class ApplicationRevokeView(LoginRequiredMixin, View):
 
 
 class UserHomePageView(LoginRequiredMixin, View):
-
     def get(self, request):
         user = request.user
         try:
@@ -126,7 +169,6 @@ class UserHomePageView(LoginRequiredMixin, View):
 
 
 class UpdateInstiAddressView(LoginRequiredMixin, View):
-
     def post(self, request):
         user = request.user
         try:
@@ -142,7 +184,6 @@ class UpdateInstiAddressView(LoginRequiredMixin, View):
 
 
 class UpdateProgramView(LoginRequiredMixin, View):
-
     def post(self, request):
         user = request.user
         try:
@@ -185,6 +226,3 @@ class UpdateSecondaryEmailView(LoginRequiredMixin, View):
         if emails_to_delete:
             SecondaryEmail.objects.filter(user=user).filter(email__in=emails_to_delete).delete()
         return redirect('user:home')
-
-
-

@@ -58,4 +58,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class SendMailSerializer(serializers.Serializer):
-    pass
+    subject = serializers.CharField()
+    message = serializers.CharField()
+    reply_to = serializers.ListField(
+        child=serializers.EmailField()
+    )

@@ -16,6 +16,7 @@ import ldap
 from django_auth_ldap.config import LDAPSearch
 import logging.config
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -57,8 +58,6 @@ AUTH_LDAP_PROFILE_ATTR_MAP = {
     'mobile': 'mobile',
 }
 
-
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -268,4 +267,5 @@ LOGGING = {
 logging.config.dictConfig(LOGGING)
 
 from settings_user import *
+
 
