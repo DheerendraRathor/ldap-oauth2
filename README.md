@@ -12,11 +12,14 @@ URLs:
 
 Scopes:
 -------
-* **basic**: *Basic profile information including first name, last name and email*
+* **basic**: *Know who you are on SSO*
+* **profile**: *Your first name and last name*
+* **ldap**: *Your ldap username and email*
 * **phone**: *Your contact number including additional numbers*
 * **insti_address**: *Your address inside institute*
 * **program**: *Your roll number, department, course, joining year and graduation year*
 * **secondary_emails**: *Your alternate emails*
+* **send_mail**: *Send you mail on behalf of application*
 
 User Resources:
 ---------------
@@ -26,6 +29,12 @@ User Resources:
 Fields:
 -------
 **Field Name**: *Required Scopes*
+* **first_name**: *profile*
+* **last_name**: *profile*
+* **username**: *ldap*
+* **email**: *ldap*
+* **mobile**: *phone*
+* **roll_number**: *program*
 * **contacts**: *phone*
 * **insti_address**: *insti_address*
 * **program**: *program*
@@ -33,6 +42,8 @@ Fields:
 
 TODO:
 -----
-* Atomize permissions
-* Add endpoint to send email on behalf of app
+* ~~Atomize permissions~~
+* ~~Add endpoint to send email on behalf of app~~
+* Create **Login with SSO** widgets
+* Like with SSO widget?
 
