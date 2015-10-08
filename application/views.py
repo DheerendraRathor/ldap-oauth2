@@ -62,3 +62,10 @@ class CustomAuthorizationView(AuthorizationView):
         form.cleaned_data['scope'] = scopes
         return super(CustomAuthorizationView, self).form_valid(form)
 
+    def get(self, request, *args, **kwargs):
+        response = super(CustomAuthorizationView, self).get(request, *args, **kwargs)
+        try:
+            del response.context_data['request']
+        except (AttributeError, KeyError):
+            pass
+        return response
