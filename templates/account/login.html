@@ -5,18 +5,18 @@
 {% endblock %}
 
 {% block body %}
-         <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-md-push-6 well" style="margin-top: 20%;">
-                    <center>
-                        <h2>Sign In</h2>
-                        <br>
-                    </center>
 
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name='next' value="{{ request.GET.next }}"/>
-                    <ul>
+    <div class="row flex-row">
+        <div class="col-md-6 col-md-push-6 well">
+            <center>
+                <h2>Sign In</h2>
+                <br>
+            </center>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="hidden" name='next' value="{{ request.GET.next }}"/>
+                <ul>
                     {% for error in form.non_field_errors %}
                         <li><strong>{{ error }}</strong></li>
                     {% endfor %}
@@ -29,36 +29,35 @@
                     {% for error in form.read_privacy_policy.errors %}
                         <li><strong>{{ error }}</strong></li>
                     {% endfor %}
-                    </ul>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group {% if form.username.errors or form.non_field_errors %} has-error {% endif %}">
-                                    {{ form.username }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group{% if form.password.errors or form.non_field_errors %} has-error {% endif %}">
-                                    {{ form.password }}
-                                </div>
-                            </div>
+                </ul>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.username.errors or form.non_field_errors %} has-error {% endif %}">
+                            {{ form.username }}
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group{% if form.password.errors or form.non_field_errors %} has-error {% endif %}">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="checkbox">
-                            <label>
-                                {{ form.remember }} Remember Me
-                            </label>
-                        </div>
-                        <center>
-                            <button type="submit" class="btn btn-default" value="Log In">Submit</button>
-                        </center>
-                    </form>
+                <div class="checkbox">
+                    <label>
+                        {{ form.remember }} Remember Me
+                    </label>
                 </div>
-                <div class="col-md-6 col-md-pull-6" style="margin-top: 20%;">
-                    <center>
-                        <h1 style="font-size: 70px;">SSO</h1>
-                        <h2>Login once, use everywhere</h2>
-                    </center>
-                </div>
-            </div>
+                <center>
+                    <button type="submit" class="btn btn-default" value="Log In">Submit</button>
+                </center>
+            </form>
         </div>
+        <div class="col-md-6 col-md-pull-6 text-center">
+            <h1 style="font-size: 70px;">SSO</h1>
+
+            <h3 style="color: #140396;">ONE SITE TO RULE THEM ALL!</h3>
+        </div>
+    </div>
+
 {% endblock %}

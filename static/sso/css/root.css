@@ -6,15 +6,9 @@ body {
     word-wrap: break-word;
 }
 
-.footer {
-    margin-top: 10px;
-    bottom: 0;
-    width: 100%;
-    background-color: #c3c3c7;
-}
-
-.footer .container {
-    text-align: center;
+.flex-row {
+    display: flex;
+    align-items: center;
 }
 
 .center-block {
@@ -29,4 +23,15 @@ body {
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.site-footer {
+    position: relative;
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #767676;
+    border-top: 1px solid #eee;
 }

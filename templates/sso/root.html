@@ -54,16 +54,24 @@
 <div class="container">
     {% block body %}
     {% endblock %}
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <h4>Hey! You can contribute too! Checkout code at
-            <a href="https://github.com/DheerendraRathor/ldap-oauth2">Github</a>. Or see
-            <a href="{% url 'doc' %}">How to create</a> a new application
-        </h4>
+    <div class="site-footer" style="font-size: 15px;">
+        <div class="row text-center">
+            <div class="col-md-3">
+                &copy; {% now "Y" %} {{ request.get_host }}
+            </div>
+            <div class="col-md-3">
+                <a href="{% url 'doc' %}">Documentation</a>
+            </div>
+            <div class="col-md-3">
+                <a href="https://github.com/DheerendraRathor/ldap-oauth2/graphs/contributors" target="_blank">Contributors</a>
+            </div>
+            <div class="col-md-3">
+                <a href="https://github.com/DheerendraRathor/ldap-oauth2/" target="_blank">Source Code</a>
+            </div>
+        </div>
     </div>
-</footer>
+</div>
 
 <script type="text/javascript" src="{% static 'sso/js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'sso/js/js.cookie.js' %}"></script>
