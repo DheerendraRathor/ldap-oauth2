@@ -13,6 +13,7 @@ function SSO_JS(config) {
         this.config.response_type = this.config.hasOwnProperty('response_type') ? conf.response_type : 'code';
         this.config.scope = this.config.hasOwnProperty('scope') ? conf.scope : ['basic'];
         this.config.new_window = this.config.hasOwnProperty('new_window') ? conf.new_window : 'false';
+        this.config.sso_root = this.config.hasOwnProperty('sso_root') ? conf.sso_root : document.getElementById('sso-root');
     };
 
     this._scopeListToString = function () {
@@ -53,7 +54,7 @@ function SSO_JS(config) {
         iframe.setAttribute('src', iframe_url);
         iframe.setAttribute('frameBorder', '0');
         iframe.setAttribute('scrolling', 'No');
-        document.getElementById('sso-root').appendChild(iframe);
+        this.config.sso_root.appendChild(iframe);
 
         return this;
     };
