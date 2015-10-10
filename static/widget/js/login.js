@@ -14,6 +14,7 @@ function SSO_JS(config) {
         this.config.scope = this.config.hasOwnProperty('scope') ? conf.scope : ['basic'];
         this.config.new_window = this.config.hasOwnProperty('new_window') ? conf.new_window : 'false';
         this.config.sso_root = this.config.hasOwnProperty('sso_root') ? conf.sso_root : document.getElementById('sso-root');
+        this.config.sso_iframe = this.config.hasOwnProperty('sso_iframe') ? conf.sso_iframe : document.getElementById('sso_iframe');
     };
 
     this._scopeListToString = function () {
@@ -75,6 +76,6 @@ eventer(messageEvent, function (event) {
     }
     var dimensions = message[1].split(':');
 
-    document.getElementById('sso-iframe').height = dimensions[0] + 'px';
-    document.getElementById('sso-iframe').width = dimensions[1] + 'px';
+    sso_root.config.sso_iframe.height = dimensions[0] + 'px';
+    sso_root.config.sso_iframe.width = dimensions[1] + 'px';
 }, false);
