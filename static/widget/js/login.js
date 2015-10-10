@@ -14,7 +14,6 @@ function SSO_JS(config) {
         this.config.scope = this.config.hasOwnProperty('scope') ? conf.scope : ['basic'];
         this.config.new_window = this.config.hasOwnProperty('new_window') ? conf.new_window : 'false';
         this.config.sso_root = this.config.hasOwnProperty('sso_root') ? conf.sso_root : document.getElementById('sso-root');
-        this.config.sso_iframe = this.config.hasOwnProperty('sso_iframe') ? conf.sso_iframe : document.getElementById('sso_iframe');
     };
 
     this._scopeListToString = function () {
@@ -51,7 +50,7 @@ function SSO_JS(config) {
         var iframe_url = iframe_base_url + query;
 
         var iframe = document.createElement('iframe');
-        iframe.setAttribute('id', 'sso_iframe');
+        iframe.setAttribute('id', 'sso-iframe');
         iframe.setAttribute('src', iframe_url);
         iframe.setAttribute('frameBorder', '0');
         iframe.setAttribute('scrolling', 'No');
@@ -76,6 +75,17 @@ eventer(messageEvent, function (event) {
     }
     var dimensions = message[1].split(':');
 
-    sso_root.config.sso_iframe.height = dimensions[0] + 'px';
-    sso_root.config.sso_iframe.width = dimensions[1] + 'px';
+    var sso_iframe;
+
+    var sso_root_nodes = sso_root.config.sso_root.childNodes;
+
+    for (var i=0; i<sso_root_nodes.length; i++){
+        if (sso_root_nodes[i].id == 'sso-iframe'){
+            sso_iframe = sso_root_nodes[i];
+            break;
+        }
+    }
+
+    sso_iframe.height = dimensions[0] + 'px';
+    sso_iframe.width = dimensions[1] + 'px';
 }, false);
