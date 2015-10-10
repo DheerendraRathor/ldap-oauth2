@@ -13,15 +13,18 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+import oauth2_provider.urls
+from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.conf import settings
+
 import account.urls
 import application.urls
-import oauth2_provider.urls
 import user_resource.urls
-from .views import IndexRedirectView, DocView
+import widget.urls
+
+from .views import DocView, IndexRedirectView
 
 urlpatterns = [
     url(r'^$', IndexRedirectView.as_view(), name='index'),
@@ -31,6 +34,7 @@ urlpatterns = [
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),
     url(r'^account/', include(account.urls, namespace='account')),
     url(r'^user/', include(user_resource.urls, namespace='user')),
+    url(r'^widget/', include(widget.urls, namespace='widgets'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

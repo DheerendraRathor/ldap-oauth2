@@ -1,0 +1,66 @@
+<head>
+    <style>
+        .button-div {
+            padding: 10px;
+            display: inline-block;
+            background-color: #5783A8;
+            border: #5783A8 1px solid;
+            border-radius: 5px;
+        }
+
+        .button-anchor {
+            font-size: 20px;
+            color: white;
+        }
+
+        .anchor-no-decor {
+            text-decoration: none;
+        }
+
+        .logout-anchor {
+            color: #F26D6D;
+        }
+
+        body{
+            margin: 0;
+            text-align: center;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        function adjust_iframe_height() {
+            var body = document.getElementById('body');
+            var bodyStyle = window.getComputedStyle(body);
+            var actual_height = bodyStyle.height;
+            var actual_width = bodyStyle.width;
+            var message = 'sso-iframe://' + actual_height + ':' + actual_width;
+            parent.postMessage(message, '*');
+        }
+    </script>
+</head>
+
+<body id="body" onload="adjust_iframe_height()">
+{% url 'oauth2_provider:authorize' as base_auth_url %}
+{% with base_auth_url|add:'?'|add:query as auth_url %}
+    <div class="button-div">
+        <a class="button-anchor anchor-no-decor" href="{{ auth_url }}"
+                {% if new_window %}
+           target="_blank"
+                {% endif %}
+                >
+            {% if request.user.is_authenticated %}
+                Login as <b>{{ request.user.username }}</b>
+            {% else %}
+                Login with SSO
+            {% endif %}
+        </a>
+    </div>
+    {% if request.user.is_authenticated %}
+        <div>
+            <a class="anchor-no-decor logout-anchor" href="{% url 'account:logout' %}?next={{ auth_url|urlencode }}">or
+                as other user</a>
+        </div>
+    {% endif %}
+{% endwith %}
+
+</body>
