@@ -51,7 +51,7 @@ function SSO_JS(config) {
         var iframe_url = iframe_base_url + query;
 
         var iframe = document.createElement('iframe');
-        iframe.setAttribute('id', 'sso-iframe');
+        iframe.setAttribute('id', 'sso_iframe');
         iframe.setAttribute('src', iframe_url);
         iframe.setAttribute('frameBorder', '0');
         iframe.setAttribute('scrolling', 'No');
