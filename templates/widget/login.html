@@ -31,8 +31,8 @@
         function adjust_iframe_height() {
             var body = document.getElementById('body');
             var bodyStyle = window.getComputedStyle(body);
-            var actual_height = bodyStyle.height + 1;
-            var actual_width = bodyStyle.width + 1;
+            var actual_height = parseFloat(bodyStyle.height) + 1;
+            var actual_width = parseFloat(bodyStyle.width) + 1;
             var message = 'sso-iframe://' + actual_height + ':' + actual_width;
             parent.postMessage(message, '*');
         }
