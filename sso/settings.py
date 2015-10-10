@@ -17,7 +17,6 @@ import os
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
-from settings_user import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -265,3 +264,5 @@ LOGGING = {
 
 }
 logging.config.dictConfig(LOGGING)
+
+from settings_user import *
