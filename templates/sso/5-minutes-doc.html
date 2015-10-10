@@ -442,6 +442,7 @@ You received this message because you've provided the email sending permission t
         sso_root.config = {
             client_id: 'your-long-client-id',   //Compulsory
             scope: ['basic', 'profile'],    //Optional. Default is  ['basic']
+            state: '', //Optional. Default None
             response_type: 'code',  //Optional. Default is 'code'
             redirect_uri: 'uri-for-redirection',    //Optional
             new_window: 'false',    //Optional.

@@ -33,7 +33,7 @@ function SSO_JS(config) {
 
     this._configToQuery = function () {
         var query_params = [];
-        ['client_id', 'response_type', 'redirect_uri', 'scope', 'new_window'].map(
+        ['client_id', 'response_type', 'redirect_uri', 'scope', 'state', 'new_window'].map(
             function (config_str) {
                 if (this.config.hasOwnProperty(config_str)) {
                     query_params.push(config_str + '=' + this.config[config_str]);
