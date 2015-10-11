@@ -444,22 +444,30 @@ You received this message because you've provided the email sending permission t
 <pre>
 {% filter force_escape %}
     <script type="application/javascript">
-        sso_root.config = {
-            client_id: 'your-long-client-id',   //Compulsory
-            scope: ['basic', 'profile'],    //Optional. Default is  ['basic']
-            state: '', //Optional. Default None
-            response_type: 'code',  //Optional. Default is 'code'
-            redirect_uri: 'uri-for-redirection',    //Optional
-            new_window: 'false',    //Optional.
-                                    // Where authorization page should be opened in new tab or
-                                    // same tab Default is false.
-            sso_root: document.getElementById('sso-root'),
-            /* Optional
-            document.getElementById don't work if your element is not in light DOM. In that case you need to
-            provide selector here. In most of the cases this will work.
-             */
-        };
-        sso_root.render();
+
+        new SSO_JS({
+            config : {
+                client_id: 'your-long-client-id',   // Compulsory
+                scope: ['basic', 'profile'],    // Optional. Default is  ['basic']
+                state: '', // Optional. Default None
+                response_type: 'code',  // Optional. Default is 'code'
+                redirect_uri: 'uri-for-redirection',    //Optional
+                new_window: 'false',    // Optional.
+                                        // Where authorization page should be opened in new tab or
+                                        // same tab Default is false.
+                sso_root: document.getElementById('sso-root'),
+                 /* Optional
+                document.getElementById don't work if your element is not in light DOM. In that case you need to
+                provide selector here. In most of the cases this will work.
+                 */
+            },
+            colors: { // All Optional
+                button_div_bg_color: '303F9F', // Background color of button
+                button_anchor_color: 'FFFFFF', // Font color of Button
+                logout_anchor_color: '727272', // Font color of logout mark (The one with 'Login as other user'
+            },
+        }).init();
+
     </script>
 {% endfilter %}
 </pre>
@@ -516,11 +524,28 @@ You received this message because you've provided the email sending permission t
     </script>
     <script src="{% static 'widget/js/login.js' %}" type="application/javascript"></script>
     <script type="application/javascript">
-        sso_root.config = {
-            client_id: 'test',
-            scope: ['basic', 'profile']
-        };
-        sso_root.render();
+        new SSO_JS({
+            config : {
+                client_id: 'your-long-client-id',   // Compulsory
+                scope: ['basic', 'profile'],    // Optional. Default is  ['basic']
+                state: '', // Optional. Default None
+                response_type: 'code',  // Optional. Default is 'code'
+                redirect_uri: 'uri-for-redirection',    //Optional
+                new_window: 'false',    // Optional.
+                                        // Where authorization page should be opened in new tab or
+                                        // same tab Default is false.
+                sso_root: document.getElementById('sso-root'),
+                 /* Optional
+                document.getElementById don't work if your element is not in light DOM. In that case you need to
+                provide selector here. In most of the cases this will work.
+                 */
+            },
+            colors: { // All Optional
+                button_div_bg_color: '303F9F', // Background color of button
+                button_anchor_color: 'FFFFFF', // Font color of Button
+                logout_anchor_color: '727272', // Font color of logout mark (The one with 'Login as other user'
+            },
+        }).init();
     setTimeout(function(){$("#widgets").removeClass("in active");}, 1000);
     </script>
 {% endblock %}

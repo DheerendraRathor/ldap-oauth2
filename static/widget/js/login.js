@@ -1,13 +1,82 @@
 /**
  * Created by dheerendra on 10/10/15.
+ * SSO_JS - v2.0 - 12-10-2015
  */
 
-var iframe_base_url = '//gymkhana.iitb.ac.in/sso/widget/login/?';
-
-function SSO_JS(config) {
+function SSO_JS(init) {
     'use strict';
 
-    this.config = config || {};
+    this.iframe_base_url = '//gymkhana.iitb.ac.in/sso/widget/login/?';
+
+    this.iframe = null;
+
+    this.config = init.config || {};
+
+    this.config_keys = [
+        'client_id',
+        'response_type',
+        'redirect_uri',
+        'scope',
+        'state',
+        'new_window'
+    ];
+
+    this.colors = init.colors || {};
+
+    this.color_keys = [
+        'button_div_bg_color',
+        'button_anchor_color',
+        'logout_anchor_color'
+    ];
+
+    this.init = function () {
+        this._setupMessageListener();
+        return this._render();
+    };
+
+    /**
+     * @deprecated Will be removed in future versions. Use init() instead
+     */
+    this.render = function () {
+        console.warn('render() function will be removed in future versions. Use init() instead');
+        return this.init();
+    };
+
+    this._render = function () {
+        this._applyDefaults(this.config);
+        this._scopeListToString();
+        this._verify();
+        this._verifyColors();
+        var query = this._dictsToQueryParam(
+            [
+                [this.config_keys, this.config],
+                [this.color_keys, this.colors]
+            ]
+        );
+        var iframe_url = this.iframe_base_url + query;
+
+        this.iframe = document.createElement('iframe');
+        this.iframe.setAttribute('id', 'sso-iframe');
+        this.iframe.setAttribute('src', iframe_url);
+        this.iframe.setAttribute('frameBorder', '0');
+        this.iframe.setAttribute('scrolling', 'No');
+        this.iframe.setAttribute('height', '70px');
+        this.iframe.setAttribute('width', '200px');
+        this.config.sso_root.appendChild(this.iframe);
+
+        return this;
+    };
+
+    this._verifyColors = function () {
+        var hex_pattern = /^(?:[0-9a-fA-F]{3}){1,2}$/;
+        this.color_keys.map(function (color) {
+            if (this.colors.hasOwnProperty(color)) {
+                if (!hex_pattern.test(this.colors[color])) {
+                    throw new Error('Color ' + color + ' must be a valid HEX with #');
+                }
+            }
+        }.bind(this));
+    };
 
     this._applyDefaults = function (conf) {
         this.config.response_type = this.config.hasOwnProperty('response_type') ? conf.response_type : 'code';
@@ -17,12 +86,7 @@ function SSO_JS(config) {
     };
 
     this._scopeListToString = function () {
-        var scope_string = '';
-        this.config.scope.map(function (scope) {
-            scope_string += scope + ' ';
-        });
-        scope_string = scope_string.replace(/\s+$/, '');
-        this.config.scope = scope_string;
+        this.config.scope = this.config.scope.join(' ');
     };
 
     this._verify = function () {
@@ -31,61 +95,57 @@ function SSO_JS(config) {
         }
     };
 
-    this._configToQuery = function () {
+    /**
+     * This function converts a list of dictionaries into single HTTP GET query param
+     * However list of dictionaries should be a list of of [keys, dict] where keys is list subset
+     * of keys of dict which should be included in query param
+     * @param dicts list of list [[['a', 'b], {'a': 1, 'b': 2}], ]
+     * @private
+     */
+    this._dictsToQueryParam = function (dicts) {
         var query_params = [];
-        ['client_id', 'response_type', 'redirect_uri', 'scope', 'state', 'new_window'].map(
-            function (config_str) {
-                if (this.config.hasOwnProperty(config_str)) {
-                    query_params.push(config_str + '=' + this.config[config_str]);
+        dicts.map(function (keys_dict_pair) {
+            keys_dict_pair[0].map(function (key) {
+                if (keys_dict_pair[1].hasOwnProperty(key)) {
+                    query_params.push(key + '=' + keys_dict_pair[1][key]);
                 }
-            }.bind(this));
+            });
+        });
         return query_params.join('&');
     };
 
-    this.render = function () {
-        this._applyDefaults(this.config);
-        this._scopeListToString();
-        this._verify();
-        var query = this._configToQuery();
-        var iframe_url = iframe_base_url + query;
+    this._setupMessageListener = function () {
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('id', 'sso-iframe');
-        iframe.setAttribute('src', iframe_url);
-        iframe.setAttribute('frameBorder', '0');
-        iframe.setAttribute('scrolling', 'No');
-        this.config.sso_root.appendChild(iframe);
-
-        return this;
+        eventer(messageEvent, function (event) {
+            if (this.iframe == null || this.iframe == undefined) {
+                return;
+            }
+            if (this.iframe.src.indexOf(event.origin) != 0){
+                return;
+            }
+            var message = event.data;
+            this._parseMessage(message);
+        }.bind(this), false);
     };
+
+    this._parseMessage = function (data) {
+        var message = data.split('://');
+        var protocol = message[0];
+        if (protocol != 'sso-iframe') {
+            return;
+        }
+        var dimensions = message[1].split(':');
+        this._resizeIFrame(dimensions[0], dimensions[1]);
+    };
+
+    this._resizeIFrame = function (height, width) {
+        this.iframe.height = height + 'px';
+        this.iframe.width = width + 'px';
+    };
+
 }
 
-var sso_root = new SSO_JS();
-
-var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-var eventer = window[eventMethod];
-var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-eventer(messageEvent, function (event) {
-    var message = event.data;
-    message = message.split('://');
-    var protocol = message[0];
-    if (protocol != 'sso-iframe') {
-        return;
-    }
-    var dimensions = message[1].split(':');
-
-    var sso_iframe;
-
-    var sso_root_nodes = sso_root.config.sso_root.childNodes;
-
-    for (var i=0; i<sso_root_nodes.length; i++){
-        if (sso_root_nodes[i].id == 'sso-iframe'){
-            sso_iframe = sso_root_nodes[i];
-            break;
-        }
-    }
-
-    sso_iframe.height = dimensions[0] + 'px';
-    sso_iframe.width = dimensions[1] + 'px';
-}, false);
+var sso_root = new SSO_JS({});
