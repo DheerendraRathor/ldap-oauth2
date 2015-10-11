@@ -19,6 +19,7 @@ class CustomOAuth2Validator(OAuth2Validator):
         """
         It's messy. It is 90% code from parent function. I didn't find a way to reduce it.
         I tried and I failed :'(
+        Sin Count += 1
         """
 
         """
@@ -52,12 +53,16 @@ class CustomOAuth2Validator(OAuth2Validator):
                 application=request.client,
             )
             if request.grant_type == 'authorization_code':
-                try:
-                    refresh_token = RefreshToken.objects.get(user=request.user, application=request.client)
+                refresh_tokens = RefreshToken.objects.all().filter(user=request.user,
+                                                                   application=request.client).order_by('-id')
+                if len(refresh_tokens) > 0:
+                    refresh_token = refresh_tokens[0]
+                    # Delete the old access_token
                     refresh_token.access_token.delete()
-                    # Deleted the old access_token
-                except RefreshToken.DoesNotExist:
-                    pass
+                    if len(refresh_tokens) > 1:
+                        # Enforce 1 token pair. Delete all old refresh_tokens
+                        RefreshToken.objects.exclude(pk=refresh_token.id).delete()
+
             refresh_token.access_token = access_token
             refresh_token.save()
             token['refresh_token'] = refresh_token.token
