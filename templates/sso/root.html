@@ -38,7 +38,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'doc' %}">Doc</a></li>
+                <li><a href="{% url 'doc' %}">Documentation</a></li>
                 {% block navbar_left_link %}
                 {% endblock %}
             </ul>
@@ -50,6 +50,9 @@
         <!--/.nav-collapse -->
     </div>
 </nav>
+
+{% block featurette %}
+{% endblock %}
 
 <div class="container">
     {% block body %}

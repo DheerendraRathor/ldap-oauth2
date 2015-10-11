@@ -1,9 +1,18 @@
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import TemplateView
 from django.templatetags.static import static
 
 
-class IndexRedirectView(RedirectView):
-    pattern_name = 'account:login'
+class IndexView(TemplateView):
+    template_name = 'sso/index.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if request.user.is_authenticated():
+            context['base_template'] = 'sso/logged_in.html'
+        else:
+            context['base_template'] = 'sso/root.html'
+
+        return self.render_to_response(context)
 
 
 class DocView(TemplateView):

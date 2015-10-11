@@ -56,14 +56,14 @@
            target="_parent"
                 {% endif %}
                 >
-            {% if request.user.is_authenticated %}
-                Login as <b>{{ request.user.username }}</b>
+            {% if user.is_authenticated %}
+                Login as <b>{{ user.username }}</b>
             {% else %}
                 Login with SSO
             {% endif %}
         </a>
     </div>
-    {% if request.user.is_authenticated %}
+    {% if user.is_authenticated %}
         <div class="logout-div">
             <a class="anchor-no-decor logout-anchor" href="{% url 'account:logout' %}?next={{ auth_url|urlencode }}"
                     {% if new_window %}

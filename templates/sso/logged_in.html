@@ -3,7 +3,7 @@
 {% block navbar_right_link %}
     <li>
     <div class="dropdown">
-        <button class="btn dropdown-toggle" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 10px;">
+        <button class="btn dropdown-button dropdown-toggle" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 10px;">
                 <span class="glyphicon glyphicon-cog" style="font-size: 25px;"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dLabel">
@@ -13,9 +13,7 @@
         </div>
     </li>
     <li><a href="{% url 'user:home' %}"><strong>
-        {% if request.user %}
-            {{ request.user.first_name }}
-        {% elif user %}
+        {% if user %}
             {{ user.first_name }}
         {% else %}
             Unknown User
