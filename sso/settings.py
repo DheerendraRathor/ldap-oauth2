@@ -69,7 +69,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'oauth2_provider',
-    'captcha',
     'account',
     'application',
     'user_resource',

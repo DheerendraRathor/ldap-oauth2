@@ -1,17 +1,7 @@
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '<SECRET KEY>'
 
-RECAPTCHA_PUBLIC_KEY = "<RECAPTCHA PUBLIC KEY>"
-
-RECAPTCHA_PRIVATE_KEY = "<RECAPTCHA PRIVATE KEY>"
-
-NOCAPTCHA = True
-
-RECAPTCHA_USE_SSL = True
-
 DEBUG = False
-
-CORS_ORIGIN_ALLOW_ALL = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -23,6 +13,7 @@ EMAIL_HOST_USER = ""
 
 EMAIL_HOST_PASSWORD = ""
 
+# Email Id which will appear in From header in email
 EMAIL_FROM = ""
 
 EMAIL_BACKEND = "core.notification.IITBEmailBackend"
@@ -35,10 +26,10 @@ ADMINS = (
     ('Dheerendra Rathor', 'dheeru.rathor14@gmail.com'),
 )
 
-MEDIA_URL = "http://gymkhana.iitb.ac.in/ldapsso/media/"
+MEDIA_URL = "http://localhost:8000/media/"
 
 STATIC_URL = "/static/"
 
-SESSION_COOKIE_PATH = "/ldapsso/"
+SESSION_COOKIE_PATH = "/"
 
-CSRF_COOKIE_PATH = "/ldapsso/"
+CSRF_COOKIE_PATH = "/"
