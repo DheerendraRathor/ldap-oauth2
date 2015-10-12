@@ -44,6 +44,6 @@ TODO:
 -----
 * ~~Atomize permissions~~
 * ~~Add endpoint to send email on behalf of app~~
-* Create **Login with SSO** widgets
+* ~~Create **Login with SSO** widgets~~
 * Like with SSO widget?
 
