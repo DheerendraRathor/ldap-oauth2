@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
 from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
@@ -51,9 +51,11 @@ class LoginView(View):
 class LogoutView(View):
 
     def get(self, request):
-        next_ = str(request.GET.get('next', settings.LOGIN_REDIRECT_URL))
+        logout(request)
+        next_ = request.GET.get('next')
+        if next_ is None:
+            return redirect('index')
         next_ = quote_plus(next_)
         login_url = reverse('account:login')
         redirect_to = '%s?next=%s' % (login_url, next_) if next_ else login_url
-        logout(request)
         return HttpResponseRedirect(redirect_to)

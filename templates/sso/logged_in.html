@@ -2,11 +2,12 @@
 
 {% block navbar_right_link %}
     <li>
-    <div class="dropdown">
-        <button class="btn dropdown-button dropdown-toggle" id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 10px;">
+        <div class="dropdown">
+            <button class="btn dropdown-button dropdown-toggle" id="dLabel" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false" style="padding: 10px;">
                 <span class="glyphicon glyphicon-cog" style="font-size: 25px;"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dLabel">
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
                 <li><a href="{% url 'user:settings' %}">Apps you're connected to</a></li>
                 <li><a href="{% url 'oauth:list' %}">Apps you created</a></li>
             </ul>
@@ -19,5 +20,10 @@
             Unknown User
         {% endif %}
     </strong></a></li>
-    <li><a href="{% url 'account:logout' %}?next={{ request.uri|urlencode }}">Logout</a></li>
+    <li>
+        <a href="{% url 'account:logout' %}
+        {% if request.uri %}
+        ?next={{ request.uri|urlencode }}
+        {% endif %}">Logout</a>
+    </li>
 {% endblock %}
