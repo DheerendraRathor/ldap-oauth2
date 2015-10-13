@@ -19,3 +19,15 @@ legend.marginless {
     background-color: inherit;
     border: white 0px solid;
 }
+
+.image-glyphicon-wrapper{
+    position: relative;
+}
+
+.image-glyphicon-wrapper .glyphicon {
+    position: absolute;
+    top: 39px;
+    left: 39px;
+    font-size: 50px;
+
+}

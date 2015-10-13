@@ -1,5 +1,6 @@
 {% extends 'sso/logged_in.html' %}
 {% load staticfiles %}
+{% load model_media %}
 
 {% block title %}
     User: Home
@@ -16,59 +17,46 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-6">
-            <form role="form" action="{% url 'user:update_address' %}" method="post">
+        <div class="col-md-6" style="float: none; margin: auto;">
+            <form role="form" method="post">
                 <fieldset class="fieldset-border">
-                    <legend class="marginless">Institute Address</legend>
+                    <legend class="marginless">Profile Badge</legend>
                     {% csrf_token %}
-                    {% if insti_address_form.errors %}
-                        <ul>
-                            {% for error in insti_address_form.errors %}
-                                <li><strong>{{ error }}</strong></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <div class="form-group {% if insti_address_form.hostel.errors %} has-error {% endif %}">
-                        {{ insti_address_form.hostel.label_tag }}
-                        {{ insti_address_form.hostel }}
+                    <div class="media">
+                        <div class="media-left">
+                            {% model_field_media_url user.userprofile.profile_picture as user_profile_picture %}
+                            {% static 'sso/img/nophoto.png' as default_user_profile_picture %}
+                            <a href="#">
+                                <div class="image-glyphicon-wrapper">
+                                    <img class="media-object"
+                                         src="{{ user_profile_picture|default_if_none:default_user_profile_picture }}"
+                                         alt="..."
+                                         width="128" height="128"/>
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ user.first_name|add:" "|add:user.last_name }}</h4>
+
+                            <div><span class="glyphicon glyphicon-envelope"></span>
+                                <a href="mailto:{{ user.email }}">{{ user.email }}</a></div>
+                            {% if ldap_number and ldap_number != '' %}
+                                <div><span class="glyphicon glyphicon-phone"></span>{{ ldap_number }} </div>
+                            {% endif %}
+                            {% if insti_address_form.hostel.value %}
+                                <div><span class="glyphicon glyphicon-home"></span>
+                                    {{ user.insti_address.get_hostel_display }}
+                                    {% if insti_address_form.room.value %}
+                                        | Room {{ insti_address_form.room.value }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="form-group {% if insti_address_form.room.errors %} has-error {% endif %}">
-                        {{ insti_address_form.room.label_tag }}
-                        {{ insti_address_form.room }}
-                    </div>
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
-            <form role="form" action="{% url 'user:update_program' %}" method="post" style="margin-top: 40px;">
-                <fieldset class="fieldset-border">
-                    <legend class="marginless">Program</legend>
-                    {% csrf_token %}
-                    {% if program_form.errors %}
-                        <ul>
-                            {% for error in program_form.errors %}
-                                <li><strong>{{ error }}</strong></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if roll_number %}
-                        <div class="form-group">
-                            <label for="roll_number">Roll Number:</label>
-                            <input class="form-control" id="roll_number" type="text" value="{{ roll_number }}"
-                                   disabled/>
-                        </div>
-                    {% endif %}
-                    {% for field in program_form %}
-                        <div class="form-group {% if field.errros %} has-error {% endif %}">
-                            {{ field.label_tag }}
-                            {{ field }}
-                        </div>
-                    {% endfor %}
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
-                </fieldset>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form role="form" action="{% url 'user:update_mobile' %}" method="post">
+            <form role="form" action="{% url 'user:update_mobile' %}" method="post" style="margin-top: 40px;">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Contact Numbers</legend>
                     {% csrf_token %}
@@ -129,6 +117,57 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
+            <form role="form" action="{% url 'user:update_address' %}" method="post" style="margin-top: 40px;">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Institute Address</legend>
+                    {% csrf_token %}
+                    {% if insti_address_form.errors %}
+                        <ul>
+                            {% for error in insti_address_form.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="form-group {% if insti_address_form.hostel.errors %} has-error {% endif %}">
+                        {{ insti_address_form.hostel.label_tag }}
+                        {{ insti_address_form.hostel }}
+                    </div>
+                    <div class="form-group {% if insti_address_form.room.errors %} has-error {% endif %}">
+                        {{ insti_address_form.room.label_tag }}
+                        {{ insti_address_form.room }}
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+            <form role="form" action="{% url 'user:update_program' %}" method="post" style="margin-top: 40px;">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Program</legend>
+                    {% csrf_token %}
+                    {% if program_form.errors %}
+                        <ul>
+                            {% for error in program_form.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if roll_number %}
+                        <div class="form-group">
+                            <label for="roll_number">Roll Number:</label>
+                            <input class="form-control" id="roll_number" type="text" value="{{ roll_number }}"
+                                   disabled/>
+                        </div>
+                    {% endif %}
+                    {% for field in program_form %}
+                        <div class="form-group {% if field.errros %} has-error {% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+
+
         </div>
     </div>
 {% endblock %}
