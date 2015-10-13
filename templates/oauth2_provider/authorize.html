@@ -42,7 +42,7 @@
                 <ul class="list-unstyled">
 
                     {% with zipped_scopes_description=scopes|zip:scopes_descriptions %}
-                        {% for scope, description in zipped_scopes_description|get_basic_scope %}
+                        {% for scope, description in zipped_scopes_description|get_basic_scope:application %}
                             <li>
                                 <div class="checkbox">
                                     <label>
@@ -54,7 +54,7 @@
                                 </div>
                             </li>
                         {% endfor %}
-                        {% for scope, description in zipped_scopes_description|remove_basic_scope %}
+                        {% for scope, description in zipped_scopes_description|remove_basic_scope:application %}
                             <li>
                                 <div class="checkbox">
                                     <label>
@@ -77,10 +77,12 @@
                         <input type="submit" class="btn btn-large btn-success" name="allow" value="Authorize"/>
                     </div>
                 </div>
-                <h5>
-                    <b>You can revoke access by visiting
-                        <a target='_blank' href="{% url 'user:settings' %}">account settings</a></b>
-                </h5>
+                {% if not application.is_anonymous %}
+                    <h5>
+                        <b>You can revoke access by visiting
+                            <a target='_blank' href="{% url 'user:settings' %}">account settings</a></b>
+                    </h5>
+                {% endif %}
             </form>
 
         {% else %}

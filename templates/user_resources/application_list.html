@@ -13,7 +13,7 @@
                     <div class="panel panel-default">
                         <div role="button" data-toggle="collapse" data-parent="#accordion"
                              data-target="#application{{ application.id }}"
-                             class="panel-heading" role="tab">
+                             class="panel-heading">
                             <div class="media">
                                 <div class="media-left media-middle">
                                     <img class="media-object"
@@ -23,10 +23,12 @@
                                 <div class="media-body media-middle">
                                     <h3 class="media-heading">{{ application.name }}</h3>
                                 </div>
-                                <div class="media-right media-middle">
-                                    <a href="{% url 'user:revoke_app' application.id %}"
-                                       class="btn btn-danger revoke-button">Revoke</a>
-                                </div>
+                                {% if not application.is_anonymous %}
+                                    <div class="media-right media-middle">
+                                        <a href="{% url 'user:revoke_app' application.id %}"
+                                           class="btn btn-danger revoke-button">Revoke</a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -44,7 +46,22 @@
                                         {% endfor %}
                                     </ul>
                                 </b>
+
+                                <div>Developed By:
+                                    <a href="mailto:{{ application.user.email }}">{{ application.user.username }}</a>
+                                </div>
+                                {% if application.website %}
+                                    <div>
+                                        <a href="{{ application.website }}" target="_blank">Visit Website</a>
+                                    </div>
+                                {% endif %}
+                                {% if application.privacy_policy %}
+                                    <div>
+                                        <a href="{{ application.privacy_policy }}" target="_blank">Read privacy policy</a>
+                                    </div>
+                                {% endif %}
                             </div>
+
                         </div>
                     </div>
 

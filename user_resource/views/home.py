@@ -2,11 +2,10 @@ from collections import defaultdict
 
 from braces.views import LoginRequiredMixin
 from django.forms.models import model_to_dict
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, View
-from oauth2_provider.models import AccessToken
+from oauth2_provider.models import AccessToken, get_application_model as get_oauth2_application_model
 from oauth2_provider.settings import oauth2_settings
-from django.http import HttpResponse, HttpResponseForbidden
 
 from ..forms import InstituteAddressForm, ProgramForm
 from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
@@ -36,9 +35,12 @@ class UserApplicationListView(LoginRequiredMixin, ListView):
 
 
 class ApplicationRevokeView(LoginRequiredMixin, View):
+
     def get(self, request, pk):
-        user = request.user
-        AccessToken.objects.filter(user=user, application_id=pk).delete()
+        application = get_object_or_404(get_oauth2_application_model(), pk=pk)
+        if not application.is_anonymous:
+            user = request.user
+            AccessToken.objects.filter(user=user, application_id=pk).delete()
         return redirect('user:settings')
 
 

@@ -9,6 +9,7 @@ from oauth2_provider.exceptions import OAuthToolkitError
 from django.conf import settings
 
 from .forms import RegistrationForm
+from core.utils import get_default_scopes
 
 
 class ApplicationRegistrationView(ApplicationRegistration):
@@ -28,10 +29,13 @@ class ApplicationUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class CustomAuthorizationView(AuthorizationView):
+
     def form_valid(self, form):
+        client_id = form.cleaned_data.get('client_id', '')
+        application = get_oauth2_application_model().objects.get(client_id=client_id)
         scopes = form.cleaned_data.get('scope', '')
         scopes = set(scopes.split(' '))
-        scopes.update(set(settings.OAUTH2_DEFAULT_SCOPES))
+        scopes.update(set(get_default_scopes(application)))
         scopes = ' '.join(list(scopes))
         form.cleaned_data['scope'] = scopes
         return super(CustomAuthorizationView, self).form_valid(form)

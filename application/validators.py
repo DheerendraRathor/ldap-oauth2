@@ -3,16 +3,20 @@ from datetime import timedelta
 from oauth2_provider.oauth2_validators import OAuth2Validator
 from oauth2_provider.models import RefreshToken, AccessToken
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 from oauth2_provider.settings import oauth2_settings
-from django.conf import settings
+from oauth2_provider.models import get_application_model as get_oauth2_application_model
+from core.utils import get_default_scopes
 
 
 class CustomOAuth2Validator(OAuth2Validator):
+
     def get_default_scopes(self, client_id, request, *args, **kwargs):
-        return settings.OAUTH2_DEFAULT_SCOPES
+        application = get_object_or_404(get_oauth2_application_model(), client_id=client_id)
+        return get_default_scopes(application)
 
     def validate_scopes(self, client_id, scopes, client, request, *args, **kwargs):
-        request.scopes = list(set(request.scopes).union(set(settings.OAUTH2_DEFAULT_SCOPES)))
+        request.scopes = list(set(request.scopes).union(set(get_default_scopes(client))))
         return super(CustomOAuth2Validator, self).validate_scopes(client_id, scopes, client, request, *args, **kwargs)
 
     def save_bearer_token(self, token, request, *args, **kwargs):
