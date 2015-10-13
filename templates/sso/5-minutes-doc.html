@@ -21,7 +21,8 @@
             <a href="#widgets" id="widgets-tab" role="tab" data-toggle="tab" aria-controls="widgets">Widgets</a>
         </li>
         <li role="presentation">
-            <a href="#best-practices" id="best-practices-tab" role="tab" data-toggle="tab" aria-controls="best-practices">Best Practices</a>
+            <a href="#best-practices" id="best-practices-tab" role="tab" data-toggle="tab"
+               aria-controls="best-practices">Best Practices</a>
         </li>
         <li role="presentation">
             <a href="#third-party" id="tp-tab" role="tab" data-toggle="tab" aria-controls="third-parth">Third Party</a>
@@ -44,7 +45,7 @@
                     authorization. Let's say you have entered <code>http://www.example.com/authorization/</code>
                 </li>
                 <li>Click Submit! That's it, you've registered an application. You can access your applications at
-                    <a href="{% url 'oauth:list' %}" target="_blank">list of applications</a></li>
+                    <a href="{% url 'oauth2_provider:list' %}" target="_blank">list of applications</a></li>
             </ul>
 
             <h3 id="authorization_workflow">Authorization workflow</h3>
@@ -383,26 +384,40 @@ Content-Type: application/json
     ]
 }
 </pre>
-                    <ul>
-                        <li>
-                            Final subject will be "[SSO] [&lt;APPLICATION_NAME&gt;] &lt;YOUR SUBJECT&gt;". This is
-                            automatically
-                            generated.
-                        </li>
-                        <li>
-                            Final message will have these line appended:
+
+                <li>
+                    Response Data:
 <pre>
-Sent via SSO by Test
+{
+    "Message-ID": "{{ Message_ID }}",
+    "status": true
+}
+</pre>
+                    <code>Message-ID</code> is a unique identifier for each sent message. Its format is <code>
+                    &lt;timestamp.pid.random_number@fqdn&gt;</code>. <code>Message-ID</code> in this example is
+                    actually a valid generated identifier which is changing each time you open this page!<br>
+                    <code>status</code> is either <b>true</b> or <b>false</b> depending on whether message was
+                    sent successfully. Remember <code>status: true</code> doesn't guarantee delivery of message
+                </li>
+                <li>
+                    Final subject will be "[SSO] [&lt;APPLICATION_NAME&gt;] &lt;YOUR SUBJECT&gt;". This is
+                    automatically
+                    generated.
+                </li>
+                <li>
+                    Final message will have these line appended:
+<pre>
+Sent via SSO by &lt;APPLICATION_NAME&gt;
 
 You received this message because you've provided the email sending permission to the application
 </pre>
-                        </li>
-                        <li>
-                            <code>reply_to</code> is list of email address where you want your user to reply. Most of
-                            the mail
-                            servers honor this protocol and by clicking on "reply" will directly reply to these emails.
-                        </li>
-                    </ul>
+                </li>
+                <li>
+                    <code>reply_to</code> is list of email address where you want your user to reply. Most of
+                    the mail
+                    servers honor this protocol and by clicking on "reply" will directly reply to these emails.
+                </li>
+
                 </li>
                 <li>
                     <strong>DISCLAIMER:</strong>
@@ -446,7 +461,7 @@ You received this message because you've provided the email sending permission t
     <script type="application/javascript">
 
         new SSO_JS({
-            config : {
+            config: {
                 client_id: 'your-long-client-id',   // Compulsory
                 scope: ['basic', 'profile'],    // Optional. Default is  ['basic']
                 state: '', // Optional. Default None
@@ -456,9 +471,9 @@ You received this message because you've provided the email sending permission t
                                         // Where authorization page should be opened in new tab or
                                         // same tab Default is false.
                 sso_root: document.getElementById('sso-root'),
-                 /* Optional
-                document.getElementById don't work if your element is not in light DOM. In that case you need to
-                provide selector here. In most of the cases this will work.
+                /* Optional
+                 document.getElementById don't work if your element is not in light DOM. In that case you need to
+                 provide selector here. In most of the cases this will work.
                  */
             },
             colors: { // All Optional
@@ -472,9 +487,9 @@ You received this message because you've provided the email sending permission t
 {% endfilter %}
 </pre>
                 </li>
-            <li>
-                That's it. You'll get a nice looking login button there.
-            </li>
+                <li>
+                    That's it. You'll get a nice looking login button there.
+                </li>
             </ul>
 
         </div>
@@ -505,9 +520,10 @@ You received this message because you've provided the email sending permission t
         <div role="tabpanel" class="tab-pane fade in" id="third-party" aria-labelledby="tp-tab">
 
             <h4>We are trying to provide best we can. Efforts from your side are appreciated. Here are few third
-            party implementations</h4>
+                party implementations</h4>
 
             <h3>PHP</h3>
+
             <p class="doc">
                 <a href="https://github.com/BijoySingh" target="_blank">BijoySingh</a> is maintaining a
                 <a href="https://github.com/BijoySingh/IITB-OAuth-PHP" target="_blank">PHP implementation</a>
@@ -525,7 +541,7 @@ You received this message because you've provided the email sending permission t
     <script src="{% static 'widget/js/login.js' %}" type="application/javascript"></script>
     <script type="application/javascript">
         new SSO_JS({
-            config : {
+            config: {
                 client_id: 'your-long-client-id',   // Compulsory
                 scope: ['basic', 'profile'],    // Optional. Default is  ['basic']
                 state: '', // Optional. Default None
@@ -535,9 +551,9 @@ You received this message because you've provided the email sending permission t
                                         // Where authorization page should be opened in new tab or
                                         // same tab Default is false.
                 sso_root: document.getElementById('sso-root'),
-                 /* Optional
-                document.getElementById don't work if your element is not in light DOM. In that case you need to
-                provide selector here. In most of the cases this will work.
+                /* Optional
+                 document.getElementById don't work if your element is not in light DOM. In that case you need to
+                 provide selector here. In most of the cases this will work.
                  */
             },
             colors: { // All Optional
@@ -546,6 +562,8 @@ You received this message because you've provided the email sending permission t
                 logout_anchor_color: '727272', // Font color of logout mark (The one with 'Login as other user'
             },
         }).init();
-    setTimeout(function(){$("#widgets").removeClass("in active");}, 1000);
+        setTimeout(function () {
+            $("#widgets").removeClass("in active");
+        }, 1000);
     </script>
 {% endblock %}

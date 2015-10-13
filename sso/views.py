@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from django.templatetags.static import static
+from django.core.mail.message import make_msgid
 
 
 class IndexView(TemplateView):
@@ -21,4 +22,5 @@ class DocView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DocView, self).get_context_data(**kwargs)
         context['login_js_url'] = static('widget/js/login.min.js')
+        context['Message_ID'] = make_msgid()
         return context

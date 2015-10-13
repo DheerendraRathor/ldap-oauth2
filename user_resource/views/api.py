@@ -62,7 +62,7 @@ class UserViewset(viewsets.GenericViewSet):
         mail = SendMailSerializer(data=request.data)
         if mail.is_valid():
             subject = '[SSO] [%s] %s' % (app.name, mail.validated_data.get('subject'))
-            body = ('%s\n\n'
+            body = ('%s\n\n\n'
                     'Sent via SSO by %s\n\n'
                     'You received this message because you\'ve provided the email sending'
                     ' permission to the application')
@@ -81,7 +81,10 @@ class UserViewset(viewsets.GenericViewSet):
                 sender=app,
                 user=user,
             )
-            response_data = {}
+            response_data = {
+                'Message-ID': message['Message-ID'],
+                'status': True,
+            }
             try:
                 email_message.send()
                 sent_message.status = True
