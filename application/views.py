@@ -7,8 +7,9 @@ from oauth2_provider.views import AuthorizationView
 from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.http import HttpResponseUriRedirect
 from oauth2_provider.exceptions import OAuthToolkitError
+from django.conf import settings
 
-from .forms import RegistrationForm, AllowFormWithRecaptch
+from .forms import RegistrationForm
 
 
 class ApplicationRegistrationView(LoginRequiredMixin, CreateView):
@@ -52,15 +53,19 @@ class ApplicationDeleteView(ApplicationOwnerIsUserMixin, DeleteView):
 
 
 class CustomAuthorizationView(AuthorizationView):
-    form_class = AllowFormWithRecaptch
 
     def form_valid(self, form):
         scopes = form.cleaned_data.get('scope', '')
         scopes = set(scopes.split(' '))
-        scopes.add('basic')
+        scopes.update(set(settings.OAUTH2_DEFAULT_SCOPES))
         scopes = ' '.join(list(scopes))
         form.cleaned_data['scope'] = scopes
         return super(CustomAuthorizationView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomAuthorizationView, self).get_context_data(**kwargs)
+        context['default_scopes'] = settings.OAUTH2_DEFAULT_SCOPES
+        return context
 
     def get(self, request, *args, **kwargs):
         """

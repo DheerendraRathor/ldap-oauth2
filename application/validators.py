@@ -4,15 +4,15 @@ from oauth2_provider.oauth2_validators import OAuth2Validator
 from oauth2_provider.models import RefreshToken, AccessToken
 from django.utils import timezone
 from oauth2_provider.settings import oauth2_settings
+from django.conf import settings
 
 
 class CustomOAuth2Validator(OAuth2Validator):
     def get_default_scopes(self, client_id, request, *args, **kwargs):
-        return ['basic']
+        return settings.OAUTH2_DEFAULT_SCOPES
 
     def validate_scopes(self, client_id, scopes, client, request, *args, **kwargs):
-        if 'basic' not in request.scopes:
-            request.scopes.append('basic')
+        request.scopes = list(set(request.scopes).union(set(settings.OAUTH2_DEFAULT_SCOPES)))
         return super(CustomOAuth2Validator, self).validate_scopes(client_id, scopes, client, request, *args, **kwargs)
 
     def save_bearer_token(self, token, request, *args, **kwargs):

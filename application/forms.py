@@ -1,5 +1,4 @@
 from django import forms
-from oauth2_provider.forms import AllowForm
 
 from .models import Application
 
@@ -40,7 +39,3 @@ class RegistrationForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'rows': 4, }
             )
         }
-
-
-class AllowFormWithRecaptch(AllowForm):
-    pass

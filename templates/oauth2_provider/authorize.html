@@ -34,26 +34,32 @@
                 <h3>{% trans "Application requires following permissions" %}</h3>
 
                 <ul class="list-unstyled">
-                    <li>
-                        <div class="checkbox">
-                            <label>
-                                <input checked disabled type="checkbox" id="basic_scope" name="scopes_array"
-                                       value="basic"/>
-                                Know who you are on this site
-                            </label>
-                        </div>
-                    </li>
-                    {% for scope, description in scopes|zip:scopes_descriptions|remove_basic_scope %}
-                        <li>
-                            <div class="checkbox">
-                                <label>
-                                    <input checked type="checkbox" id="{{ scope }}_scope" name="scopes_array"
-                                           value="{{ scope }}"/>
-                                    {{ description }}
-                                </label>
-                            </div>
-                        </li>
-                    {% endfor %}
+
+                    {% with zipped_scopes_description=scopes|zip:scopes_descriptions %}
+                        {% for scope, description in zipped_scopes_description|get_basic_scope %}
+                            <li>
+                                <div class="checkbox">
+                                    <label>
+                                        <input checked disabled type="checkbox" id="{{ scope }}_scope"
+                                               name="scopes_array"
+                                               value="{{ scope }}"/>
+                                        {{ description }}
+                                    </label>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        {% for scope, description in zipped_scopes_description|remove_basic_scope %}
+                            <li>
+                                <div class="checkbox">
+                                    <label>
+                                        <input checked type="checkbox" id="{{ scope }}_scope" name="scopes_array"
+                                               value="{{ scope }}"/>
+                                        {{ description }}
+                                    </label>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endwith %}
                 </ul>
 
                 {{ form.errors }}

@@ -17,7 +17,6 @@ import os
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -58,7 +57,6 @@ AUTH_LDAP_PROFILE_ATTR_MAP = {
     'type': 'employeeType',
     'mobile': 'mobile',
 }
-
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -180,6 +178,10 @@ OAUTH2_PROVIDER = {
     'OAUTH2_VALIDATOR_CLASS': 'application.validators.CustomOAuth2Validator',
     'REQUEST_APPROVAL_PROMPT': 'auto',
 }
+
+OAUTH2_DEFAULT_SCOPES = [
+    'basic',
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
