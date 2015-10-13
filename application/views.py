@@ -36,14 +36,9 @@ class CustomAuthorizationView(AuthorizationView):
         form.cleaned_data['scope'] = scopes
         return super(CustomAuthorizationView, self).form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super(CustomAuthorizationView, self).get_context_data(**kwargs)
-        context['default_scopes'] = settings.OAUTH2_DEFAULT_SCOPES
-        return context
-
     def get(self, request, *args, **kwargs):
         """
-        Copied blantly from super method. Had to change few stuff, but didn't find better way
+        Copied blatantly from super method. Had to change few stuff, but didn't find better way
         than copying and editing the whole stuff.
         Sin Count += 1
         """

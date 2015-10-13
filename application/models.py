@@ -24,6 +24,13 @@ class Application(AbstractApplication):
     """
     description = models.TextField()
     logo = models.ImageField(upload_to=application_logo, blank=True, null=True)
+    is_anonymous = models.BooleanField(default=False,
+                                       help_text='Valid for complete anonymous apps. Requires admin permission')
+    required_scopes = models.CharField(max_length=256,
+                                       help_text='Default non-tracking permissions. '
+                                                 'Valid only if application is anonymous', null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
+    privacy_policy = models.URLField(null=True, blank=True, help_text='Link of privacy policy of application')
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 
@@ -43,5 +50,3 @@ class Application(AbstractApplication):
         if self.authorization_grant_type == AbstractApplication.GRANT_PASSWORD:
             error = _("Resource owner password based grants are not allowed for now")
             raise ValidationError(error)
-
-

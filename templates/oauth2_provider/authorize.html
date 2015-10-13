@@ -23,6 +23,12 @@
                     </div>
                 </div>
                 <i>Developed by - <a href='mailto:{{ application.user.email }}'>{{ application.user.username }}</a></i>
+                {% if application.website %}
+                    <div><a href="{{ application.website }}" target="_blank">Visit website</a></div>
+                {% endif %}
+                {% if application.privacy_policy %}
+                    <div><a href="{{ application.privacy_policy }}" target="_blank">Read privacy policies</a></div>
+                {% endif %}
                 {% csrf_token %}
 
                 {% for field in form %}

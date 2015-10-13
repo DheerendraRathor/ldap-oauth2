@@ -20,6 +20,9 @@
             {% for field in form %}
                 <div class="form-group {% if field.errors %}error{% endif %}">
                     <label class="control-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.field.required %}
+                    <span style="color: red;">*</span>
+                {% endif %}
                         {{ field }}
                         {% for error in field.errors %}
                             <span class="help-block" style="color:red;">{{ error }}</span>
