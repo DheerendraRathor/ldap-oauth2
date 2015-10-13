@@ -1,4 +1,4 @@
-{% extends "application/application_form.html" %}
+{% extends "oauth2_provider/application_form.html" %}
 
 {% load i18n %}
 
@@ -8,4 +8,4 @@
 
 {% block app-form-action-url %}{% url 'oauth:register' %}{% endblock app-form-action-url %}
 
-{% block app-form-back-url %}{% url "oauth:list" %}"{% endblock app-form-back-url %}
+{% block app-form-back-url %}{% url "oauth2_provider:list" %}"{% endblock app-form-back-url %}

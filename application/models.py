@@ -36,7 +36,7 @@ class Application(AbstractApplication):
         return url
 
     def get_absolute_url(self):
-        return reverse('oauth:detail', args=[str(self.id)])
+        return reverse('oauth2_provider:detail', args=[str(self.id)])
 
     def clean(self):
         super(Application, self).clean()

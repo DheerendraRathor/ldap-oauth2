@@ -4,12 +4,12 @@
 {% block body %}
     <div class="center-block">
         <h3 class="text-center">{% trans "Are you sure to delete the application" %} {{ application.name }}?</h3>
-        <form method="post" action="{% url 'oauth:delete' application.pk %}">
+        <form method="post" action="{% url 'oauth2_provider:delete' application.pk %}">
             {% csrf_token %}
 
             <div class="form-group">
                 <div class="controls">
-                    <a class="btn btn-large btn-success" href="{% url "oauth:list" %}">{% trans "Cancel" %}</a>
+                    <a class="btn btn-large btn-success" href="{% url "oauth2_provider:list" %}">{% trans "Cancel" %}</a>
                     <input type="submit" class="btn btn-large btn-danger" name="allow" value="{% trans "Delete" %}"/>
                 </div>
             </div>
