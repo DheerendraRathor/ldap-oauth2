@@ -2,6 +2,8 @@
  * Created by dheerenr on 6/7/15.
  */
 
+var $errorAlert = $("#error-alert");
+
 if (!String.prototype.format) {
     String.prototype.format = function () {
         var args = arguments;
@@ -15,7 +17,7 @@ if (!String.prototype.format) {
 }
 
 
-$("#error-alert").on("close.bs.alert", function (e) {
+$errorAlert.on("close.bs.alert", function (e) {
     e.preventDefault();
     $(this).hide();
 });

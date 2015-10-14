@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from views.home import (ApplicationRevokeView, UpdateInstiAddressView,
                         UpdateMobileNumberView, UpdateProgramView,
                         UpdateSecondaryEmailView, UserApplicationListView,
-                        UserHomePageView)
+                        UserHomePageView, UpdateUserProfilePicture)
 from views.api import UserViewset
 
 router = DefaultRouter()
@@ -13,6 +13,7 @@ router.register('user', UserViewset, base_name='user')
 urlpatterns = [
     url(r'^api/', include(router.urls, namespace='api')),
     url(r'^$', UserHomePageView.as_view(), name='home'),
+    url(r'^update_pp/$', UpdateUserProfilePicture.as_view(), name='update_pp'),
     url(r'^update_address/$', UpdateInstiAddressView.as_view(), name='update_address'),
     url(r'^update_program/$', UpdateProgramView.as_view(), name='update_program'),
     url(r'^update_mobile/$', UpdateMobileNumberView.as_view(), name='update_mobile'),

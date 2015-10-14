@@ -17,17 +17,33 @@ legend.marginless {
 
 .backgroundless-input-group-addon {
     background-color: inherit;
-    border: white 0px solid;
+    border: white 0 solid;
 }
 
 .image-glyphicon-wrapper{
     position: relative;
 }
 
-.image-glyphicon-wrapper .glyphicon {
+.image-glyphicon-wrapper .pp-upload-button {
     position: absolute;
     top: 39px;
     left: 39px;
     font-size: 50px;
+}
 
+.pp-upload-button {
+    opacity: 0.6;
+}
+
+.pp-upload-button:hover {
+    opacity: 1;
+}
+
+.pp-upload-input {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: -100px;
+    left: -100px;
 }

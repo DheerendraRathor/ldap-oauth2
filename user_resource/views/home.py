@@ -1,13 +1,15 @@
 from collections import defaultdict
 
 from braces.views import LoginRequiredMixin
+from django.http.response import HttpResponse, HttpResponseBadRequest
+import json
 from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, View
 from oauth2_provider.models import AccessToken, get_application_model as get_oauth2_application_model
 from oauth2_provider.settings import oauth2_settings
 
-from ..forms import InstituteAddressForm, ProgramForm
+from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm
 from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
 
 
@@ -75,6 +77,21 @@ class UserHomePageView(LoginRequiredMixin, View):
                           'roll_number': roll_number,
                       }
                       )
+
+
+class UpdateUserProfilePicture(LoginRequiredMixin, View):
+
+    def post(self, request):
+        pp_form = ProfilePictureForm(request.POST, request.FILES)
+        if pp_form.is_valid():
+            pp = pp_form.cleaned_data['profile_picture']
+            userprofile = request.user.userprofile
+            userprofile.profile_picture = pp
+            userprofile.save()
+            response = {'url': userprofile.profile_picture.url}
+            return HttpResponse(json.dumps(response))
+        else:
+            return HttpResponseBadRequest(json.dumps(pp_form.errors))
 
 
 class UpdateInstiAddressView(LoginRequiredMixin, View):

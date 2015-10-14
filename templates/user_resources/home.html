@@ -9,32 +9,45 @@
 {% block cssLinks %}
     <!--suppress HtmlFormInputWithoutLabel -->
     <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/home.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/timer.css' %}"/>
 {% endblock %}
 
 {% block jsLinks %}
+    <script type="application/javascript">
+        var profileBadgeFormSubmitUrl = "{% url 'user:update_pp' %}";
+    </script>
     <script type="application/javascript" src="{% static 'user_resource/js/home.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-md-6" style="float: none; margin: auto;">
-            <form role="form" method="post">
+            <form role="form" method="post" enctype="multipart/form-data" id="profile-badge-form">
                 <fieldset class="fieldset-border">
+
                     <legend class="marginless">Profile Badge</legend>
                     {% csrf_token %}
                     <div class="media">
                         <div class="media-left">
                             {% model_field_media_url user.userprofile.profile_picture as user_profile_picture %}
                             {% static 'sso/img/nophoto.png' as default_user_profile_picture %}
-                            <a href="#">
-                                <div class="image-glyphicon-wrapper">
-                                    <img class="media-object"
-                                         src="{{ user_profile_picture|default_if_none:default_user_profile_picture }}"
-                                         alt="..."
-                                         width="128" height="128"/>
+
+                            <div class="image-glyphicon-wrapper">
+                                <img id="profile-picture"
+                                     class="media-object"
+                                     src="{{ user_profile_picture|default_if_none:default_user_profile_picture }}"
+                                     alt="{{ user.username }}"
+                                     width="128" height="128"
+                                     style="border: rgba(0, 0, 0, 0.13) 1px solid;"
+                                        />
+                                <input id="pp-upload-input" class="pp-upload-input" type="file" name="profile_picture"
+                                       accept="image/jpeg, image/png"/>
+
+                                <div role="button" class="pp-upload-button">
                                     <span class="glyphicon glyphicon-camera"></span>
                                 </div>
-                            </a>
+                            </div>
+
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">{{ user.first_name|add:" "|add:user.last_name }}</h4>
