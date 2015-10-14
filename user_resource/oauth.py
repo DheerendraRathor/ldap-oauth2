@@ -3,6 +3,7 @@ user_fields = [
     'username',
     'first_name',
     'last_name',
+    'profile_picture',
     'email',
     'program',
     'secondary_emails',
@@ -15,6 +16,7 @@ user_fields = [
 scope_to_field_map = {
     'basic': ['id', ],
     'profile': ['first_name', 'last_name'],
+    'picture': ['profile_picture'],
     'ldap': ['username', 'email'],
     'phone': ['contacts', 'mobile', ],
     'insti_address': ['insti_address', ],

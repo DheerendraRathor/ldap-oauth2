@@ -72,6 +72,7 @@
                         <li><strong>basic</strong>: <em>It includes your user id from SSO server (not the ldap id)</em>
                         </li>
                         <li><strong>profile</strong>: <em>Your first_name and last_name</em></li>
+                        <li><strong>picture</strong>: <em>Your profile picture</em></li>
                         <li><strong>ldap</strong>: <em>Your ldap username and email</em></li>
                         <li><strong>phone</strong>: <em>Your contact number including additional numbers</em></li>
                         <li><strong>insti_address</strong>: <em>Your address inside institute</em></li>
@@ -213,6 +214,10 @@ token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKE
                             <b>username:</b> LDAP username of the user. You need to have <b>ldap</b> scope for this
                         </li>
                         <li>
+                            <b>profile_picture:</b> Profile picture of user. This will be a URL. You need to have
+                            <b>picture</b> scope for this
+                        </li>
+                        <li>
                             <b>email:</b> LDAP email (username@iitb.ac.in) of the user. You need to have
                             <b>ldap</b> scope for this
                         </li>
@@ -263,13 +268,14 @@ Authorization: Bearer ACCESS_TOKEN
 </pre>
                 </li>
                 <li>
-                    The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
+                    The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,profile_picture,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
                     will look like (assuming you've enough scopes)
 <pre>
 {
   "id": 1,
   "username": "username",
   "first_name": "First Name",
+  "profile_picture": "{% url 'index' %}/path/to/profile_picture_file"
   "last_name": "Last Name",
   "email": "username@iitb.ac.in",
   "mobile": "0123456789",
