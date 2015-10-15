@@ -6,9 +6,10 @@ from .forms import LoginForm
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from urllib import quote_plus
+from core.mixins import SensitivePostParametersMixin
 
 
-class LoginView(View):
+class LoginView(SensitivePostParametersMixin, View):
     """
     GET: If user is already logged in then redirect to 'next' parameter in query_params
         Else render the login form
@@ -38,7 +39,7 @@ class LoginView(View):
             if user is not None:
                 if remember:
                     # Yearlong Session
-                    request.session.set_expiry(24*365*3600)
+                    request.session.set_expiry(24 * 365 * 3600)
                 else:
                     request.session.set_expiry(0)
                 login(request, user)
