@@ -1,0 +1,21 @@
+{% extends 'sso/root.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Error 500: Internal Server Error
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12"
+             style="float: none; margin: auto; text-align: center;">
+            <h1 style="font-variant: small-caps;">You trusted me and I failed you :'(</h1>
+            <img src="{% static 'sso/img/500_batman.jpg' %}" height="450">
+
+            <h1 style="font-family: monospace, sans-serif;">Error 500: Internal Server Error</h1>
+        </div>
+    </div>
+
+{% endblock %}

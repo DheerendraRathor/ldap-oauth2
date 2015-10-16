@@ -7,6 +7,7 @@ class IndexView(TemplateView):
     template_name = 'sso/index.html'
 
     def get(self, request, *args, **kwargs):
+        raise Exception('blah')
         context = self.get_context_data(**kwargs)
         if request.user.is_authenticated():
             context['base_template'] = 'sso/logged_in.html'
