@@ -34,6 +34,7 @@ class InstituteAddress(models.Model):
         ['8', 'Hostel 8'],
         ['9', 'Hostel 9'],
         ['10', 'Hostel 10'],
+        ['10A', 'Hostel 10A'],
         ['11', 'Hostel 11'],
         ['12', 'Hostel 12'],
         ['13', 'Hostel 13'],
