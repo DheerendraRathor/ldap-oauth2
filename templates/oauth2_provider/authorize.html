@@ -72,7 +72,8 @@
                 {{ form.non_field_errors }}
 
                 <div class="form-group" style="margin-top: 20px;">
-                    <div class="controls">
+                    <b style="color: #F83838;">Before authorizing, fill your profile <a href="{% url 'user:home' %}" target="_blank">here</a> </b>
+                    <div class="controls" style="margin-top: 5px;">
                         <input type="submit" class="btn btn-large btn-danger" value="Cancel"/>
                         <input type="submit" class="btn btn-large btn-success" name="allow" value="Authorize"/>
                     </div>

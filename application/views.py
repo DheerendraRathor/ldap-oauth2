@@ -6,7 +6,6 @@ from oauth2_provider.views import AuthorizationView
 from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.http import HttpResponseUriRedirect
 from oauth2_provider.exceptions import OAuthToolkitError
-from django.conf import settings
 
 from .forms import RegistrationForm
 from core.utils import get_default_scopes

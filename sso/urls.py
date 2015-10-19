@@ -13,17 +13,18 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+import re
+
 import oauth2_provider.urls
 from django.conf import settings
-from django.conf.urls import include, url, patterns
-from django.conf.urls.static import static
+from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.static import serve
 
 import account.urls
 import application.urls
 import user_resource.urls
 import widget.urls
-
 from .views import DocView, IndexView
 
 urlpatterns = [
@@ -38,9 +39,15 @@ urlpatterns = [
 ]
 
 # Fail safe! If nginx is down, this might come handy.
-urlpatterns += patterns('',
-                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-                        )
-urlpatterns += patterns('',
-                        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-                        )
+urlpatterns += [
+    url(r'^%s(?P<path>.*)$' % re.escape(settings.STATIC_URL.lstrip('/')), serve,
+        kwargs={
+            'document_root': settings.STATIC_ROOT
+        }
+        ),
+    url(r'^%s(?P<path>.*)$' % re.escape(settings.MEDIA_URL.lstrip('/')), serve,
+        kwargs={
+            'document_root': settings.MEDIA_ROOT
+        }
+        ),
+]
