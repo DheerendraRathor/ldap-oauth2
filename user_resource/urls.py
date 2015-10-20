@@ -18,6 +18,6 @@ urlpatterns = [
     url(r'^update_program/$', UpdateProgramView.as_view(), name='update_program'),
     url(r'^update_mobile/$', UpdateMobileNumberView.as_view(), name='update_mobile'),
     url(r'^update_email/$', UpdateSecondaryEmailView.as_view(), name='update_email'),
-    url(r'^settings/', UserApplicationListView.as_view(), name='settings'),
-    url(r'^revoke_app/(?P<pk>\d+)/', ApplicationRevokeView.as_view(), name='revoke_app'),
+    url(r'^settings/$', UserApplicationListView.as_view(), name='settings'),
+    url(r'^revoke_app/(?P<pk>\d+)/$', ApplicationRevokeView.as_view(), name='revoke_app'),
 ]

@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.conf import settings
 from urlparse import urljoin
+from oauth2_provider.models import RefreshToken
 
 
 def application_logo(instance, filename):
@@ -50,3 +51,6 @@ class Application(AbstractApplication):
         if self.authorization_grant_type == AbstractApplication.GRANT_PASSWORD:
             error = _("Resource owner password based grants are not allowed for now")
             raise ValidationError(error)
+
+    def get_user_count(self):
+        return RefreshToken.objects.all().filter(application=self).values_list('user', flat=True).distinct().count()
