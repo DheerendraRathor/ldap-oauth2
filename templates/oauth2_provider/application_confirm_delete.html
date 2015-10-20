@@ -1,6 +1,10 @@
 {% extends "sso/logged_in.html" %}
-
 {% load i18n %}
+
+{% block title %}
+    {{ application.name }} - Delete Application
+{% endblock %}
+
 {% block body %}
     <div class="center-block">
         <h3 class="text-center">{% trans "Are you sure to delete the application" %} {{ application.name }}?</h3>

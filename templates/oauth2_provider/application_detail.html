@@ -1,7 +1,11 @@
 {% extends "sso/logged_in.html" %}
-
 {% load i18n %}
 {% load staticfiles %}
+
+{% block title %}
+    {{ application.name }} - Application
+{% endblock %}
+
 {% block body %}
     <div class="center-block">
         <div class="media">

@@ -1,6 +1,10 @@
 {% extends 'sso/logged_in.html' %}
-
 {% load staticfiles %}
+
+{% block title %}
+    Connected Applications
+{% endblock %}
+
 {% block body %}
     {% static 'sso/img/default_logo.jpg' as default_image %}
     <div class="row">
