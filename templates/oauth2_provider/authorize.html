@@ -1,8 +1,12 @@
 {% extends "sso/logged_in.html" %}
-
 {% load i18n %}
 {% load staticfiles %}
 {% load scope %}
+
+{% block title %}
+    Authorization
+{% endblock %}
+
 {% block body %}
     <div class="center-block">
         {% if not error %}

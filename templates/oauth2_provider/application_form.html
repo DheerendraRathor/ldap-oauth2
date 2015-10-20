@@ -1,6 +1,6 @@
 {% extends "sso/logged_in.html" %}
-
 {% load i18n %}
+
 {% block body %}
     <div class="center-block">
         <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{% block app-form-action-url %}{% url 'oauth:update' application.id %}{% endblock app-form-action-url %}">
