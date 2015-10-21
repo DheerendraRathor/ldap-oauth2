@@ -50,7 +50,7 @@ class CustomAuthorizationView(AuthorizationView):
             try:
                 del credentials['request']
                 # Removing oauthlib.Request from credentials. This is not required in future
-            except KeyError:
+            except KeyError:  # pylint: disable=pointless-except
                 pass
 
             kwargs['scopes_descriptions'] = [oauth2_settings.SCOPES[scope] for scope in scopes]

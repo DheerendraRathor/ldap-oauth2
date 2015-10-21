@@ -37,7 +37,6 @@ class UserApplicationListView(LoginRequiredMixin, ListView):
 
 
 class ApplicationRevokeView(LoginRequiredMixin, View):
-
     def get(self, request, pk):
         application = get_object_or_404(get_oauth2_application_model(), pk=pk)
         if not application.is_anonymous:
@@ -80,7 +79,6 @@ class UserHomePageView(LoginRequiredMixin, View):
 
 
 class UpdateUserProfilePicture(LoginRequiredMixin, View):
-
     def post(self, request):
         pp_form = ProfilePictureForm(request.POST, request.FILES)
         if pp_form.is_valid():

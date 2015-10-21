@@ -1,11 +1,11 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 
-from views.home import (ApplicationRevokeView, UpdateInstiAddressView,
-                        UpdateMobileNumberView, UpdateProgramView,
-                        UpdateSecondaryEmailView, UserApplicationListView,
-                        UserHomePageView, UpdateUserProfilePicture)
-from views.api import UserViewset
+from .views.home import (ApplicationRevokeView, UpdateInstiAddressView,
+                         UpdateMobileNumberView, UpdateProgramView,
+                         UpdateSecondaryEmailView, UserApplicationListView,
+                         UserHomePageView, UpdateUserProfilePicture)
+from .views.api import UserViewset
 
 router = DefaultRouter()
 router.register('user', UserViewset, base_name='user')

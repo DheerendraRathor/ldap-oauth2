@@ -10,7 +10,7 @@ from urlparse import urljoin
 from oauth2_provider.models import RefreshToken
 
 
-def application_logo(instance, filename):
+def application_logo(instance, filename):  # pylint: disable=unused-argument
     filename = filename.split('.')
     if len(filename) > 1:
         ext = filename[-1]
@@ -54,3 +54,9 @@ class Application(AbstractApplication):
 
     def get_user_count(self):
         return RefreshToken.objects.all().filter(application=self).values_list('user', flat=True).distinct().count()
+
+    def __unicode__(self):
+        if self.name:
+            return self.name
+        else:
+            return self.client_id

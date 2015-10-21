@@ -58,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = copy.deepcopy(DEFAULT_FIELDS).extend(USER_FIELDS)
 
 
-class SendMailSerializer(serializers.Serializer):
+class SendMailSerializer(serializers.Serializer):  # pylint: disable=abstract-method
     subject = serializers.CharField()
     message = serializers.CharField()
     reply_to = serializers.ListField(

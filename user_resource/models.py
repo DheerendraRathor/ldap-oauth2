@@ -49,6 +49,13 @@ class InstituteAddress(models.Model):
     room = models.CharField(max_length=8, null=True, blank=True)
     hostel = models.CharField(max_length=8, choices=HOSTEL_CHOICES, null=True, blank=True)
 
+    def __unicode__(self):
+        if self.hostel:
+            if self.room:
+                return "%s-%s" % (self.hostel, self.room)
+            return self.hostel
+        return ''
+
 
 class Program(models.Model):
     DEPARTMENT_CHOICES = [
@@ -86,15 +93,24 @@ class Program(models.Model):
     graduation_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_graduation_year])
     degree = models.CharField(max_length=6, choices=DEGREES)
 
+    def __unicode__(self):
+        return "%s, %s" % (self.degree, self.department)
+
 
 class ContactNumber(models.Model):
     user = models.ForeignKey(User, related_name='contacts')
     number = models.CharField(max_length=16)
 
+    def __unicode__(self):
+        return self.number
+
 
 class SecondaryEmail(models.Model):
     user = models.ForeignKey(User, related_name='secondary_emails')
     email = models.EmailField()
+
+    def __unicode__(self):
+        return self.email
 
 
 class SentMessage(models.Model):
@@ -104,3 +120,6 @@ class SentMessage(models.Model):
     status = models.BooleanField(default=True)
     error_message = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.message_id

@@ -4,7 +4,7 @@ import os
 from uuid import uuid4
 
 
-def user_profile_picture(instance, filename):
+def user_profile_picture(instance, filename):  # pylint: disable=unused-argument
     filename = filename.split('.')
     if len(filename) > 1:
         ext = filename[-1]
@@ -21,3 +21,6 @@ class UserProfile(models.Model):
     type = models.CharField(max_length=16, null=True, blank=True)
     mobile = models.CharField(max_length=16, null=True, blank=True)
     is_alumni = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.user.username
