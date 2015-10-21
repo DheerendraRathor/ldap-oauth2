@@ -38,6 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
     mobile = serializers.CharField(source='userprofile.mobile')
     roll_number = serializers.CharField(source='userprofile.roll_number')
     profile_picture = serializers.ImageField(source='userprofile.profile_picture')
+    sex = serializers.CharField(source='userprofile.sex')
 
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs)

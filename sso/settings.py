@@ -168,6 +168,7 @@ OAUTH2_PROVIDER = {
     'SCOPES': {
         'basic': 'Know who you are on this site',
         'profile': 'Basic profile information which includes first_name and last_name',
+        'sex': 'Your sex - Male, Female or Other',
         'picture': 'Profile picture',
         'ldap': 'Your ldap information which includes your ldap username and email',
         'phone': 'Your contact number including additional numbers',

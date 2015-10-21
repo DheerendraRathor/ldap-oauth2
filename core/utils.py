@@ -5,3 +5,10 @@ def get_default_scopes(application):
     if application.is_anonymous:
         return application.required_scopes.split()
     return settings.OAUTH2_DEFAULT_SCOPES
+
+
+SEX_CHOICES = [
+    ('male', 'Male'),
+    ('female', 'Female'),
+    ('other', 'Other'),
+]

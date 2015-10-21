@@ -2,6 +2,7 @@ from django import forms
 from .models import InstituteAddress, Program
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
+from core.utils import SEX_CHOICES
 
 
 class ProfilePictureForm(forms.Form):
@@ -17,6 +18,13 @@ class ProfilePictureForm(forms.Form):
         else:
             raise forms.ValidationError(_('File type is not supported'))
         return profile_picture
+
+
+class SexUpdateForm(forms.Form):
+    sex = forms.ChoiceField(choices=SEX_CHOICES, required=False,
+                            widget=forms.Select(
+                                attrs={'class': 'form-control', },
+                            ))
 
 
 class InstituteAddressForm(forms.ModelForm):

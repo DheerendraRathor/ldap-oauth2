@@ -10,6 +10,11 @@
     <!--suppress HtmlFormInputWithoutLabel -->
     <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/home.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/timer.css' %}"/>
+    <style>
+        .user-profile-form{
+            margin-top: 40px;
+        }
+    </style>
 {% endblock %}
 
 {% block jsLinks %}
@@ -69,7 +74,25 @@
                     </div>
                 </fieldset>
             </form>
-            <form role="form" action="{% url 'user:update_mobile' %}" method="post" style="margin-top: 40px;">
+            <form role="form" method="post" action="{% url 'user:update_sex' %}" class="user-profile-form">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">Sex</legend>
+                    {% csrf_token %}
+                    {% if sex_update_form.errors %}
+                        <ul>
+                            {% for error in sex_update_form.errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="form-group {% if sex_update_form.sex.errors %} has-error {% endif %}">
+                        {{ sex_update_form.sex.label_tag }}
+                        {{ sex_update_form.sex }}
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </fieldset>
+            </form>
+            <form role="form" action="{% url 'user:update_mobile' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Contact Numbers</legend>
                     {% csrf_token %}
@@ -100,7 +123,7 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
-            <form role="form" action="{% url 'user:update_email' %}" method="post" style="margin-top: 40px;">
+            <form role="form" action="{% url 'user:update_email' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Emails</legend>
                     {% csrf_token %}
@@ -130,7 +153,7 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
-            <form role="form" action="{% url 'user:update_address' %}" method="post" style="margin-top: 40px;">
+            <form role="form" action="{% url 'user:update_address' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Institute Address</legend>
                     {% csrf_token %}
@@ -152,7 +175,7 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </fieldset>
             </form>
-            <form role="form" action="{% url 'user:update_program' %}" method="post" style="margin-top: 40px;">
+            <form role="form" action="{% url 'user:update_program' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Program</legend>
                     {% csrf_token %}

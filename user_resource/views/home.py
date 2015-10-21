@@ -9,7 +9,7 @@ from django.views.generic import ListView, View
 from oauth2_provider.models import AccessToken, get_application_model as get_oauth2_application_model
 from oauth2_provider.settings import oauth2_settings
 
-from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm
+from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm, SexUpdateForm
 from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
 
 
@@ -58,6 +58,11 @@ class UserHomePageView(LoginRequiredMixin, View):
         except (AttributeError, Program.DoesNotExist):
             program_form = ProgramForm()
 
+        try:
+            sex_update_form = SexUpdateForm(initial={'sex': user.userprofile.sex})
+        except AttributeError:
+            sex_update_form = SexUpdateForm()
+
         mobile_numbers = ContactNumber.objects.all().filter(user=user).order_by('-id')
         secondary_emails = SecondaryEmail.objects.all().filter(user=user).order_by('-id')
         user_profile = user.userprofile
@@ -74,8 +79,20 @@ class UserHomePageView(LoginRequiredMixin, View):
                           'gpo_email': gpo_email,
                           'ldap_number': ldap_number,
                           'roll_number': roll_number,
+                          'sex_update_form': sex_update_form,
                       }
                       )
+
+
+class UpdateUserSex(LoginRequiredMixin, View):
+    def post(self, request):
+        sex_update_form = SexUpdateForm(request.POST)
+        if sex_update_form.is_valid():
+            sex = sex_update_form.cleaned_data['sex']
+            userprofile = request.user.userprofile
+            userprofile.sex = sex
+            userprofile.save()
+        return redirect('user:home')
 
 
 class UpdateUserProfilePicture(LoginRequiredMixin, View):
