@@ -1,3 +1,5 @@
+[![Code Health](https://landscape.io/github/DheerendraRathor/ldap-oauth2/master/landscape.svg?style=flat-square)](https://landscape.io/github/DheerendraRathor/ldap-oauth2/master)
+
 OAUTH 2.0 Provider for LDAP
 ===========================
 This application usage the standard OAuth2.0 flow described in [RFC 6749](https://tools.ietf.org/html/rfc6749) 
@@ -14,6 +16,7 @@ Scopes:
 -------
 * **basic**: *Know who you are on SSO*
 * **profile**: *Your first name and last name*
+* **picture**: *Profile Picture*
 * **ldap**: *Your ldap username and email*
 * **phone**: *Your contact number including additional numbers*
 * **insti_address**: *Your address inside institute*
@@ -31,6 +34,7 @@ Fields:
 **Field Name**: *Required Scopes*
 * **first_name**: *profile*
 * **last_name**: *profile*
+* **profile_picture**: *profile picture*
 * **username**: *ldap*
 * **email**: *ldap*
 * **mobile**: *phone*
