@@ -8,15 +8,15 @@ class ProfilePictureForm(forms.Form):
     profile_picture = forms.ImageField()
 
     def clean_profile_picture(self):
-        pp = self.cleaned_data['profile_picture']
-        content_type = pp.content_type.split('/')[0]
+        profile_picture = self.cleaned_data['profile_picture']
+        content_type = profile_picture.content_type.split('/')[0]
         if content_type in ['image']:
-            if pp._size > 5242880:
+            if profile_picture.size > 5242880:
                 raise forms.ValidationError(_('Please keep filesize under %s. Current filesize %s') % (
-                filesizeformat(5242880), filesizeformat(pp._size)))
+                    filesizeformat(5242880), filesizeformat(profile_picture.size)))
         else:
             raise forms.ValidationError(_('File type is not supported'))
-        return pp
+        return profile_picture
 
 
 class InstituteAddressForm(forms.ModelForm):

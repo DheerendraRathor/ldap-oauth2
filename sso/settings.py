@@ -267,4 +267,4 @@ LOGGING = {
 }
 logging.config.dictConfig(LOGGING)
 
-from settings_user import *
+from settings_user import *  # noqa

@@ -1,7 +1,4 @@
-__author__ = 'dheerendra'
-
-from django.conf.urls import include, url
-import oauth2_provider.urls
+from django.conf.urls import url
 from views import ApplicationRegistrationView, ApplicationUpdateView, CustomAuthorizationView
 
 urlpatterns = [

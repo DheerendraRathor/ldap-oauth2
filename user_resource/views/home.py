@@ -84,9 +84,9 @@ class UpdateUserProfilePicture(LoginRequiredMixin, View):
     def post(self, request):
         pp_form = ProfilePictureForm(request.POST, request.FILES)
         if pp_form.is_valid():
-            pp = pp_form.cleaned_data['profile_picture']
+            profile_picture = pp_form.cleaned_data['profile_picture']
             userprofile = request.user.userprofile
-            userprofile.profile_picture = pp
+            userprofile.profile_picture = profile_picture
             userprofile.save()
             response = {'url': userprofile.profile_picture.url}
             return HttpResponse(json.dumps(response))

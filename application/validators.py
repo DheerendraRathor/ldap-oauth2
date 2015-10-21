@@ -24,9 +24,8 @@ class CustomOAuth2Validator(OAuth2Validator):
         It's messy. It is 90% code from parent function. I didn't find a way to reduce it.
         I tried and I failed :'(
         Sin Count += 1
-        """
 
-        """
+
         Save access and refresh token, If refresh token is issued, remove old refresh tokens as
         in rfc:`6`
         """

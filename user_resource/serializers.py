@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Program, ContactNumber, SecondaryEmail, InstituteAddress
 from django.contrib.auth.models import User
 import copy
-from .oauth import default_fields, user_fields
+from .oauth import DEFAULT_FIELDS, USER_FIELDS
 
 
 class ProgramSerializer(serializers.ModelSerializer):
@@ -44,7 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = self.context.get('fields')
         if not isinstance(fields, list) and not isinstance(fields, set):
             fields = []
-        fields.extend(default_fields)
+        fields.extend(DEFAULT_FIELDS)
 
         if fields is not None:
             allowed = set(fields)
@@ -55,7 +55,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = copy.deepcopy(default_fields).extend(user_fields)
+        fields = copy.deepcopy(DEFAULT_FIELDS).extend(USER_FIELDS)
 
 
 class SendMailSerializer(serializers.Serializer):

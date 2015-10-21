@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import os
 from uuid import uuid4
 
+
 def user_profile_picture(instance, filename):
     filename = filename.split('.')
     if len(filename) > 1:

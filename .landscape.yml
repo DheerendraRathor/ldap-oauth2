@@ -1,0 +1,11 @@
+test-warnings: no
+strictness: veryhigh
+max-line-length: 120
+uses:
+  - django
+
+pylint:
+  disable:
+    - star-args
+    - too-few-public-methods
+    - too-many-ancestors

@@ -1,5 +1,5 @@
-default_fields = ['id', ]
-user_fields = [
+DEFAULT_FIELDS = ['id', ]
+USER_FIELDS = [
     'username',
     'first_name',
     'last_name',
@@ -13,7 +13,7 @@ user_fields = [
     'roll_number',
 ]
 
-scope_to_field_map = {
+SCOPE_TO_FIELD_MAP = {
     'basic': ['id', ],
     'profile': ['first_name', 'last_name'],
     'picture': ['profile_picture'],

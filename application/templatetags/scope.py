@@ -1,13 +1,18 @@
 from django import template
-from django.conf import settings
 from core.utils import get_default_scopes
 
 register = template.Library()
 
 
 @register.filter(name='zip')
-def zip_list(a, b):
-    return list(zip(a, b))
+def zip_list(lis1, lis2):
+    """
+    Template tag to zip 2 lists
+    :param lis1: First List
+    :param lis2: Second List
+    :return: Zipped lists
+    """
+    return zip(lis1, lis2)
 
 
 @register.filter(name='get_basic_scope')

@@ -9,8 +9,8 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = (
-            'name', 'description', 'logo', 'website', 'privacy_policy', 'client_id', 'client_secret', 'client_type', 'authorization_grant_type',
-            'redirect_uris')
+            'name', 'description', 'logo', 'website', 'privacy_policy', 'client_id', 'client_secret', 'client_type',
+            'authorization_grant_type', 'redirect_uris')
         widgets = {
             'description': forms.Textarea(
                 attrs={'class': 'form-control', 'rows': 3, }

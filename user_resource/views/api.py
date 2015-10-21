@@ -10,7 +10,7 @@ from rest_framework.decorators import list_route
 from django.core.mail import EmailMessage
 
 from ..serializers import UserSerializer, SendMailSerializer
-from ..oauth import scope_to_field_map, default_fields, user_fields
+from ..oauth import SCOPE_TO_FIELD_MAP, DEFAULT_FIELDS, USER_FIELDS
 from ..models import SentMessage
 
 logger = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ class UserViewset(viewsets.GenericViewSet):
         granted_scopes = granted_scopes.split()
         granted_fields = []
         for scope in granted_scopes:
-            granted_fields.extend(scope_to_field_map[scope])
+            granted_fields.extend(SCOPE_TO_FIELD_MAP[scope])
 
         if fields is None:
             fields = []
@@ -41,7 +41,7 @@ class UserViewset(viewsets.GenericViewSet):
             fields = fields.split(',')
             fields = [field.strip() for field in fields if field.strip()]
         fields = set(fields)
-        all_fields = set(default_fields + user_fields)
+        all_fields = set(DEFAULT_FIELDS + USER_FIELDS)
         undefined_fields = list(fields - all_fields)
         if undefined_fields:
             error_message = {
@@ -89,10 +89,10 @@ class UserViewset(viewsets.GenericViewSet):
                 email_message.send()
                 sent_message.status = True
                 response_data['status'] = True
-            except SMTPException as e:
+            except SMTPException as err:
                 sent_message.status = False,
-                sent_message.error_message = e.message
-                logger.error(e)
+                sent_message.error_message = err.message
+                logger.error(err)
                 response_data['status'] = False
             sent_message.save()
             return Response(response_data)

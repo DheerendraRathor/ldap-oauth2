@@ -1,8 +1,8 @@
-"""gunicorn WSGI server configuration."""
+# pylint: disable=invalid-name
 from multiprocessing import cpu_count
 
 
-def max_workers():    
+def max_workers():
     return 2 * cpu_count() + 1
 
 
