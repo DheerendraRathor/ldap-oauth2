@@ -1,6 +1,5 @@
 [![Code Health](https://landscape.io/github/DheerendraRathor/ldap-oauth2/master/landscape.svg?style=flat-square)](https://landscape.io/github/DheerendraRathor/ldap-oauth2/master)
-
-[![Build Status](https://travis-ci.org/DheerendraRathor/ldap-oauth2.svg?branch=master)](https://travis-ci.org/DheerendraRathor/ldap-oauth2)
+[![Build Status](https://img.shields.io/travis/DheerendraRathor/ldap-oauth2.svg?style=flat-square)](https://travis-ci.org/DheerendraRathor/ldap-oauth2)
 
 OAUTH 2.0 Provider for LDAP
 ===========================
