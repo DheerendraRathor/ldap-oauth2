@@ -59,6 +59,7 @@ class InstituteAddress(models.Model):
 
 class Program(models.Model):
     DEPARTMENT_CHOICES = [
+        # Departments
         ['AE', 'Aerospace Engineering'],
         ['BB', 'Biosciences and Bioengineering'],
         ['CHE', 'Chemical Engineering'],
@@ -74,6 +75,34 @@ class Program(models.Model):
         ['ME', 'Mechanical Engineering'],
         ['MEMS', 'Metallurgical Engineering & Materials Science'],
         ['PH', 'Physics'],
+
+        # Centers
+        ['ASC', 'Application Software Centre '],
+        ['CRNTS', 'Centre for Research in Nanotechnology and Science '],
+        ['CASDE', 'Centre for Aerospace Systems Design and Engineering '],
+        ['CC', 'Computer Centre '],
+        ['CDEEP', 'Centre for Distance Engineering Education Programme '],
+        ['CESE', 'Centre for Environmental Science and Engineering '],
+        ['CSRE', 'Centre of Studies in Resources Engineering '],
+        ['CTARA', 'Centre for Technology Alternatives for Rural Areas '],
+        ['CFDVS', 'Centre for Formal Design and Verification of Software '],
+        ['C-USE', 'Centre for Urban Science and Engineering '],
+        ['DSCE', 'Desai Sethi Centre for Entrepreneurship '],
+        ['IITBMRA', 'IITB-Monash Research Academy'],
+        ['NCAIR', 'National Centre for Aerospace Innovation and Research '],
+        ['NCM', 'National Centre for Mathematics '],
+        ['SAIF', 'Sophisticated Analytical Instrument Facility '],
+        ['TCTD', 'Tata Center for Technology and Design '],
+        ['WRCB', 'Wadhwani Research Centre for Bioengineering '],
+
+        # School
+        ['SJMSOM', 'Shailesh J. Mehta School of Management'],
+
+        # Interdisciplinary Programs
+        ['IDP:CLS', 'Climate Studies'],
+        ['IDP:ET', 'Educational Technology'],
+        ['IDP:IEOR', 'Industrial Engineering and Operations Research '],
+        ['IDP:SCE', 'Systems and Control Engineering'],
     ]
 
     DEGREES = [
@@ -81,7 +110,7 @@ class Program(models.Model):
         ['MTECH', 'Master of Technology'],
         ['DD', 'Dual Degree'],
         ['MSC', 'Master of Science'],
-        ['PHD', 'PhD'],
+        ['PHD', 'Doctor of Philosophy'],
         ['MDES', 'Master of Design'],
         ['MPHIL', 'Master of Philosophy'],
         ['MMG', 'Master of Management'],

@@ -6,6 +6,14 @@ from .oauth import DEFAULT_FIELDS, USER_FIELDS
 
 
 class ProgramSerializer(serializers.ModelSerializer):
+    department_name = serializers.SerializerMethodField()
+    degree_name = serializers.SerializerMethodField()
+
+    def get_department_name(self, obj):
+        return obj.get_department_display()
+
+    def get_degree_name(self, obj):
+        return obj.get_degree_display()
 
     class Meta:
         model = Program
@@ -25,6 +33,11 @@ class ContactNumberSerializer(serializers.ModelSerializer):
 
 
 class InstituteAddressSerializer(serializers.ModelSerializer):
+    hostel_name = serializers.SerializerMethodField()
+
+    def get_hostel_name(self, obj):
+        return obj.get_hostel_display()
+
     class Meta:
         model = InstituteAddress
         exclude = ['user']
