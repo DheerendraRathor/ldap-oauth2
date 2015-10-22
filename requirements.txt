@@ -1,7 +1,7 @@
 Django==1.9b1
 Pillow
 coverage
-django-auth-ldap-ng==1.0.0
+django-auth-ldap-ng
 django-oauth-toolkit==0.9.0
 djangorestframework==3.2.4
 gevent

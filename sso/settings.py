@@ -36,17 +36,17 @@ AUTHENTICATION_BACKENDS = (
 
 # LDAP Server URI
 # http://pythonhosted.org/django-auth-ldap/authentication.html#server-config
-AUTH_LDAP_SERVER_URI = "ldap://ldap.iitb.ac.in"
+AUTH_LDAP_SERVER_URI = 'ldap://ldap.iitb.ac.in'
 
-AUTH_LDAP_BIND_DN = ""
-AUTH_LDAP_BIND_PASSWORD = ""
-AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=People,dc=iitb,dc=ac,dc=in",
-                                   ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+AUTH_LDAP_BIND_DN = ''
+AUTH_LDAP_BIND_PASSWORD = ''
+AUTH_LDAP_USER_SEARCH = LDAPSearch('ou=People,dc=iitb,dc=ac,dc=in',
+                                   ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
 
 AUTH_LDAP_USER_ATTR_MAP = {
-    "first_name": "givenName",
-    "last_name": "sn",
-    "email": 'mail',
+    'first_name': 'givenName',
+    'last_name': 'sn',
+    'email': 'mail',
 }
 
 AUTH_PROFILE_MODULE = 'account.UserProfile'
@@ -56,6 +56,10 @@ AUTH_LDAP_PROFILE_ATTR_MAP = {
     'roll_number': 'employeeNumber',
     'type': 'employeeType',
     'mobile': 'mobile',
+}
+
+AUTH_LDAP_PROFILE_FLAGS_BY_DN_REGEX = {
+    'is_alumni': r'ou=Alumni,dc=iitb,dc=ac,dc=in',
 }
 
 INSTALLED_APPS = (
@@ -114,7 +118,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_URL = 'account:login'
 
-# TODO: Fix this! Use named url
 LOGIN_REDIRECT_URL = 'user:home'
 
 STATICFILES_DIRS = (
