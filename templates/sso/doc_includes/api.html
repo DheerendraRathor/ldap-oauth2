@@ -1,0 +1,291 @@
+{% load absolute_url %}
+
+<div role="tabpanel" class="tab-pane fade in" id="api" aria-labelledby="api-tab">
+
+    <h4>Before reading this section, go through <code>basic</code> section once</h4>
+
+    <h3 id="user_resources_api">Accessing API</h3>
+    <ul class="doc">
+        By now you have created API, got access_token and authenticated user. But still you don't know who the
+        user is?
+        For that purpose you need to access user resources API. Currently API is limited to few user resources
+        only and
+        in future we're planning to expand it a lot. <br>
+        User data is stored at <a href="{% url 'user:home' %}" target="_blank">sso</a> server. And as an
+        application
+        developer you should encourage users to update their data there.
+
+        <li>
+            Available user resources are:
+            <ul>
+                <li>
+                    <b>basic:</b> Basic resource includes <code>id</code> only. You need to have <b>basic</b>
+                    scope for
+                    this
+                </li>
+                <li>
+                    <b>first_name:</b> First name of the user. You need to have <b>profile</b> scope for this
+                </li>
+                <li>
+                    <b>last_name:</b> Last name of the user. You need to have <b>profile</b> scope for this
+                </li>
+                <li>
+                    <b>username:</b> LDAP username of the user. You need to have <b>ldap</b> scope for this
+                </li>
+                <li>
+                    <b>profile_picture:</b> Profile picture of user. This will be a URL. You need to have
+                    <b>picture</b> scope for this
+                </li>
+                <li>
+                    <b>sex:</b> Sex of the user. It can be Male, Female or Other. You need to have <b>sex</b> scope for
+                    this
+                </li>
+                <li>
+                    <b>email:</b> LDAP email (username@iitb.ac.in) of the user. You need to have
+                    <b>ldap</b> scope for this
+                </li>
+                <li>
+                    <b>mobile:</b> Mobile includes mobile number of client fetched from LDAP. You need to have
+                    <b>phone</b> scope for this
+                </li>
+                <li>
+                    <b>roll_number:</b> Roll number includes roll number of client fetched from LDAP. You need
+                    to have
+                    <b>program</b> scope for this
+                </li>
+                <li>
+                    <b>contacts:</b> Phone resource includes all the contact number provided by client. You need
+                    to have
+                    <b>phone</b> scope for this
+                </li>
+                <li>
+                    <b>insti_address:</b> This resource includes user's room number and hoste number. You need
+                    <b>insti_address</b> scope for this
+                </li>
+                <li>
+                    <b>program:</b> Program includes user's joining year, (expected) graduation year, department
+                    and
+                    degree. You need to have <b>program</b> scope for this
+                </li>
+                <li>
+                    <b>secondary_emails:</b> This resource includes user's emails other than default ldap email.
+                    You
+                    need to have <b>secondary_emails</b> scope for this
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            To access user's resources make a GET request to
+            {% url 'user:api:user-list' as user_resource_url %}
+            {% absolute_url user_resource_url as user_resource_abs_url %}
+            <code>{{ user_resource_abs_url }}?fields=RESOURCE_LIST</code>. <code>fields</code> is optional
+            parameter
+            and by default it includes <code>basic</code> fields. <code>RESOURCE_LIST</code> is comma-separated
+            list of
+            user resources. You should include <code>access_token</code> in request header as
+<pre>
+GET {{ user_resource_url }} HTTP/1.1
+Host: {{ request.get_host }}
+Authorization: Bearer ACCESS_TOKEN
+</pre>
+        </li>
+        <li>
+            The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,profile_picture,sex,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
+            will look like (assuming you've enough scopes)
+<pre>
+{
+  "id": 1,
+  "username": "username",
+  "first_name": "First Name",
+  "profile_picture": "{% url 'index' %}/path/to/profile_picture_file"
+  "last_name": "Last Name",
+  "sex": "male",
+  "email": "username@iitb.ac.in",
+  "mobile": "0123456789",
+  "roll_number": "123456789",
+  "program": {
+    "id": 1,
+    "department": "DEPARTMENT",
+    "department_name": "FULL_DEPARTMENT_NAME",
+    "join_year": 2012,
+    "graduation_year": 2016,
+    "degree": "DEGREE",
+    "degree_name": "FULL_DEGREE_NAME"
+  },
+  "secondary_emails": [
+    {
+      "id": 1,
+      "email": "user_email@gmail.com"
+    }
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "number": "9876543210"
+    }
+  ],
+  "insti_address": {
+    "id": 1,
+    "room": "room_number",
+    "hostel": "HOSTEL",
+    "hostel_name": "FULL_HOSTEL_NAME",
+  }
+}
+</pre>
+            Here you'll get only resources permitted by user in scope.
+        </li>
+        <li>
+            <code>DEPARTMENT</code> list:
+            <ul>
+                <li><b><code>DEPARTMENT_NAME:</code></b> <em><code>FULL_DEPARMENT_NAME</code></em></li>
+                <li><b>AE:</b> <em>Aerospace Engineering</em></li>
+                <li><b>BB:</b> <em>Biosciences and Bioengineering</em></li>
+                <li><b>CHE:</b> <em>Chemical Engineering</em></li>
+                <li><b>CH:</b> <em>Chemistry</em></li>
+                <li><b>CLE:</b> <em>Civil Engineering</em></li>
+                <li><b>CSE:</b> <em>Computer Science & Engineering</em></li>
+                <li><b>ES:</b> <em>Earth Sciences</em></li>
+                <li><b>EE:</b> <em>Electrical Engineering</em></li>
+                <li><b>ESE:</b> <em>Energy Science and Engineering</em></li>
+                <li><b>HSS:</b> <em>Humanities & Social Science</em></li>
+                <li><b>IDC:</b> <em>Industrial Design Centre</em></li>
+                <li><b>MM:</b> <em>Mathematics</em></li>
+                <li><b>ME:</b> <em>Mechanical Engineering</em></li>
+                <li><b>MEMS:</b> <em>Metallurgical Engineering & Materials Science</em></li>
+                <li><b>PH:</b> <em>Physics</em></li>
+
+                <li><b>ASC:</b> <em>Application Software Centre </em></li>
+                <li><b>CRNTS:</b> <em>Centre for Research in Nanotechnology and Science </em></li>
+                <li><b>CASDE:</b> <em>Centre for Aerospace Systems Design and Engineering </em></li>
+                <li><b>CC:</b> <em>Computer Centre </em></li>
+                <li><b>CDEEP:</b> <em>Centre for Distance Engineering Education Programme </em></li>
+                <li><b>CESE:</b> <em>Centre for Environmental Science and Engineering </em></li>
+                <li><b>CSRE:</b> <em>Centre of Studies in Resources Engineering </em></li>
+                <li><b>CTARA:</b> <em>Centre for Technology Alternatives for Rural Areas </em></li>
+                <li><b>CFDVS:</b> <em>Centre for Formal Design and Verification of Software </em></li>
+                <li><b>CUSE:</b> <em>Centre for Urban Science and Engineering </em></li>
+                <li><b>DSCE:</b> <em>Desai Sethi Centre for Entrepreneurship </em></li>
+                <li><b>IITBMRA:</b> <em>IITB-Monash Research Academy</em></li>
+                <li><b>NCAIR:</b> <em>National Centre for Aerospace Innovation and Research </em></li>
+                <li><b>NCM:</b> <em>National Centre for Mathematics </em></li>
+                <li><b>SAIF:</b> <em>Sophisticated Analytical Instrument Facility </em></li>
+                <li><b>TCTD:</b> <em>Tata Center for Technology and Design </em></li>
+                <li><b>WRCB:</b> <em>Wadhwani Research Centre for Bioengineering </em></li>
+
+                <li><b>SJMSOM:</b> <em>Shailesh J. Mehta School of Management</em></li>
+
+                <li><b>IDP:CLS:</b> <em>Climate Studies</em></li>
+                <li><b>IDP:ET:</b> <em>Educational Technology</em></li>
+                <li><b>IDP:IEOR:</b> <em>Industrial Engineering and Operations Research </em></li>
+                <li><b>IDP:SCE:</b> <em>Systems and Control Engineering</em></li>
+            </ul>
+        </li>
+        <li>
+            <code>DEGREE</code> list:
+            <ul>
+                <li><b><code>DEGREE:</code></b> <em><code>FULL_DEGREE_NAME</code></em></li>
+                <li><b>BTECH:</b> <em>Bachelor of Technology</em></li>
+                <li><b>MTECH:</b> <em>Master of Technology</em></li>
+                <li><b>DD:</b> <em>Dual Degree</em></li>
+                <li><b>MSC:</b> <em>Master of Science</em></li>
+                <li><b>PHD:</b> <em>PhD</em></li>
+                <li><b>MDES:</b> <em>Master of Design</em></li>
+                <li><b>MPHIL:</b> <em>Master of Philosophy</em></li>
+                <li><b>MMG:</b> <em>Master of Management</em></li>
+            </ul>
+        </li>
+        <li>
+            <code>HOSTEL</code> list:
+            <ul>
+                <li><b><code>HOSTEL:</code></b> <em><code>FULL_HOSTEL_NAME</code></em></li>
+                <li><b>1:</b> <em>Hostel 1</em></li>
+                <li><b>2:</b> <em>Hostel 2</em></li>
+                <li><b>3:</b> <em>Hostel 3</em></li>
+                <li><b>4:</b> <em>Hostel 4</em></li>
+                <li><b>5:</b> <em>Hostel 5</em></li>
+                <li><b>6:</b> <em>Hostel 6</em></li>
+                <li><b>7:</b> <em>Hostel 7</em></li>
+                <li><b>8:</b> <em>Hostel 8</em></li>
+                <li><b>9:</b> <em>Hostel 9</em></li>
+                <li><b>10:</b> <em>Hostel 10</em></li>
+                <li><b>11:</b> <em>Hostel 11</em></li>
+                <li><b>12:</b> <em>Hostel 12</em></li>
+                <li><b>13:</b> <em>Hostel 13</em></li>
+                <li><b>14:</b> <em>Hostel 14</em></li>
+                <li><b>15:</b> <em>Hostel 15</em></li>
+                <li><b>16:</b> <em>Hostel 16</em></li>
+                <li><b>tansa:</b> <em>Tansa</em></li>
+                <li><b>qip:</b> <em>QIP</em></li>
+            </ul>
+        </li>
+
+    </ul>
+
+    <h3 id="send_mail_api">Send Mail API</h3>
+    <ul class="doc">
+        This application also provides a "send mail" API, which allows your application to send email to user
+        from
+        a simple endpoint. You need to have <code>send_mail</code> permission from user for this to work
+        <li>
+            Create a POST request like this:
+<pre>
+POST {% url 'user:api:user-send-mail' %} HTTP/1.1
+Host: {{ request.get_host }}
+Authorization: Bearer ACCESS_TOKEN
+Content-Type: application/json
+
+
+{
+    "subject": "Hello World",
+    "message": "Lorem Ipsum",
+    "reply_to": [
+        "email_address_1@example.com",
+        "email_address_2@exapple.com"
+    ]
+}
+</pre>
+
+        <li>
+            Response Data:
+<pre>
+{
+    "Message-ID": "{{ Message_ID }}",
+    "status": true
+}
+</pre>
+            <code>Message-ID</code> is a unique identifier for each sent message. Its format is <code>
+            &lt;timestamp.pid.random_number@fqdn&gt;</code>. <code>Message-ID</code> in this example is
+            actually a valid generated identifier which is changing each time you open this page!<br>
+            <code>status</code> is either <b>true</b> or <b>false</b> depending on whether message was
+            sent successfully. Remember <code>status: true</code> doesn't guarantee delivery of message
+        </li>
+        <li>
+            Final subject will be "[SSO] [&lt;APPLICATION_NAME&gt;] &lt;YOUR SUBJECT&gt;". This is
+            automatically
+            generated.
+        </li>
+        <li>
+            Final message will have these line appended:
+<pre>
+Sent via SSO by &lt;APPLICATION_NAME&gt;
+
+You received this message because you've provided the email sending permission to the application
+</pre>
+        </li>
+        <li>
+            <code>reply_to</code> is list of email address where you want your user to reply. Most of
+            the mail
+            servers honor this protocol and by clicking on "reply" will directly reply to these emails.
+        </li>
+
+        </li>
+        <li>
+            <strong>DISCLAIMER:</strong>
+            <em>We do not store emails in our database. We do store <code>Message-ID</code>, failure state,
+                application
+                and user for each email. This is stored for debugging and performance improvement purposes</em>
+        </li>
+    </ul>
+
+</div>

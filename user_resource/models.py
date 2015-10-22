@@ -86,7 +86,7 @@ class Program(models.Model):
         ['CSRE', 'Centre of Studies in Resources Engineering '],
         ['CTARA', 'Centre for Technology Alternatives for Rural Areas '],
         ['CFDVS', 'Centre for Formal Design and Verification of Software '],
-        ['C-USE', 'Centre for Urban Science and Engineering '],
+        ['CUSE', 'Centre for Urban Science and Engineering '],
         ['DSCE', 'Desai Sethi Centre for Entrepreneurship '],
         ['IITBMRA', 'IITB-Monash Research Academy'],
         ['NCAIR', 'National Centre for Aerospace Innovation and Research '],
