@@ -75,49 +75,93 @@ class Program(models.Model):
         ['ME', 'Mechanical Engineering'],
         ['MEMS', 'Metallurgical Engineering & Materials Science'],
         ['PH', 'Physics'],
+        ['MS', 'Material Science'],
+        ['PHE', 'Physical Education'],
+        ['PMS', 'Physics, Material Science'],
+        ['PC', 'Preparatory Course'],
+        ['RE', 'Reliability Engineering'],
 
         # Centers
-        ['ASC', 'Application Software Centre '],
-        ['CRNTS', 'Centre for Research in Nanotechnology and Science '],
-        ['CASDE', 'Centre for Aerospace Systems Design and Engineering '],
-        ['CC', 'Computer Centre '],
-        ['CDEEP', 'Centre for Distance Engineering Education Programme '],
-        ['CESE', 'Centre for Environmental Science and Engineering '],
-        ['CSRE', 'Centre of Studies in Resources Engineering '],
-        ['CTARA', 'Centre for Technology Alternatives for Rural Areas '],
-        ['CFDVS', 'Centre for Formal Design and Verification of Software '],
-        ['CUSE', 'Centre for Urban Science and Engineering '],
-        ['DSCE', 'Desai Sethi Centre for Entrepreneurship '],
+        ['ASC', 'Application Software Centre'],
+        ['CRNTS', 'Centre for Research in Nanotechnology and Science'],
+        ['CASDE', 'Centre for Aerospace Systems Design and Engineering'],
+        ['CC', 'Computer Centre'],
+        ['CDEEP', 'Centre for Distance Engineering Education Programme'],
+        ['CESE', 'Centre for Environmental Science and Engineering'],
+        ['CSRE', 'Centre of Studies in Resources Engineering'],
+        ['CTARA', 'Centre for Technology Alternatives for Rural Areas'],
+        ['CFDVS', 'Centre for Formal Design and Verification of Software'],
+        ['CUSE', 'Centre for Urban Science and Engineering'],
+        ['DSCE', 'Desai Sethi Centre for Entrepreneurship'],
         ['IITBMRA', 'IITB-Monash Research Academy'],
-        ['NCAIR', 'National Centre for Aerospace Innovation and Research '],
-        ['NCM', 'National Centre for Mathematics '],
-        ['SAIF', 'Sophisticated Analytical Instrument Facility '],
-        ['TCTD', 'Tata Center for Technology and Design '],
-        ['WRCB', 'Wadhwani Research Centre for Bioengineering '],
+        ['NCAIR', 'National Centre for Aerospace Innovation and Research'],
+        ['NCM', 'National Centre for Mathematics'],
+        ['SAIF', 'Sophisticated Analytical Instrument Facility'],
+        ['TCTD', 'Tata Center for Technology and Design'],
+        ['WRCB', 'Wadhwani Research Centre for Bioengineering'],
+        ['BIOTECH', 'Biotechnology'],
 
         # School
         ['SJMSOM', 'Shailesh J. Mehta School of Management'],
+        ['KReSIT', 'Kanwal Rekhi School of Information Technology'],
 
         # Interdisciplinary Programs
-        ['IDP:CLS', 'Climate Studies'],
-        ['IDP:ET', 'Educational Technology'],
-        ['IDP:IEOR', 'Industrial Engineering and Operations Research '],
-        ['IDP:SCE', 'Systems and Control Engineering'],
+        ['CLS', 'Climate Studies'],
+        ['ET', 'Educational Technology'],
+        ['IEOR', 'Industrial Engineering and Operations Research'],
+        ['SCE', 'Systems and Control Engineering'],
+
+        # IDC
+        ['ANIM', 'Animation'],
+        ['IDC', 'Industrial Design Centre'],
+        ['IxD', 'Interaction Design'],
+        ['MVD', 'Mobility and Vehicle Design'],
+        ['VISCOM', 'Visual Communication'],
+
+        # Others
+        ['IM', 'Industrial Management'],
+        ['MMM', 'Materials, Manufacturing and Modelling'],
+        ['CORRSCI', 'Corrosion Science and Engineering'],
+        ['CEP', 'Continuing Education Programme'],
+        ['AppGP', 'Applied Geophysics'],
+        ['ASI', 'Applied Statistics and Informatics'],
+        ['BME', 'Biomedical Engineering'],
+
     ]
 
     DEGREES = [
         ['BTECH', 'Bachelor of Technology'],
         ['MTECH', 'Master of Technology'],
-        ['DD', 'Dual Degree'],
+        ['DD', 'B.Tech. + M.Tech. Dual Degree'],
         ['MSC', 'Master of Science'],
         ['PHD', 'Doctor of Philosophy'],
+        ['BDES', 'Bachelor of Design'],
         ['MDES', 'Master of Design'],
         ['MPHIL', 'Master of Philosophy'],
         ['MMG', 'Master of Management'],
+        ['MSEx', 'M.S. (Exit Degree)'],
+        ['MtechEx', 'Master of Technology (Exit Degree)'],
+        ['MtechPhDDD', 'M.Tech. + Ph.D. Dual Degree'],
+        ['PC', 'Preparatory Course'],
+        ['VS', 'Visiting Student'],
+        ['MPhilEx', 'Master of Philosophy (Exit Degree)'],
+        ['MScEx', 'Master of Science (Exit Degree)'],
+        ['MScMTechDD', 'M.Sc. + M.Tech. Dual Degree'],
+        ['MScPhDDD', 'M.Sc. + Ph.D. Dual Degree'],
+        ['MPhilPhDDD', 'M.Phil. + Ph.D. Dual Degree'],
+        ['EMBA', 'Executive MBA'],
+        ['FYBS', 'Four Year BS'],
+        ['IMTECH', 'Integrated M.Tech.'],
+        ['MSCBR', 'Master of Science By Research'],
+        ['TYMSC', 'Two Year M.Sc.'],
+        ['FYIMSC', 'Five Year Integrated M.Sc.'],
+        ['DIIT', 'D.I.I.T.'],
+        ['DIITEx', 'D.I.T.T. (Exit Degree)'],
     ]
 
     user = models.OneToOneField(User, related_name='program')
-    department = models.CharField(max_length=8, choices=DEPARTMENT_CHOICES, null=True, blank=True)
+    department = models.CharField(max_length=8, choices=sorted(DEPARTMENT_CHOICES, key=lambda x: x[1]), null=True,
+                                  blank=True)
     join_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_join_year])
     graduation_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_graduation_year])
     degree = models.CharField(max_length=6, choices=DEGREES)
