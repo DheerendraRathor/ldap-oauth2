@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.templatetags.static import static
 from django.core.mail.message import make_msgid
+from core.utils import SORTED_DISCIPLINES, DEGREES, HOSTELS, SEXES
 
 
 class IndexView(TemplateView):
@@ -23,4 +24,8 @@ class DocView(TemplateView):
         context = super(DocView, self).get_context_data(**kwargs)
         context['login_js_url'] = static('widget/js/login.min.js')
         context['Message_ID'] = make_msgid()
+        context['SORTED_DISCIPLINES'] = SORTED_DISCIPLINES
+        context['DEGREES'] = DEGREES
+        context['HOSTELS'] = HOSTELS
+        context['SEXES'] = SEXES
         return context

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import os
 from uuid import uuid4
-from core.utils import SEX_CHOICES
+from core.utils import SEXES
 
 
 def user_profile_picture(instance, filename):  # pylint: disable=unused-argument
@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     type = models.CharField(max_length=16, null=True, blank=True)
     mobile = models.CharField(max_length=16, null=True, blank=True)
     is_alumni = models.BooleanField(default=False)
-    sex = models.CharField(max_length=10, choices=SEX_CHOICES, null=True, blank=True)
+    sex = models.CharField(max_length=10, choices=SEXES, null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username

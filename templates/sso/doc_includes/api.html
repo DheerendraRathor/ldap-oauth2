@@ -100,7 +100,7 @@ Authorization: Bearer ACCESS_TOKEN
   "first_name": "First Name",
   "profile_picture": "{% url 'index' %}/path/to/profile_picture_file"
   "last_name": "Last Name",
-  "sex": "male",
+  "sex": "SEX",
   "email": "username@iitb.ac.in",
   "mobile": "0123456789",
   "roll_number": "123456789",
@@ -139,84 +139,35 @@ Authorization: Bearer ACCESS_TOKEN
             <code>DEPARTMENT</code> list:
             <ul>
                 <li><b><code>DEPARTMENT_NAME:</code></b> <em><code>FULL_DEPARMENT_NAME</code></em></li>
-                <li><b>AE:</b> <em>Aerospace Engineering</em></li>
-                <li><b>BB:</b> <em>Biosciences and Bioengineering</em></li>
-                <li><b>CHE:</b> <em>Chemical Engineering</em></li>
-                <li><b>CH:</b> <em>Chemistry</em></li>
-                <li><b>CLE:</b> <em>Civil Engineering</em></li>
-                <li><b>CSE:</b> <em>Computer Science & Engineering</em></li>
-                <li><b>ES:</b> <em>Earth Sciences</em></li>
-                <li><b>EE:</b> <em>Electrical Engineering</em></li>
-                <li><b>ESE:</b> <em>Energy Science and Engineering</em></li>
-                <li><b>HSS:</b> <em>Humanities & Social Science</em></li>
-                <li><b>IDC:</b> <em>Industrial Design Centre</em></li>
-                <li><b>MM:</b> <em>Mathematics</em></li>
-                <li><b>ME:</b> <em>Mechanical Engineering</em></li>
-                <li><b>MEMS:</b> <em>Metallurgical Engineering & Materials Science</em></li>
-                <li><b>PH:</b> <em>Physics</em></li>
-
-                <li><b>ASC:</b> <em>Application Software Centre </em></li>
-                <li><b>CRNTS:</b> <em>Centre for Research in Nanotechnology and Science </em></li>
-                <li><b>CASDE:</b> <em>Centre for Aerospace Systems Design and Engineering </em></li>
-                <li><b>CC:</b> <em>Computer Centre </em></li>
-                <li><b>CDEEP:</b> <em>Centre for Distance Engineering Education Programme </em></li>
-                <li><b>CESE:</b> <em>Centre for Environmental Science and Engineering </em></li>
-                <li><b>CSRE:</b> <em>Centre of Studies in Resources Engineering </em></li>
-                <li><b>CTARA:</b> <em>Centre for Technology Alternatives for Rural Areas </em></li>
-                <li><b>CFDVS:</b> <em>Centre for Formal Design and Verification of Software </em></li>
-                <li><b>CUSE:</b> <em>Centre for Urban Science and Engineering </em></li>
-                <li><b>DSCE:</b> <em>Desai Sethi Centre for Entrepreneurship </em></li>
-                <li><b>IITBMRA:</b> <em>IITB-Monash Research Academy</em></li>
-                <li><b>NCAIR:</b> <em>National Centre for Aerospace Innovation and Research </em></li>
-                <li><b>NCM:</b> <em>National Centre for Mathematics </em></li>
-                <li><b>SAIF:</b> <em>Sophisticated Analytical Instrument Facility </em></li>
-                <li><b>TCTD:</b> <em>Tata Center for Technology and Design </em></li>
-                <li><b>WRCB:</b> <em>Wadhwani Research Centre for Bioengineering </em></li>
-
-                <li><b>SJMSOM:</b> <em>Shailesh J. Mehta School of Management</em></li>
-
-                <li><b>IDP:CLS:</b> <em>Climate Studies</em></li>
-                <li><b>IDP:ET:</b> <em>Educational Technology</em></li>
-                <li><b>IDP:IEOR:</b> <em>Industrial Engineering and Operations Research </em></li>
-                <li><b>IDP:SCE:</b> <em>Systems and Control Engineering</em></li>
+                {% for code, full_name in SORTED_DISCIPLINES %}
+                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+                {% endfor %}
             </ul>
         </li>
         <li>
             <code>DEGREE</code> list:
             <ul>
                 <li><b><code>DEGREE:</code></b> <em><code>FULL_DEGREE_NAME</code></em></li>
-                <li><b>BTECH:</b> <em>Bachelor of Technology</em></li>
-                <li><b>MTECH:</b> <em>Master of Technology</em></li>
-                <li><b>DD:</b> <em>Dual Degree</em></li>
-                <li><b>MSC:</b> <em>Master of Science</em></li>
-                <li><b>PHD:</b> <em>PhD</em></li>
-                <li><b>MDES:</b> <em>Master of Design</em></li>
-                <li><b>MPHIL:</b> <em>Master of Philosophy</em></li>
-                <li><b>MMG:</b> <em>Master of Management</em></li>
+                {% for code, full_name in DEGREES %}
+                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+                {% endfor %}
             </ul>
         </li>
         <li>
             <code>HOSTEL</code> list:
             <ul>
                 <li><b><code>HOSTEL:</code></b> <em><code>FULL_HOSTEL_NAME</code></em></li>
-                <li><b>1:</b> <em>Hostel 1</em></li>
-                <li><b>2:</b> <em>Hostel 2</em></li>
-                <li><b>3:</b> <em>Hostel 3</em></li>
-                <li><b>4:</b> <em>Hostel 4</em></li>
-                <li><b>5:</b> <em>Hostel 5</em></li>
-                <li><b>6:</b> <em>Hostel 6</em></li>
-                <li><b>7:</b> <em>Hostel 7</em></li>
-                <li><b>8:</b> <em>Hostel 8</em></li>
-                <li><b>9:</b> <em>Hostel 9</em></li>
-                <li><b>10:</b> <em>Hostel 10</em></li>
-                <li><b>11:</b> <em>Hostel 11</em></li>
-                <li><b>12:</b> <em>Hostel 12</em></li>
-                <li><b>13:</b> <em>Hostel 13</em></li>
-                <li><b>14:</b> <em>Hostel 14</em></li>
-                <li><b>15:</b> <em>Hostel 15</em></li>
-                <li><b>16:</b> <em>Hostel 16</em></li>
-                <li><b>tansa:</b> <em>Tansa</em></li>
-                <li><b>qip:</b> <em>QIP</em></li>
+                {% for code, full_name in HOSTELS %}
+                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            <code>SEX</code> list:
+            <ul>
+                {% for code, full_name in SEXES %}
+                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+                {% endfor %}
             </ul>
         </li>
 
