@@ -26,15 +26,11 @@ import application.urls
 import user_resource.urls
 import widget.urls
 from .views import DocView, IndexView
-import jet.urls
-import jet.dashboard.urls
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^doc/$', DocView.as_view(), name='doc'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^jet/', include(jet.urls, namespace='jet')),
-    url(r'^jet/dashboard/', include(jet.dashboard.urls, namespace='jet-dashboard')),
     url(r'^oauth/', include(application.urls, namespace='oauth')),
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),
     url(r'^account/', include(account.urls, namespace='account')),

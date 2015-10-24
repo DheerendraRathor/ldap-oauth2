@@ -71,8 +71,6 @@ AUTH_LDAP_PROFILE_FLAGS_BY_DN_REGEX = {
 }
 
 INSTALLED_APPS = (
-    'jet.dashboard',
-    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -280,7 +278,5 @@ LOGGING = {
 
 }
 logging.config.dictConfig(LOGGING)
-
-X_FRAME_OPTIONS = 'DENY'
 
 from settings_user import *  # noqa
