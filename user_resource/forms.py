@@ -42,6 +42,17 @@ class InstituteAddressForm(forms.ModelForm):
 
 
 class ProgramForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super(ProgramForm, self).clean()
+        join_year = cleaned_data.get('join_year')
+        graduation_year = cleaned_data.get('graduation_year')
+
+        if join_year and graduation_year:
+            if graduation_year <= join_year:
+                validation_err = forms.ValidationError(_('How come you graduated before you joined?'), code='bad_input')
+                self.add_error('graduation_year', validation_err)
+
     class Meta:
         model = Program
         fields = ['department', 'join_year', 'graduation_year', 'degree']
