@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/home.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/timer.css' %}"/>
     <style>
-        .user-profile-form{
+        .user-profile-form {
             margin-top: 40px;
         }
     </style>
@@ -74,22 +74,29 @@
                     </div>
                 </fieldset>
             </form>
-            <form role="form" method="post" action="{% url 'user:update_sex' %}" class="user-profile-form">
+            <form role="form" action="{% url 'user:update_sex' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Sex</legend>
                     {% csrf_token %}
-                    {% if sex_update_form.errors %}
+                    {% if sex_update_form.non_field_errors %}
                         <ul>
-                            {% for error in sex_update_form.errors %}
+                            {% for error in sex_update_form.non_field_errors %}
                                 <li><strong>{{ error }}</strong></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
                     <div class="form-group {% if sex_update_form.sex.errors %} has-error {% endif %}">
                         {{ sex_update_form.sex.label_tag }}
+                        {% if sex_update_form.sex.errors %}
+                            <ul>
+                                {% for error in sex_update_form.sex.errors %}
+                                    <li><span class="help-block">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         {{ sex_update_form.sex }}
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </fieldset>
             </form>
             <form role="form" action="{% url 'user:update_mobile' %}" method="post" class="user-profile-form">
@@ -120,7 +127,7 @@
                             </a>
                         </div>
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </fieldset>
             </form>
             <form role="form" action="{% url 'user:update_email' %}" method="post" class="user-profile-form">
@@ -150,38 +157,52 @@
                             </a>
                         </div>
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </fieldset>
             </form>
             <form role="form" action="{% url 'user:update_address' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Institute Address</legend>
                     {% csrf_token %}
-                    {% if insti_address_form.errors %}
+                    {% if insti_address_form.non_field_errors %}
                         <ul>
-                            {% for error in insti_address_form.errors %}
+                            {% for error in insti_address_form.non_field_errors %}
                                 <li><strong>{{ error }}</strong></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
                     <div class="form-group {% if insti_address_form.hostel.errors %} has-error {% endif %}">
                         {{ insti_address_form.hostel.label_tag }}
+                        {% if insti_address_form.hostel.errors %}
+                            <ul>
+                                {% for error in insti_address_form.hostel.errors %}
+                                    <li><span class="help-block">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         {{ insti_address_form.hostel }}
                     </div>
                     <div class="form-group {% if insti_address_form.room.errors %} has-error {% endif %}">
                         {{ insti_address_form.room.label_tag }}
+                        {% if insti_address_form.room.errors %}
+                            <ul>
+                                {% for error in insti_address_form.room.errors %}
+                                    <li><span class="help-block">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         {{ insti_address_form.room }}
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </fieldset>
             </form>
             <form role="form" action="{% url 'user:update_program' %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">Program</legend>
                     {% csrf_token %}
-                    {% if program_form.errors %}
+                    {% if program_form.non_field_errors %}
                         <ul>
-                            {% for error in program_form.errors %}
+                            {% for error in program_form.non_field_errors %}
                                 <li><strong>{{ error }}</strong></li>
                             {% endfor %}
                         </ul>
@@ -196,10 +217,17 @@
                     {% for field in program_form %}
                         <div class="form-group {% if field.errros %} has-error {% endif %}">
                             {{ field.label_tag }}
+                            {% if field.errors %}
+                                <ul>
+                                    {% for error in field.errors %}
+                                        <li><span class="help-block">{{ error }}</span></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                             {{ field }}
                         </div>
                     {% endfor %}
-                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </fieldset>
             </form>
 

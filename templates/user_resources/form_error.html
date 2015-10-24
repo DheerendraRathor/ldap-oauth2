@@ -1,0 +1,43 @@
+{% extends 'sso/logged_in.html' %}
+{% load static %}
+
+{% block cssLinks %}
+    <link rel="stylesheet" type="text/css" href="{% static 'user_resource/css/home.css' %}"/>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-6" style="float: none; margin: auto;">
+            <form role="form" action="{% url 'user:update_sex' %}" method="post" class="user-profile-form">
+                <fieldset class="fieldset-border">
+                    <legend class="marginless">{{ form_title }}</legend>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="form-group {% if field.errors %} has-error {% endif %}">
+                            {{ field.label_tag }}
+                            {% if field.errors %}
+                                <ul>
+                                    {% for error in field.errors %}
+                                        <li><span class="help-block">{{ error }}</span></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Save"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

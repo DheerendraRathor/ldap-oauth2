@@ -1,10 +1,27 @@
+import collections
+
+import six
 from django.conf import settings
 from django.db.models.fields import BLANK_CHOICE_DASH
+from django.utils.translation import ugettext_lazy as _
+from django.forms.models import model_to_dict
+from django.db.models import Model
+
 
 def get_default_scopes(application):
     if application.is_anonymous:
         return application.required_scopes.split()
     return settings.OAUTH2_DEFAULT_SCOPES
+
+
+def attr_to_dict(instance, key=None):
+    if isinstance(instance, Model):
+        return model_to_dict(instance)
+    if isinstance(instance, collections.Mapping):
+        return instance
+    if isinstance(instance, six.string_types):
+        assert key is not None, _('Key cannot be None when instance is not a Model or collections.Mapping type')
+        return {key: instance}
 
 
 SEXES = [

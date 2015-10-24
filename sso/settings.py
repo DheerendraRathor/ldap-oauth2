@@ -28,6 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'KEY_PREFIX': 'sso_prod_'
+    }
+}
+
 # Authentication Backends
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',

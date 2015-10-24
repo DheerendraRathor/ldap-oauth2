@@ -1,4 +1,4 @@
-https://github.com/DheerendraRathor/django/archive/1.9b1c.tar.gz
+https://github.com/DheerendraRathor/django/archive/1.9b1c.tar.gz#egg=Django==1.9b1
 Pillow
 coverage
 django-auth-ldap-ng
@@ -7,3 +7,4 @@ djangorestframework==3.2.4
 gevent
 gunicorn
 psycopg2
+python-memcached

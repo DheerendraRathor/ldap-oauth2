@@ -1,16 +1,24 @@
 from collections import defaultdict
+import json
+import base64
 
 from braces.views import LoginRequiredMixin
 from django.http.response import HttpResponse, HttpResponseBadRequest
-import json
-from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, View
 from oauth2_provider.models import AccessToken, get_application_model as get_oauth2_application_model
 from oauth2_provider.settings import oauth2_settings
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.fields import get_attribute
 
 from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm, SexUpdateForm
 from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
+from core.utils import attr_to_dict
+
+
+def create_cache_key_for_user(user, form_class):
+    # User cannot be None here
+    return base64.b64encode('%s#%s' % (form_class.__name__, user.username))
 
 
 class UserApplicationListView(LoginRequiredMixin, ListView):
@@ -48,20 +56,20 @@ class ApplicationRevokeView(LoginRequiredMixin, View):
 class UserHomePageView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
-        try:
-            insti_address_form = InstituteAddressForm(initial=model_to_dict(user.insti_address))
-        except (AttributeError, InstituteAddress.DoesNotExist):
-            insti_address_form = InstituteAddressForm()
 
-        try:
-            program_form = ProgramForm(initial=model_to_dict(user.program))
-        except (AttributeError, Program.DoesNotExist):
-            program_form = ProgramForm()
+        forms_context_dict = {}
+        form_class_context_key_user_field_tuples = [
+            [InstituteAddressForm, 'insti_address_form', ('insti_address',)],
+            [ProgramForm, 'program_form', ('program',)],
+            [SexUpdateForm, 'sex_update_form', ('userprofile', 'sex',)],
+        ]
 
-        try:
-            sex_update_form = SexUpdateForm(initial={'sex': user.userprofile.sex})
-        except AttributeError:
-            sex_update_form = SexUpdateForm()
+        for form_class, context_key, user_attr in form_class_context_key_user_field_tuples:
+            try:
+                form = form_class(initial=attr_to_dict(get_attribute(user, user_attr), key=user_attr[-1]))
+            except (AttributeError, ObjectDoesNotExist):
+                form = form_class()
+            forms_context_dict[context_key] = form
 
         mobile_numbers = ContactNumber.objects.all().filter(user=user).order_by('-id')
         secondary_emails = SecondaryEmail.objects.all().filter(user=user).order_by('-id')
@@ -70,29 +78,43 @@ class UserHomePageView(LoginRequiredMixin, View):
         ldap_number = user_profile.mobile
         roll_number = user_profile.roll_number
 
-        return render(request, 'user_resources/home.html',
-                      {
-                          'insti_address_form': insti_address_form,
-                          'program_form': program_form,
-                          'mobile_numbers': mobile_numbers,
-                          'secondary_emails': secondary_emails,
-                          'gpo_email': gpo_email,
-                          'ldap_number': ldap_number,
-                          'roll_number': roll_number,
-                          'sex_update_form': sex_update_form,
-                      }
-                      )
+        request_context = {
+            'mobile_numbers': mobile_numbers,
+            'secondary_emails': secondary_emails,
+            'gpo_email': gpo_email,
+            'ldap_number': ldap_number,
+            'roll_number': roll_number,
+        }
+        request_context.update(forms_context_dict)
+
+        return render(request, 'user_resources/home.html', request_context)
 
 
 class UpdateUserSex(LoginRequiredMixin, View):
+    template_name = 'user_resources/form_error.html'
+
+    def _render(self, context_dict):
+        context = {
+            'form_title': 'Sex',
+        }
+        context.update(context_dict)
+        return render(self.request, self.template_name, context)
+
+    def get(self, request):
+        user = request.user
+        return self._render({'form': SexUpdateForm(initial=attr_to_dict(user.userprofile.sex, 'sex'))})
+
     def post(self, request):
+        user = request.user
         sex_update_form = SexUpdateForm(request.POST)
         if sex_update_form.is_valid():
             sex = sex_update_form.cleaned_data['sex']
-            userprofile = request.user.userprofile
+            userprofile = user.userprofile
             userprofile.sex = sex
             userprofile.save()
-        return redirect('user:home')
+            return redirect('user:home')
+        else:
+            return self._render({'form': sex_update_form})
 
 
 class UpdateUserProfilePicture(LoginRequiredMixin, View):
@@ -110,33 +132,72 @@ class UpdateUserProfilePicture(LoginRequiredMixin, View):
 
 
 class UpdateInstiAddressView(LoginRequiredMixin, View):
-    def post(self, request):
-        user = request.user
+    template_name = 'user_resources/form_error.html'
+    form_title = 'Institute Address'
+
+    def _get_insti_address_instance(self):
+        user = self.request.user
         try:
             insti_address = user.insti_address
         except InstituteAddress.DoesNotExist:
             insti_address = None
-        form = InstituteAddressForm(data=request.POST, instance=insti_address)
+        return insti_address
+
+    def _render(self, context_dict):
+        context = {
+            'form_title': self.form_title,
+        }
+        context.update(context_dict)
+        return render(self.request, self.template_name, context)
+
+    def get(self, request):
+        return self._render({
+            'form': InstituteAddressForm(instance=self._get_insti_address_instance()),
+        })
+
+    def post(self, request):
+        user = request.user
+        form = InstituteAddressForm(data=request.POST, instance=self._get_insti_address_instance())
         if form.is_valid():
             insti_address = form.save(commit=False)
             insti_address.user = user
             insti_address.save()
-        return redirect('user:home')
+            return redirect('user:home')
+        else:
+            return self._render({'form': form})
 
 
 class UpdateProgramView(LoginRequiredMixin, View):
-    def post(self, request):
-        user = request.user
+    template_name = 'user_resources/form_error.html'
+
+    def _get_program_instance(self):
+        user = self.request.user
         try:
             program = user.program
         except Program.DoesNotExist:
             program = None
-        form = ProgramForm(data=request.POST, instance=program)
+        return program
+
+    def _render(self, context_dict):
+        context = {
+            'form_title': 'Program'
+        }
+        context.update(context_dict)
+        return render(self.request, self.template_name, context)
+
+    def get(self, request):
+        return self._render({'form': ProgramForm(instance=self._get_program_instance())})
+
+    def post(self, request):
+        user = request.user
+        form = ProgramForm(data=request.POST, instance=self._get_program_instance())
         if form.is_valid():
             program = form.save(commit=False)
             program.user = user
             program.save()
-        return redirect('user:home')
+            return redirect('user:home')
+        else:
+            return self._render({'form': form})
 
 
 class UpdateMobileNumberView(LoginRequiredMixin, View):
