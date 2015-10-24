@@ -8,3 +8,4 @@ gevent
 gunicorn
 psycopg2
 python-memcached
+django-jet
