@@ -1,6 +1,5 @@
 from collections import defaultdict
 import json
-import base64
 
 from braces.views import LoginRequiredMixin
 from django.http.response import HttpResponse, HttpResponseBadRequest
@@ -14,11 +13,7 @@ from rest_framework.fields import get_attribute
 from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm, SexUpdateForm
 from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
 from core.utils import attr_to_dict
-
-
-def create_cache_key_for_user(user, form_class):
-    # User cannot be None here
-    return base64.b64encode('%s#%s' % (form_class.__name__, user.username))
+from core.mixins import FormErrorPageMixin
 
 
 class UserApplicationListView(LoginRequiredMixin, ListView):
@@ -90,19 +85,12 @@ class UserHomePageView(LoginRequiredMixin, View):
         return render(request, 'user_resources/home.html', request_context)
 
 
-class UpdateUserSex(LoginRequiredMixin, View):
-    template_name = 'user_resources/form_error.html'
-
-    def _render(self, context_dict):
-        context = {
-            'form_title': 'Sex',
-        }
-        context.update(context_dict)
-        return render(self.request, self.template_name, context)
+class UpdateUserSex(LoginRequiredMixin, FormErrorPageMixin, View):
+    form_title = 'Sex'
 
     def get(self, request):
         user = request.user
-        return self._render({'form': SexUpdateForm(initial=attr_to_dict(user.userprofile.sex, 'sex'))})
+        return self.render({'form': SexUpdateForm(initial=attr_to_dict(user.userprofile.sex, 'sex'))})
 
     def post(self, request):
         user = request.user
@@ -114,7 +102,7 @@ class UpdateUserSex(LoginRequiredMixin, View):
             userprofile.save()
             return redirect('user:home')
         else:
-            return self._render({'form': sex_update_form})
+            return self.render({'form': sex_update_form})
 
 
 class UpdateUserProfilePicture(LoginRequiredMixin, View):
@@ -131,9 +119,9 @@ class UpdateUserProfilePicture(LoginRequiredMixin, View):
             return HttpResponseBadRequest(json.dumps(pp_form.errors))
 
 
-class UpdateInstiAddressView(LoginRequiredMixin, View):
-    template_name = 'user_resources/form_error.html'
+class UpdateInstiAddressView(LoginRequiredMixin, FormErrorPageMixin, View):
     form_title = 'Institute Address'
+    action_url = 'user:update_address'
 
     def _get_insti_address_instance(self):
         user = self.request.user
@@ -143,15 +131,8 @@ class UpdateInstiAddressView(LoginRequiredMixin, View):
             insti_address = None
         return insti_address
 
-    def _render(self, context_dict):
-        context = {
-            'form_title': self.form_title,
-        }
-        context.update(context_dict)
-        return render(self.request, self.template_name, context)
-
     def get(self, request):
-        return self._render({
+        return self.render({
             'form': InstituteAddressForm(instance=self._get_insti_address_instance()),
         })
 
@@ -164,11 +145,12 @@ class UpdateInstiAddressView(LoginRequiredMixin, View):
             insti_address.save()
             return redirect('user:home')
         else:
-            return self._render({'form': form})
+            return self.render({'form': form})
 
 
-class UpdateProgramView(LoginRequiredMixin, View):
-    template_name = 'user_resources/form_error.html'
+class UpdateProgramView(LoginRequiredMixin, FormErrorPageMixin, View):
+    form_title = 'Program'
+    action_url = 'user:update_program'
 
     def _get_program_instance(self):
         user = self.request.user
@@ -178,15 +160,8 @@ class UpdateProgramView(LoginRequiredMixin, View):
             program = None
         return program
 
-    def _render(self, context_dict):
-        context = {
-            'form_title': 'Program'
-        }
-        context.update(context_dict)
-        return render(self.request, self.template_name, context)
-
     def get(self, request):
-        return self._render({'form': ProgramForm(instance=self._get_program_instance())})
+        return self.render({'form': ProgramForm(instance=self._get_program_instance())})
 
     def post(self, request):
         user = request.user
@@ -197,7 +172,7 @@ class UpdateProgramView(LoginRequiredMixin, View):
             program.save()
             return redirect('user:home')
         else:
-            return self._render({'form': form})
+            return self.render({'form': form})
 
 
 class UpdateMobileNumberView(LoginRequiredMixin, View):

@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-6" style="float: none; margin: auto;">
-            <form role="form" action="{% url 'user:update_sex' %}" method="post" class="user-profile-form">
+            <form role="form" action="{% url action_url %}" method="post" class="user-profile-form">
                 <fieldset class="fieldset-border">
                     <legend class="marginless">{{ form_title }}</legend>
                     {% csrf_token %}
