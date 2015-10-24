@@ -30,6 +30,9 @@
                     <b>last_name:</b> Last name of the user. You need to have <b>profile</b> scope for this
                 </li>
                 <li>
+                    <b>type:</b> Type of user. ex: ug, pg, dd etc. You need <b>profile</b> scope for this
+                </li>
+                <li>
                     <b>username:</b> LDAP username of the user. You need to have <b>ldap</b> scope for this
                 </li>
                 <li>
@@ -91,13 +94,14 @@ Authorization: Bearer ACCESS_TOKEN
 </pre>
         </li>
         <li>
-            The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,profile_picture,sex,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
+            The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,type,profile_picture,sex,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
             will look like (assuming you've enough scopes)
 <pre>
 {
   "id": 1,
   "username": "username",
   "first_name": "First Name",
+  "type": "TYPE",
   "profile_picture": "{% url 'index' %}/path/to/profile_picture_file"
   "last_name": "Last Name",
   "sex": "SEX",
@@ -167,6 +171,14 @@ Authorization: Bearer ACCESS_TOKEN
             <ul>
                 {% for code, full_name in SEXES %}
                     <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            <code>TYPE</code> list:
+            <ul>
+                {% for code in USER_TYPES %}
+                    <li><b>{{ code|first }}</b></li>
                 {% endfor %}
             </ul>
         </li>

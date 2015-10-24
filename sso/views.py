@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.templatetags.static import static
 from django.core.mail.message import make_msgid
 from core.utils import SORTED_DISCIPLINES, DEGREES, HOSTELS, SEXES
+from account.models import UserProfile
 
 
 class IndexView(TemplateView):
@@ -28,4 +29,5 @@ class DocView(TemplateView):
         context['DEGREES'] = DEGREES
         context['HOSTELS'] = HOSTELS
         context['SEXES'] = SEXES
+        context['USER_TYPES'] = UserProfile.objects.values_list('type').distinct()
         return context

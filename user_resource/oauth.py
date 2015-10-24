@@ -4,6 +4,7 @@ USER_FIELDS = [
     'first_name',
     'last_name',
     'sex',
+    'type',
     'profile_picture',
     'email',
     'program',
@@ -16,7 +17,7 @@ USER_FIELDS = [
 
 SCOPE_TO_FIELD_MAP = {
     'basic': ['id', ],
-    'profile': ['first_name', 'last_name', ],
+    'profile': ['first_name', 'last_name', 'type', ],
     'sex': ['sex', ],
     'picture': ['profile_picture'],
     'ldap': ['username', 'email'],

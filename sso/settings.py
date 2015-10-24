@@ -178,7 +178,7 @@ OAUTH2_PROVIDER_APPLICATION_MODEL = 'application.Application'
 OAUTH2_PROVIDER = {
     'SCOPES': {
         'basic': 'Know who you are on this site',
-        'profile': 'Basic profile information which includes first_name and last_name',
+        'profile': 'Basic profile information which includes first_name and last_name and user type',
         'sex': 'Your sex - Male, Female or Other',
         'picture': 'Profile picture',
         'ldap': 'Your ldap information which includes your ldap username and email',
@@ -278,5 +278,7 @@ LOGGING = {
 
 }
 logging.config.dictConfig(LOGGING)
+
+X_FRAME_OPTIONS = 'DENY'
 
 from settings_user import *  # noqa
