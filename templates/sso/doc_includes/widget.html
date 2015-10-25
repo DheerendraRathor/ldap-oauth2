@@ -1,34 +1,32 @@
 {% load absolute_url %}
 
-<div role="tabpanel" class="tab-pane fade in active" id="widgets" aria-labelledby="widgets-tab">
+<h4>Before reading this section, go through <code>basic</code> section once</h4>
 
-    <h4>Before reading this section, go through <code>basic</code> section once</h4>
+<h4>For the ease of users and application developers, we've created some widgets for you. Using widgets
+    will provide extra contextual information to your users</h4>
 
-    <h4>For the ease of users and application developers, we've created some widgets for you. Using widgets
-        will provide extra contextual information to your users</h4>
+<h3>Login Widget</h3>
 
-    <h3>Login Widget</h3>
+<div class="doc">
+    By including few lines of html and javascript in your web-page, you can get nice looking login button
+    which changes according to user logged-in. Here is an example: <br><br>
 
-    <div class="doc">
-        By including few lines of html and javascript in your web-page, you can get nice looking login button
-        which changes according to user logged-in. Here is an example: <br><br>
+    <div id="sso-root"></div>
 
-        <div id="sso-root"></div>
-
-        To include these widgets follow these steps
-    </div>
-    <ul class="doc">
-        <li>Include
-            <code>&lt;script src="{% absolute_url login_js_url %}"
-                type="application/javascript"&gt;&lt;/script&gt; </code>
-            in your html file
-        </li>
-        <li>
-            Include <code>&lt;div id="sso-root"&gt;&lt;/div&gt;</code> in your html where you want to keep your
-            login button
-        </li>
-        <li>
-            Now write some primary configuration for button to work
+    To include these widgets follow these steps
+</div>
+<ul class="doc">
+    <li>Include
+        <code>&lt;script src="{% absolute_url login_js_url %}"
+            type="application/javascript"&gt;&lt;/script&gt; </code>
+        in your html file
+    </li>
+    <li>
+        Include <code>&lt;div id="sso-root"&gt;&lt;/div&gt;</code> in your html where you want to keep your
+        login button
+    </li>
+    <li>
+        Now write some primary configuration for button to work
 <pre>
 {% filter force_escape %}
     <script type="application/javascript">
@@ -59,10 +57,8 @@
     </script>
 {% endfilter %}
 </pre>
-        </li>
-        <li>
-            That's it. You'll get a nice looking login button there.
-        </li>
-    </ul>
-
-</div>
+    </li>
+    <li>
+        That's it. You'll get a nice looking login button there.
+    </li>
+</ul>

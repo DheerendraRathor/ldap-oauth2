@@ -1,0 +1,20 @@
+<h3>While developing an application based on SSO, keep following things in mind!</h3>
+<ul class="doc">
+    <li>
+        Don't ask for too much permissions. Ask for necessary permissions only. Respect user's privacy!
+    </li>
+    <li>
+        Store <code>refresh_token</code> and <code>access_token</code> on your server. They can be used for
+        background requests.
+    </li>
+    <li>
+        Maintain sessions for your user! Don't overwhelm the SSO server by authorization requests.
+    </li>
+    <li>
+        If user hasn't provided the necessary permissions, <b>revoke the token!</b> Otherwise user will see
+        your application in list of connected apps.
+    </li>
+    <li>
+        Use login-button widget!
+    </li>
+</ul>

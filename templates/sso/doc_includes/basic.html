@@ -1,85 +1,84 @@
 {% load staticfiles %}
 {% load absolute_url %}
 
-<div role="tabpanel" class="tab-pane fade in active" id="basic" aria-labelledby="basic-tab">
-    <h3 id="registration">Registering application</h3>
-    <ul class="doc">
-        <li>To register an application open <a href="{% url 'oauth:register' %}" target="_blank">this link</a>
-        </li>
-        <li>Provide a nice name to your application, write a brief description and add a cool little logo</li>
-        <li>Unless your application is entirely client based (like JS), use <code>Client Type:
-            confidential</code>
-            and <code>Authorization grant type: authorization code</code></li>
-        <li>Add a list of redirect URIs. Redirect URIs are the URLs where your client will be redirected to
-            after
-            authorization. Let's say you have entered <code>http://www.example.com/authorization/</code>
-        </li>
-        <li>Click Submit! That's it, you've registered an application. You can access your applications at
-            <a href="{% url 'oauth2_provider:list' %}" target="_blank">list of applications</a></li>
-    </ul>
+<h3 id="registration">Registering application</h3>
+<ul class="doc">
+    <li>To register an application open <a href="{% url 'oauth:register' %}" target="_blank">this link</a>
+    </li>
+    <li>Provide a nice name to your application, write a brief description and add a cool little logo</li>
+    <li>Unless your application is entirely client based (like JS), use <code>Client Type:
+        confidential</code>
+        and <code>Authorization grant type: authorization code</code></li>
+    <li>Add a list of redirect URIs. Redirect URIs are the URLs where your client will be redirected to
+        after
+        authorization. Let's say you have entered <code>http://www.example.com/authorization/</code>
+    </li>
+    <li>Click Submit! That's it, you've registered an application. You can access your applications at
+        <a href="{% url 'oauth2_provider:list' %}" target="_blank">list of applications</a></li>
+</ul>
 
-    <h3 id="authorization_workflow">Authorization workflow</h3>
-    <ul class="doc">
-        <li>
-            To authenticate a client, add some button to your webpage for login like
-            <a class="btn btn-primary">Login With SSO</a>
-        </li>
-        <li>
-            By clicking to that button, your client should be redirect to
+<h3 id="authorization_workflow">Authorization workflow</h3>
+<ul class="doc">
+    <li>
+        To authenticate a client, add some button to your webpage for login like
+        <a class="btn btn-primary">Login With SSO</a>
+    </li>
+    <li>
+        By clicking to that button, your client should be redirect to
 
-            {% url 'oauth:authorize' as authorization_url %}
-            <pre> {% absolute_url authorization_url %}?client_id=YOUR_CLIENT_ID&response_type=code&scope=basic&redirect_uri=REDIRECT_URI&state=some_state</pre>
-            <code>scope</code>, <code>redirect_uri</code> and <code>state</code> are optional here.
-            <code>state</code>
-            can be anything, it will be returned back to you after authorization. You can use this to rememeber
-            your
-            client. <code>redirect_uri</code> should be from redirect uri you registered for app. If nothing is
-            provided
-            here then first redirect uri will be assumed to be default. From now onwards we'll call it
-            <code>REDIRECT_URI</code>. <code>scope</code> is a string of space separated scopes.
-            <ul>
-                Available scopes are
-                <li><strong>basic</strong>: <em>It includes your user id from SSO server (not the ldap id)</em>
-                </li>
-                <li><strong>profile</strong>: <em>Your first_name and last_name and type</em></li>
-                <li><strong>picture</strong>: <em>Your profile picture</em></li>
-                <li><strong>sex</strong>: <em>You sex - Male, Female or Other</em></li>
-                <li><strong>ldap</strong>: <em>Your ldap username and email</em></li>
-                <li><strong>phone</strong>: <em>Your contact number including additional numbers</em></li>
-                <li><strong>insti_address</strong>: <em>Your address inside institute</em></li>
-                <li><strong>program</strong>: <em>Your roll number, department, course, joining year and
-                    graduation
-                    year</em></li>
-                <li><strong>secondary_emails</strong>: <em>Your alternate emails</em></li>
-                <li><strong>send_mail</strong>: <em>Allow application to send you email via SSO</em></li>
-            </ul>
-            If nothing is provided in <code>scope</code> parameter then <strong>basic</strong> scope will be
-            assumed.
-            <br>
-            Now your client will see something similar to
-            <a href="{% static 'sso/img/authorization_image.png' %}" target="_blank">this image</a>
-        </li>
-        <li>If client has denied your request you'll get <code>REDIRECT_URI?error=access_denied</code> else
-            you'll get
-            <code>REDIRECT_URL?state=some_state&code=AUTHORIZATION_CODE</code>. <code>AUTHORIZATION_CODE</code>
-            will be
-            an alpha-numeric code
-        </li>
-        <li>
-            <b>Or ignore all above points and use our widget</b>. Check widget section on top
-        </li>
-    </ul>
+        {% url 'oauth:authorize' as authorization_url %}
+        <pre> {% absolute_url authorization_url %}?client_id=YOUR_CLIENT_ID&response_type=code&scope=basic&redirect_uri=REDIRECT_URI&state=some_state</pre>
+        <code>scope</code>, <code>redirect_uri</code> and <code>state</code> are optional here.
+        <code>state</code>
+        can be anything, it will be returned back to you after authorization. You can use this to rememeber
+        your
+        client. <code>redirect_uri</code> should be from redirect uri you registered for app. If nothing is
+        provided
+        here then first redirect uri will be assumed to be default. From now onwards we'll call it
+        <code>REDIRECT_URI</code>. <code>scope</code> is a string of space separated scopes.
+        <ul>
+            Available scopes are
+            <li><strong>basic</strong>: <em>It includes your user id from SSO server (not the ldap id)</em>
+            </li>
+            <li><strong>profile</strong>: <em>Your first_name and last_name and type</em></li>
+            <li><strong>picture</strong>: <em>Your profile picture</em></li>
+            <li><strong>sex</strong>: <em>You sex - Male, Female or Other</em></li>
+            <li><strong>ldap</strong>: <em>Your ldap username and email</em></li>
+            <li><strong>phone</strong>: <em>Your contact number including additional numbers</em></li>
+            <li><strong>insti_address</strong>: <em>Your address inside institute</em></li>
+            <li><strong>program</strong>: <em>Your roll number, department, course, joining year and
+                graduation
+                year</em></li>
+            <li><strong>secondary_emails</strong>: <em>Your alternate emails</em></li>
+            <li><strong>send_mail</strong>: <em>Allow application to send you email via SSO</em></li>
+        </ul>
+        If nothing is provided in <code>scope</code> parameter then <strong>basic</strong> scope will be
+        assumed.
+        <br>
+        Now your client will see something similar to
+        <a href="{% static 'sso/img/authorization_image.png' %}" target="_blank">this image</a>
+    </li>
+    <li>If client has denied your request you'll get <code>REDIRECT_URI?error=access_denied</code> else
+        you'll get
+        <code>REDIRECT_URL?state=some_state&code=AUTHORIZATION_CODE</code>. <code>AUTHORIZATION_CODE</code>
+        will be
+        an alpha-numeric code
+    </li>
+    <li>
+        <b>Or ignore all above points and use our widget</b>. Check widget section on top
+    </li>
+</ul>
 
-    <h3 id="token_exchange">Token Exchange</h3>
-    <ul class="doc">
-        Now assuming that you've received <code>AUTHORIZATION_CODE</code> after client has authorized itself.
-        <code>AUTHORIZATION_CODE</code> is short lived code. You need to redeem it quickly to get
-        <code>access_token</code>
-        <li>
-            {% url 'oauth2_provider:token' as token_url %}
-            Make a request for token exchange to <code>{% absolute_url token_url %}</code>. You're HTTP request
-            will
-            look like
+<h3 id="token_exchange">Token Exchange</h3>
+<ul class="doc">
+    Now assuming that you've received <code>AUTHORIZATION_CODE</code> after client has authorized itself.
+    <code>AUTHORIZATION_CODE</code> is short lived code. You need to redeem it quickly to get
+    <code>access_token</code>
+    <li>
+        {% url 'oauth2_provider:token' as token_url %}
+        Make a request for token exchange to <code>{% absolute_url token_url %}</code>. You're HTTP request
+        will
+        look like
 <pre>
 POST {{ token_url }} HTTP/1.1
 Host: {{ request.get_host }}
@@ -89,12 +88,12 @@ Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 code=AUTHORIZATION_CODE&redirect_uri=REDIRECT_URI&grant_type=authorization_code
 </pre>
-            <b><code>AUTHENTICATION_TOKEN</code> is base64 of <code>CLIENT_ID:CLIENT_SECRET</code>.</b>
-            <b>Here <code>code</code>, <code>redirect_uri</code> and <code>grant_type</code> are compulsory</b>
-        </li>
-        <li>
-            Now assuming you've created a valid http request here, you'll now get <code>access_token</code> and
-            <code>refresh_token</code> as json
+        <b><code>AUTHENTICATION_TOKEN</code> is base64 of <code>CLIENT_ID:CLIENT_SECRET</code>.</b>
+        <b>Here <code>code</code>, <code>redirect_uri</code> and <code>grant_type</code> are compulsory</b>
+    </li>
+    <li>
+        Now assuming you've created a valid http request here, you'll now get <code>access_token</code> and
+        <code>refresh_token</code> as json
 <pre>
 {
     "access_token" : "access_token",
@@ -104,42 +103,42 @@ code=AUTHORIZATION_CODE&redirect_uri=REDIRECT_URI&grant_type=authorization_code
     "scope" : "basic"
 }
 </pre>
-            <code>access_token</code> and <code>refresh_token</code> are both alpha-numeric strings<br>
-            <code>access_token</code> are short living tokens and will expire in 10 hours.
-            <code>refresh_token</code>
-            are
-            long living tokens and you should save them in your database for future purpose.<br>
-            <code>scope</code> is space separated list of scopes that client has granted to you. You should also
-            save
-            these scope in your database for reference purpose. <br>
-            At this point you should also create session for your client on your website since client is
-            authenticated
-            now
-        </li>
-    </ul>
-
-    <h3 id="refresh_token">Refreshing Token</h3>
-    <ul class="doc">
-        Since <code>access_token</code> will expire quickly, you need to generate new <code>access_token</code>
-        with
+        <code>access_token</code> and <code>refresh_token</code> are both alpha-numeric strings<br>
+        <code>access_token</code> are short living tokens and will expire in 10 hours.
         <code>refresh_token</code>
-        <li>
-            Refreshing token is similar to token exchange with (almost) same http request to server. Only your
-            post data
-            will changed and new post data will be
-            <code>refresh_token=REFRESH_TOKEN&grant_type=refresh_token</code>
-        </li>
-        <li>
-            The response JSON will be almost same with only <code>access_token</code> and
-            <code>refresh_token</code>
-            both changed. You need to update your <code>refresh_token</code> in database
-        </li>
-    </ul>
+        are
+        long living tokens and you should save them in your database for future purpose.<br>
+        <code>scope</code> is space separated list of scopes that client has granted to you. You should also
+        save
+        these scope in your database for reference purpose. <br>
+        At this point you should also create session for your client on your website since client is
+        authenticated
+        now
+    </li>
+</ul>
 
-    <h3 id="revoke_token">Revoking Token</h3>
-    <ul class="doc">
-        <li>
-            To revoke client access, create the following http request
+<h3 id="refresh_token">Refreshing Token</h3>
+<ul class="doc">
+    Since <code>access_token</code> will expire quickly, you need to generate new <code>access_token</code>
+    with
+    <code>refresh_token</code>
+    <li>
+        Refreshing token is similar to token exchange with (almost) same http request to server. Only your
+        post data
+        will changed and new post data will be
+        <code>refresh_token=REFRESH_TOKEN&grant_type=refresh_token</code>
+    </li>
+    <li>
+        The response JSON will be almost same with only <code>access_token</code> and
+        <code>refresh_token</code>
+        both changed. You need to update your <code>refresh_token</code> in database
+    </li>
+</ul>
+
+<h3 id="revoke_token">Revoking Token</h3>
+<ul class="doc">
+    <li>
+        To revoke client access, create the following http request
 <pre>
 POST {% url 'oauth2_provider:revoke-token' %} HTTP/1.1
 Host: {{ request.get_host }}
@@ -148,11 +147,10 @@ Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 token=TOKEN&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&token_type_hint=TOKEN_TYPE
 </pre>
-            Here <code>TOKEN</code> can be <code>access_token</code> or <code>refresh_token</code><br>
-            <code>token_type_hint</code> is optional. <code>TOKEN_TYPE</code> should be either
-            <em>access_token</em> or
-            <em>refresh_token</em>
+        Here <code>TOKEN</code> can be <code>access_token</code> or <code>refresh_token</code><br>
+        <code>token_type_hint</code> is optional. <code>TOKEN_TYPE</code> should be either
+        <em>access_token</em> or
+        <em>refresh_token</em>
 
-        </li>
-    </ul>
-</div>
+    </li>
+</ul>

@@ -6,6 +6,7 @@ from django.db.models.fields import BLANK_CHOICE_DASH
 from django.utils.translation import ugettext_lazy as _
 from django.forms.models import model_to_dict
 from django.db.models import Model
+from django.core.urlresolvers import reverse
 
 
 def get_default_scopes(application):
@@ -155,3 +156,34 @@ HOSTELS = [
     ['tansa', 'Tansa'],
     ['qip', 'QIP'],
 ]
+
+
+class TabNav(object):
+
+    def __init__(self, tab, name=None, template_name=None, base_url=None, is_default=False):
+        if not tab or not base_url:
+            raise ValueError('tab and base_url cannot be None')
+        self.tab = tab
+        if not name:
+            self.name = tab.title()
+        else:
+            self.name = name
+        if not template_name:
+            self.template_name = '%s.html' % tab
+        else:
+            self.template_name = template_name
+        self.is_default = is_default
+        self.base_url = base_url
+        self.is_active = False
+
+    @property
+    def url(self):
+        if not self.is_default:
+            return reverse(self.base_url, args=[self.tab])
+        return reverse(self.base_url)
+
+    @property
+    def tab_name(self):
+        if not self.is_default:
+            return self.tab
+        return ''

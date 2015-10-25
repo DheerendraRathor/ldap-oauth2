@@ -3,7 +3,7 @@
 {% load absolute_url %}
 
 {% block title %}
-    Documentation
+    Documentation - {{ active_tab.name }}
 {% endblock %}
 
 {% block cssLinks %}
@@ -18,35 +18,24 @@
         2.0</h4>
 
     <ul id="tabs" class="nav nav-tabs" role="tablist" style="margin-top: 25px;">
-        <li role="presentation" class="active">
-            <a href="#basic" id="basic-tab" role="tab" data-toggle="tab" aria-controls="basic">Basic</a>
-        </li>
-        <li role="presentation">
-            <a href="#api" id="api-tab" role="tab" data-toggle="tab" aria-controls="api">API</a>
-        </li>
-        <li role="presentation">
-            <a href="#widgets" id="widgets-tab" role="tab" data-toggle="tab" aria-controls="widgets">Widgets</a>
-        </li>
-        <li role="presentation">
-            <a href="#best-practices" id="best-practices-tab" role="tab" data-toggle="tab"
-               aria-controls="best-practices">Best Practices</a>
-        </li>
-        <li role="presentation">
-            <a href="#libraries" id="library-tab" role="tab" data-toggle="tab" aria-controls="third-parth">Libraries</a>
-        </li>
+        {% for tab in tabs %}
+            <li role="presentation" {% if tab.is_active %}class="active"{% endif %}>
+                <a href="#{{ tab.tab }}" id="{{ tab.tab }}-tab" role="tab" data-toggle="tab" data-url="{{ tab.url }}"
+                   aria-controls="{{ tab.tab }}" data-title="Documentation - {{ tab.name }}">{{ tab.name }}</a>
+            </li>
+        {% endfor %}
     </ul>
 
     <div id="myTabContent" class="tab-content">
 
-        {% include 'sso/doc_includes/basic.html' %}
-
-        {% include 'sso/doc_includes/api.html' %}
-
-        {% include 'sso/doc_includes/widget.html' %}
-
-        {% include 'sso/doc_includes/pratices.html' %}
-
-        {% include 'sso/doc_includes/library.html' %}
+        {% for tab in tabs %}
+            <div role="tabpanel" class="tab-pane fade in {% if tab.is_active %}active{% endif %}" id="{{ tab.tab }}"
+                 aria-labelledby="{{ tab.tab }}-tab">
+                {% with tab_template='sso/doc_includes/'|add:tab.template_name %}
+                    {% include tab_template %}
+                {% endwith %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 
@@ -56,31 +45,8 @@
         anchors.add('h3');
     </script>
     <script src="{% static 'widget/js/login.js' %}" type="application/javascript"></script>
+    <script src="{% static 'sso/js/doc.js' %}" type="application/javascript"></script>
     <script type="application/javascript">
-        new SSO_JS({
-            config: {
-                client_id: 'your-long-client-id',   // Compulsory
-                scope: ['basic', 'profile'],    // Optional. Default is  ['basic']
-                state: '', // Optional. Default None
-                response_type: 'code',  // Optional. Default is 'code'
-                redirect_uri: 'uri-for-redirection',    //Optional
-                new_window: 'false',    // Optional.
-                                        // Where authorization page should be opened in new tab or
-                                        // same tab Default is false.
-                sso_root: document.getElementById('sso-root'),
-                /* Optional
-                 document.getElementById don't work if your element is not in light DOM. In that case you need to
-                 provide selector here. In most of the cases this will work.
-                 */
-            },
-            colors: { // All Optional
-                button_div_bg_color: '303F9F', // Background color of button
-                button_anchor_color: 'FFFFFF', // Font color of Button
-                logout_anchor_color: '727272', // Font color of logout mark (The one with 'Login as other user'
-            },
-        }).init();
-        setTimeout(function () {
-            $("#widgets").removeClass("in active");
-        }, 1000);
+        window.history.pushState({}, '', '{{ active_tab.url }}');
     </script>
 {% endblock %}

@@ -1,101 +1,99 @@
 {% load absolute_url %}
 
-<div role="tabpanel" class="tab-pane fade in" id="api" aria-labelledby="api-tab">
+<h4>Before reading this section, go through <code>basic</code> section once</h4>
 
-    <h4>Before reading this section, go through <code>basic</code> section once</h4>
+<h3 id="user_resources_api">Accessing API</h3>
+<ul class="doc">
+    By now you have created API, got access_token and authenticated user. But still you don't know who the
+    user is?
+    For that purpose you need to access user resources API. Currently API is limited to few user resources
+    only and
+    in future we're planning to expand it a lot. <br>
+    User data is stored at <a href="{% url 'user:home' %}" target="_blank">sso</a> server. And as an
+    application
+    developer you should encourage users to update their data there.
 
-    <h3 id="user_resources_api">Accessing API</h3>
-    <ul class="doc">
-        By now you have created API, got access_token and authenticated user. But still you don't know who the
-        user is?
-        For that purpose you need to access user resources API. Currently API is limited to few user resources
-        only and
-        in future we're planning to expand it a lot. <br>
-        User data is stored at <a href="{% url 'user:home' %}" target="_blank">sso</a> server. And as an
-        application
-        developer you should encourage users to update their data there.
+    <li>
+        Available user resources are:
+        <ul>
+            <li>
+                <b>basic:</b> Basic resource includes <code>id</code> only. You need to have <b>basic</b>
+                scope for
+                this
+            </li>
+            <li>
+                <b>first_name:</b> First name of the user. You need to have <b>profile</b> scope for this
+            </li>
+            <li>
+                <b>last_name:</b> Last name of the user. You need to have <b>profile</b> scope for this
+            </li>
+            <li>
+                <b>type:</b> Type of user. ex: ug, pg, dd etc. You need <b>profile</b> scope for this
+            </li>
+            <li>
+                <b>username:</b> LDAP username of the user. You need to have <b>ldap</b> scope for this
+            </li>
+            <li>
+                <b>profile_picture:</b> Profile picture of user. This will be a URL. You need to have
+                <b>picture</b> scope for this
+            </li>
+            <li>
+                <b>sex:</b> Sex of the user. It can be Male, Female or Other. You need to have <b>sex</b> scope for
+                this
+            </li>
+            <li>
+                <b>email:</b> LDAP email (username@iitb.ac.in) of the user. You need to have
+                <b>ldap</b> scope for this
+            </li>
+            <li>
+                <b>mobile:</b> Mobile includes mobile number of client fetched from LDAP. You need to have
+                <b>phone</b> scope for this
+            </li>
+            <li>
+                <b>roll_number:</b> Roll number includes roll number of client fetched from LDAP. You need
+                to have
+                <b>program</b> scope for this
+            </li>
+            <li>
+                <b>contacts:</b> Phone resource includes all the contact number provided by client. You need
+                to have
+                <b>phone</b> scope for this
+            </li>
+            <li>
+                <b>insti_address:</b> This resource includes user's room number and hoste number. You need
+                <b>insti_address</b> scope for this
+            </li>
+            <li>
+                <b>program:</b> Program includes user's joining year, (expected) graduation year, department
+                and
+                degree. You need to have <b>program</b> scope for this
+            </li>
+            <li>
+                <b>secondary_emails:</b> This resource includes user's emails other than default ldap email.
+                You
+                need to have <b>secondary_emails</b> scope for this
+            </li>
+        </ul>
+    </li>
 
-        <li>
-            Available user resources are:
-            <ul>
-                <li>
-                    <b>basic:</b> Basic resource includes <code>id</code> only. You need to have <b>basic</b>
-                    scope for
-                    this
-                </li>
-                <li>
-                    <b>first_name:</b> First name of the user. You need to have <b>profile</b> scope for this
-                </li>
-                <li>
-                    <b>last_name:</b> Last name of the user. You need to have <b>profile</b> scope for this
-                </li>
-                <li>
-                    <b>type:</b> Type of user. ex: ug, pg, dd etc. You need <b>profile</b> scope for this
-                </li>
-                <li>
-                    <b>username:</b> LDAP username of the user. You need to have <b>ldap</b> scope for this
-                </li>
-                <li>
-                    <b>profile_picture:</b> Profile picture of user. This will be a URL. You need to have
-                    <b>picture</b> scope for this
-                </li>
-                <li>
-                    <b>sex:</b> Sex of the user. It can be Male, Female or Other. You need to have <b>sex</b> scope for
-                    this
-                </li>
-                <li>
-                    <b>email:</b> LDAP email (username@iitb.ac.in) of the user. You need to have
-                    <b>ldap</b> scope for this
-                </li>
-                <li>
-                    <b>mobile:</b> Mobile includes mobile number of client fetched from LDAP. You need to have
-                    <b>phone</b> scope for this
-                </li>
-                <li>
-                    <b>roll_number:</b> Roll number includes roll number of client fetched from LDAP. You need
-                    to have
-                    <b>program</b> scope for this
-                </li>
-                <li>
-                    <b>contacts:</b> Phone resource includes all the contact number provided by client. You need
-                    to have
-                    <b>phone</b> scope for this
-                </li>
-                <li>
-                    <b>insti_address:</b> This resource includes user's room number and hoste number. You need
-                    <b>insti_address</b> scope for this
-                </li>
-                <li>
-                    <b>program:</b> Program includes user's joining year, (expected) graduation year, department
-                    and
-                    degree. You need to have <b>program</b> scope for this
-                </li>
-                <li>
-                    <b>secondary_emails:</b> This resource includes user's emails other than default ldap email.
-                    You
-                    need to have <b>secondary_emails</b> scope for this
-                </li>
-            </ul>
-        </li>
-
-        <li>
-            To access user's resources make a GET request to
-            {% url 'user:api:user-list' as user_resource_url %}
-            {% absolute_url user_resource_url as user_resource_abs_url %}
-            <code>{{ user_resource_abs_url }}?fields=RESOURCE_LIST</code>. <code>fields</code> is optional
-            parameter
-            and by default it includes <code>basic</code> fields. <code>RESOURCE_LIST</code> is comma-separated
-            list of
-            user resources. You should include <code>access_token</code> in request header as
+    <li>
+        To access user's resources make a GET request to
+        {% url 'user:api:user-list' as user_resource_url %}
+        {% absolute_url user_resource_url as user_resource_abs_url %}
+        <code>{{ user_resource_abs_url }}?fields=RESOURCE_LIST</code>. <code>fields</code> is optional
+        parameter
+        and by default it includes <code>basic</code> fields. <code>RESOURCE_LIST</code> is comma-separated
+        list of
+        user resources. You should include <code>access_token</code> in request header as
 <pre>
 GET {{ user_resource_url }} HTTP/1.1
 Host: {{ request.get_host }}
 Authorization: Bearer ACCESS_TOKEN
 </pre>
-        </li>
-        <li>
-            The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,type,profile_picture,sex,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
-            will look like (assuming you've enough scopes)
+    </li>
+    <li>
+        The output for <code>{{ user_resource_abs_url }}?fields=first_name,last_name,type,profile_picture,sex,username,email,program,contacts,insti_address,secondary_emails,mobile,roll_number</code>
+        will look like (assuming you've enough scopes)
 <pre>
 {
   "id": 1,
@@ -137,61 +135,61 @@ Authorization: Bearer ACCESS_TOKEN
   }
 }
 </pre>
-            Here you'll get only resources permitted by user in scope.
-        </li>
-        <li>
-            <code>DEPARTMENT</code> list:
-            <ul>
-                <li><b><code>DEPARTMENT_NAME:</code></b> <em><code>FULL_DEPARMENT_NAME</code></em></li>
-                {% for code, full_name in SORTED_DISCIPLINES %}
-                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
-                {% endfor %}
-            </ul>
-        </li>
-        <li>
-            <code>DEGREE</code> list:
-            <ul>
-                <li><b><code>DEGREE:</code></b> <em><code>FULL_DEGREE_NAME</code></em></li>
-                {% for code, full_name in DEGREES %}
-                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
-                {% endfor %}
-            </ul>
-        </li>
-        <li>
-            <code>HOSTEL</code> list:
-            <ul>
-                <li><b><code>HOSTEL:</code></b> <em><code>FULL_HOSTEL_NAME</code></em></li>
-                {% for code, full_name in HOSTELS %}
-                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
-                {% endfor %}
-            </ul>
-        </li>
-        <li>
-            <code>SEX</code> list:
-            <ul>
-                {% for code, full_name in SEXES %}
-                    <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
-                {% endfor %}
-            </ul>
-        </li>
-        <li>
-            <code>TYPE</code> list:
-            <ul>
-                {% for code in USER_TYPES %}
-                    <li><b>{{ code|first }}</b></li>
-                {% endfor %}
-            </ul>
-        </li>
+        Here you'll get only resources permitted by user in scope.
+    </li>
+    <li>
+        <code>DEPARTMENT</code> list:
+        <ul>
+            <li><b><code>DEPARTMENT_NAME:</code></b> <em><code>FULL_DEPARMENT_NAME</code></em></li>
+            {% for code, full_name in SORTED_DISCIPLINES %}
+                <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <code>DEGREE</code> list:
+        <ul>
+            <li><b><code>DEGREE:</code></b> <em><code>FULL_DEGREE_NAME</code></em></li>
+            {% for code, full_name in DEGREES %}
+                <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <code>HOSTEL</code> list:
+        <ul>
+            <li><b><code>HOSTEL:</code></b> <em><code>FULL_HOSTEL_NAME</code></em></li>
+            {% for code, full_name in HOSTELS %}
+                <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <code>SEX</code> list:
+        <ul>
+            {% for code, full_name in SEXES %}
+                <li><b>{{ code }}:</b> <em>{{ full_name }}</em></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <code>TYPE</code> list:
+        <ul>
+            {% for code in USER_TYPES %}
+                <li><b>{{ code|first }}</b></li>
+            {% endfor %}
+        </ul>
+    </li>
 
-    </ul>
+</ul>
 
-    <h3 id="send_mail_api">Send Mail API</h3>
-    <ul class="doc">
-        This application also provides a "send mail" API, which allows your application to send email to user
-        from
-        a simple endpoint. You need to have <code>send_mail</code> permission from user for this to work
-        <li>
-            Create a POST request like this:
+<h3 id="send_mail_api">Send Mail API</h3>
+<ul class="doc">
+    This application also provides a "send mail" API, which allows your application to send email to user
+    from
+    a simple endpoint. You need to have <code>send_mail</code> permission from user for this to work
+    <li>
+        Create a POST request like this:
 <pre>
 POST {% url 'user:api:user-send-mail' %} HTTP/1.1
 Host: {{ request.get_host }}
@@ -209,46 +207,43 @@ Content-Type: application/json
 }
 </pre>
 
-        <li>
-            Response Data:
+    <li>
+        Response Data:
 <pre>
 {
     "Message-ID": "{{ Message_ID }}",
     "status": true
 }
 </pre>
-            <code>Message-ID</code> is a unique identifier for each sent message. Its format is <code>
-            &lt;timestamp.pid.random_number@fqdn&gt;</code>. <code>Message-ID</code> in this example is
-            actually a valid generated identifier which is changing each time you open this page!<br>
-            <code>status</code> is either <b>true</b> or <b>false</b> depending on whether message was
-            sent successfully. Remember <code>status: true</code> doesn't guarantee delivery of message
-        </li>
-        <li>
-            Final subject will be "[SSO] [&lt;APPLICATION_NAME&gt;] &lt;YOUR SUBJECT&gt;". This is
-            automatically
-            generated.
-        </li>
-        <li>
-            Final message will have these line appended:
+        <code>Message-ID</code> is a unique identifier for each sent message. Its format is <code>
+        &lt;timestamp.pid.random_number@fqdn&gt;</code>. <code>Message-ID</code> in this example is
+        actually a valid generated identifier which is changing each time you open this page!<br>
+        <code>status</code> is either <b>true</b> or <b>false</b> depending on whether message was
+        sent successfully. Remember <code>status: true</code> doesn't guarantee delivery of message
+    </li>
+    <li>
+        Final subject will be "[SSO] [&lt;APPLICATION_NAME&gt;] &lt;YOUR SUBJECT&gt;". This is
+        automatically
+        generated.
+    </li>
+    <li>
+        Final message will have these line appended:
 <pre>
 Sent via SSO by &lt;APPLICATION_NAME&gt;
 
 You received this message because you've provided the email sending permission to the application
 </pre>
-        </li>
-        <li>
-            <code>reply_to</code> is list of email address where you want your user to reply. Most of
-            the mail
-            servers honor this protocol and by clicking on "reply" will directly reply to these emails.
-        </li>
+    </li>
+    <li>
+        <code>reply_to</code> is list of email address where you want your user to reply. Most of
+        the mail
+        servers honor this protocol and by clicking on "reply" will directly reply to these emails.
+    </li>
 
-        </li>
-        <li>
-            <strong>DISCLAIMER:</strong>
-            <em>We do not store emails in our database. We do store <code>Message-ID</code>, failure state,
-                application
-                and user for each email. This is stored for debugging and performance improvement purposes</em>
-        </li>
-    </ul>
-
-</div>
+    <li>
+        <strong>DISCLAIMER:</strong>
+        <em>We do not store emails in our database. We do store <code>Message-ID</code>, failure state,
+            application
+            and user for each email. This is stored for debugging and performance improvement purposes</em>
+    </li>
+</ul>
