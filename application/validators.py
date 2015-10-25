@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.models import get_application_model as get_oauth2_application_model
 from core.utils import get_default_scopes
+from django.conf import settings
 
 
 class CustomOAuth2Validator(OAuth2Validator):
@@ -38,6 +39,12 @@ class CustomOAuth2Validator(OAuth2Validator):
                 assert ()  # TODO though being here would be very strange, at least log the error
 
         expires = timezone.now() + timedelta(seconds=oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS)
+        token['expires_in'] = oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS
+
+        if request.response_type == 'token':
+            expires = timezone.now() + timedelta(seconds=settings.IMPLICIT_ACCESS_TOKEN_EXPIRES_SECONDS)
+            token['expires_in'] = settings.IMPLICIT_ACCESS_TOKEN_EXPIRES_SECONDS
+
         if request.grant_type == 'client_credentials':
             request.user = None
 
@@ -69,5 +76,3 @@ class CustomOAuth2Validator(OAuth2Validator):
             refresh_token.access_token = access_token
             refresh_token.save()
             token['refresh_token'] = refresh_token.token
-
-        token['expires_in'] = oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS

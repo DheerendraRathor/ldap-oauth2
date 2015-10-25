@@ -53,6 +53,7 @@ class UserSerializer(serializers.ModelSerializer):
     profile_picture = serializers.ImageField(source='userprofile.profile_picture')
     sex = serializers.CharField(source='userprofile.sex')
     type = serializers.CharField(source='userprofile.type')
+    is_alumni = serializers.BooleanField(source='userprofile.is_alumni')
 
     def __init__(self, *args, **kwargs):
         super(UserSerializer, self).__init__(*args, **kwargs)

@@ -10,5 +10,6 @@ pylint:
     - too-few-public-methods
     - too-many-ancestors
     - too-many-locals
+    - too-many-arguments
   options:
     const-rgx: (([A-Z_][A-Z0-9_]*)|([a-z_][a-z0-9_]*)|(__.*__))$
