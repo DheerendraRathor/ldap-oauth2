@@ -1,24 +1,26 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
+
 from .models import InstituteAddress, Program, ContactNumber, SecondaryEmail, SentMessage
 
 
-class InstituteAddressAdmin(admin.ModelAdmin):
+class InstituteAddressAdmin(SimpleHistoryAdmin):
     list_display = ['id', 'user', 'hostel', 'room']
 
 
-class ProgramAdmin(admin.ModelAdmin):
+class ProgramAdmin(SimpleHistoryAdmin):
     list_display = ['id', 'user', 'department', 'join_year', 'graduation_year', 'degree']
 
 
-class ContactNumberAdmin(admin.ModelAdmin):
+class ContactNumberAdmin(SimpleHistoryAdmin):
     list_display = ['id', 'user', 'number']
 
 
-class SecondaryEmailAdmin(admin.ModelAdmin):
+class SecondaryEmailAdmin(SimpleHistoryAdmin):
     list_display = ['id', 'user', 'email']
 
 
-class SentMessageAdmin(admin.ModelAdmin):
+class SentMessageAdmin(SimpleHistoryAdmin):
     list_display = ['id', 'message_id', 'status', 'error_message']
 
 

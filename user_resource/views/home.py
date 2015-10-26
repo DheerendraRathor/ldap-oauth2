@@ -14,6 +14,7 @@ from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm, SexUp
 from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
 from core.utils import attr_to_dict
 from core.mixins import FormErrorPageMixin
+from core.templatetags.model_media import model_field_media_url
 
 
 class UserApplicationListView(LoginRequiredMixin, ListView):
@@ -79,6 +80,7 @@ class UserHomePageView(LoginRequiredMixin, View):
             'gpo_email': gpo_email,
             'ldap_number': ldap_number,
             'roll_number': roll_number,
+            'user_profile_picture': model_field_media_url(user.userprofile.profile_picture),
         }
         request_context.update(forms_context_dict)
 

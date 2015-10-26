@@ -34,7 +34,6 @@
                     {% csrf_token %}
                     <div class="media">
                         <div class="media-left">
-                            {% model_field_media_url user.userprofile.profile_picture as user_profile_picture %}
                             {% static 'sso/img/nophoto.png' as default_user_profile_picture %}
 
                             <div class="image-glyphicon-wrapper">

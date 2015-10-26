@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from simple_history.models import HistoricalRecords
+
 from application.models import Application
 from core.utils import SORTED_DISCIPLINES, DEGREES, HOSTELS
 
@@ -24,10 +26,10 @@ def validate_graduation_year(value):
 
 
 class InstituteAddress(models.Model):
-
     user = models.OneToOneField(User, related_name='insti_address')
     room = models.CharField(max_length=8, null=True, blank=True)
     hostel = models.CharField(max_length=8, choices=HOSTELS, null=True, blank=True)
+    _history_ = HistoricalRecords()
 
     def __unicode__(self):
         if self.hostel:
@@ -38,12 +40,12 @@ class InstituteAddress(models.Model):
 
 
 class Program(models.Model):
-
     user = models.OneToOneField(User, related_name='program')
     department = models.CharField(max_length=16, choices=SORTED_DISCIPLINES, null=True, blank=True)
     join_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_join_year])
     graduation_year = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_graduation_year])
     degree = models.CharField(max_length=16, choices=DEGREES, null=True, blank=True)
+    _history_ = HistoricalRecords()
 
     def __unicode__(self):
         return "%s, %s" % (self.degree, self.department)
@@ -52,6 +54,7 @@ class Program(models.Model):
 class ContactNumber(models.Model):
     user = models.ForeignKey(User, related_name='contacts')
     number = models.CharField(max_length=16)
+    _history_ = HistoricalRecords()
 
     def __unicode__(self):
         return self.number
@@ -60,6 +63,7 @@ class ContactNumber(models.Model):
 class SecondaryEmail(models.Model):
     user = models.ForeignKey(User, related_name='secondary_emails')
     email = models.EmailField()
+    _history_ = HistoricalRecords()
 
     def __unicode__(self):
         return self.email

@@ -1,13 +1,15 @@
-from django.db import models
-from oauth2_provider.models import AbstractApplication
 from uuid import uuid4
 import os
+from urlparse import urljoin
+
+from django.db import models
+from oauth2_provider.models import AbstractApplication
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.conf import settings
-from urlparse import urljoin
 from oauth2_provider.models import RefreshToken
+from simple_history.models import HistoricalRecords
 
 
 def application_logo(instance, filename):  # pylint: disable=unused-argument
@@ -34,6 +36,7 @@ class Application(AbstractApplication):
     privacy_policy = models.URLField(null=True, blank=True, help_text='Link of privacy policy of application')
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
+    _history_ = HistoricalRecords()
 
     def get_logo_url(self):
         try:

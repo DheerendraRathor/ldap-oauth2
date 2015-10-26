@@ -79,6 +79,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'oauth2_provider',
+    'simple_history',
     'account',
     'application',
     'user_resource',
@@ -95,6 +96,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 )
 
 ROOT_URLCONF = 'sso.urls'
