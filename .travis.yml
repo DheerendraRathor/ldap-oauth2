@@ -7,7 +7,7 @@ services:
   - postgresql
 
 env:
-  - DJANGO=1.9.b1
+  - DJANGO=1.8.5
 
 before_install:
   - export DJANGO_SETTINGS_MODULE=sso.settings
