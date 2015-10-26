@@ -21,7 +21,7 @@ class SecondaryEmailAdmin(SimpleHistoryAdmin):
 
 
 class SentMessageAdmin(SimpleHistoryAdmin):
-    list_display = ['id', 'message_id', 'status', 'error_message']
+    list_display = ['id', 'message_id', 'sender', 'status', 'error_message']
 
 
 admin.site.register(InstituteAddress, InstituteAddressAdmin)
