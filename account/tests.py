@@ -1,9 +1,12 @@
-from urllib import quote_plus
-
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
+
+try:
+    from urllib.parse import quote_plus
+except ImportError:
+    from urllib import quote_plus
 
 from .models import UserProfile, user_profile_picture
 

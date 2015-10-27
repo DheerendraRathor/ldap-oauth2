@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect
 from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
-from .forms import LoginForm
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from urllib import quote_plus
+
+from .forms import LoginForm
 from core.mixins import SensitivePostParametersMixin
+
+try:
+    from urllib.pase import quote_plus
+except ImportError:
+    from urllib import quote_plus
 
 
 class LoginView(SensitivePostParametersMixin, View):
@@ -52,7 +57,6 @@ class LoginView(SensitivePostParametersMixin, View):
 
 
 class LogoutView(View):
-
     def get(self, request):
         logout(request)
         next_ = request.GET.get('next')

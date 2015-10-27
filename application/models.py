@@ -1,6 +1,5 @@
 from uuid import uuid4
 import os
-from urlparse import urljoin
 
 from django.db import models
 from oauth2_provider.models import AbstractApplication
@@ -10,6 +9,11 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from oauth2_provider.models import AccessToken
 from simple_history.models import HistoricalRecords
+
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 
 def application_logo(instance, filename):  # pylint: disable=unused-argument

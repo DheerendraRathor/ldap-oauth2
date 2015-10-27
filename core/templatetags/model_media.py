@@ -1,6 +1,10 @@
 from django import template
 from django.conf import settings
-from urlparse import urljoin
+
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 register = template.Library()
 
