@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from oauth2_provider.models import AccessToken
 from simple_history.models import HistoricalRecords
+from django.utils.encoding import python_2_unicode_compatible
 
 try:
     from urllib.parse import urljoin
@@ -25,6 +26,7 @@ def application_logo(instance, filename):  # pylint: disable=unused-argument
     return os.path.join("app_logo", uuid4().hex + "." + ext)
 
 
+@python_2_unicode_compatible
 class Application(AbstractApplication):
     """
     Extended oauth2_provider.models.AbstractApplication to include application description and logo
@@ -62,7 +64,7 @@ class Application(AbstractApplication):
     def get_user_count(self):
         return AccessToken.objects.all().filter(application=self).values_list('user', flat=True).distinct().count()
 
-    def __unicode__(self):
+    def __str__(self):
         if self.name:
             return self.name
         else:

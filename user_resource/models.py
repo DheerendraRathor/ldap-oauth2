@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from simple_history.models import HistoricalRecords
+from django.utils.encoding import python_2_unicode_compatible
 
 from application.models import Application
 from core.utils import SORTED_DISCIPLINES, DEGREES, HOSTELS
@@ -25,13 +26,14 @@ def validate_graduation_year(value):
         raise ValidationError(_('Please enter your expected graduation year'))
 
 
+@python_2_unicode_compatible
 class InstituteAddress(models.Model):
     user = models.OneToOneField(User, related_name='insti_address')
     room = models.CharField(max_length=8, null=True, blank=True)
     hostel = models.CharField(max_length=8, choices=HOSTELS, null=True, blank=True)
     _history_ = HistoricalRecords()
 
-    def __unicode__(self):
+    def __str__(self):
         if self.hostel:
             if self.room:
                 return "%s-%s" % (self.hostel, self.room)
@@ -39,6 +41,7 @@ class InstituteAddress(models.Model):
         return ''
 
 
+@python_2_unicode_compatible
 class Program(models.Model):
     user = models.OneToOneField(User, related_name='program')
     department = models.CharField(max_length=16, choices=SORTED_DISCIPLINES, null=True, blank=True)
@@ -47,28 +50,31 @@ class Program(models.Model):
     degree = models.CharField(max_length=16, choices=DEGREES, null=True, blank=True)
     _history_ = HistoricalRecords()
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s, %s" % (self.degree, self.department)
 
 
+@python_2_unicode_compatible
 class ContactNumber(models.Model):
     user = models.ForeignKey(User, related_name='contacts')
     number = models.CharField(max_length=16)
     _history_ = HistoricalRecords()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.number
 
 
+@python_2_unicode_compatible
 class SecondaryEmail(models.Model):
     user = models.ForeignKey(User, related_name='secondary_emails')
     email = models.EmailField()
     _history_ = HistoricalRecords()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
 
+@python_2_unicode_compatible
 class SentMessage(models.Model):
     message_id = models.CharField(max_length=256)
     sender = models.ForeignKey(Application)
@@ -77,5 +83,5 @@ class SentMessage(models.Model):
     error_message = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.message_id
