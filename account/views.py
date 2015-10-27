@@ -9,7 +9,7 @@ from .forms import LoginForm
 from core.mixins import SensitivePostParametersMixin
 
 try:
-    from urllib.pase import quote_plus
+    from urllib.parse import quote_plus
 except ImportError:
     from urllib import quote_plus
 
