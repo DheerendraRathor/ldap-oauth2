@@ -7,6 +7,7 @@ python:
 
 services:
   - postgresql
+  - memcached
 
 env:
   - DJANGO=1.8.5
