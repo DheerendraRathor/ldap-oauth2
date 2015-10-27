@@ -96,7 +96,7 @@ class LoginViewTestCase(TestCase):
         """
         response = self.client.get(self.login_url)
         self.assertEqual(response.status_code, 200)
-        six.assertRegex(self, response.content, 'name=[\'"]next[\'"].*?value=[\'"]{2}')
+        six.assertRegex(self, response.content.decode('utf-8'), r'name=[\'"]next[\'"].*?value=[\'"]{2}')
 
     def test_post_request_correct_credentials(self):
         response = self.client.post(self.login_url, {'username': 'test_user', 'password': 'test123'})
