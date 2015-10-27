@@ -14,7 +14,7 @@ before_install:
   - export PYTHONPATH=$HOME/builds/DheerendraRathor/ldap-oauth2
 
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements/py2.txt
   - pip install django==$DJANGO --quiet
   - pip install python-coveralls
 

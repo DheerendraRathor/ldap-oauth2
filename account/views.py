@@ -21,6 +21,8 @@ class LoginView(SensitivePostParametersMixin, View):
 
     def get(self, request):
         next_ = request.GET.get('next', settings.LOGIN_REDIRECT_URL)
+        if next_ == '':
+            next_ = settings.LOGIN_REDIRECT_URL
         if request.user.is_authenticated():
             return redirect(next_)
         return render(request, self.template_name, {'form': self.form_class})

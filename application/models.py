@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.conf import settings
-from oauth2_provider.models import RefreshToken
+from oauth2_provider.models import AccessToken
 from simple_history.models import HistoricalRecords
 
 
@@ -17,7 +17,7 @@ def application_logo(instance, filename):  # pylint: disable=unused-argument
     if len(filename) > 1:
         ext = filename[-1]
     else:
-        ext = "jpg"
+        ext = "png"
     return os.path.join("app_logo", uuid4().hex + "." + ext)
 
 
@@ -56,7 +56,7 @@ class Application(AbstractApplication):
             raise ValidationError(error)
 
     def get_user_count(self):
-        return RefreshToken.objects.all().filter(application=self).values_list('user', flat=True).distinct().count()
+        return AccessToken.objects.all().filter(application=self).values_list('user', flat=True).distinct().count()
 
     def __unicode__(self):
         if self.name:

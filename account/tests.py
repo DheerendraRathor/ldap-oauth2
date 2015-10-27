@@ -1,10 +1,18 @@
+from urllib import quote_plus
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
-from urllib import quote_plus
 
-from .models import UserProfile
+from .models import UserProfile, user_profile_picture
+
+import django.utils.six as six
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 
 class LoginViewTestCase(TestCase):
@@ -14,8 +22,27 @@ class LoginViewTestCase(TestCase):
     template_name = 'account/login.html'
 
     def setUp(self):
-        test_user = User.objects.create_user(username='test_user', password='test123')
-        UserProfile.objects.create(user=test_user)
+        self.test_user = User.objects.create_user(username='test_user', password='test123')
+        self.userprofile = UserProfile.objects.create(user=self.test_user)
+
+    def tearDown(self):
+        self.client.logout()
+        self.test_user.delete()
+
+    def test_userprofile_unicode(self):
+        self.assertEqual(str(self.userprofile), self.test_user.username)
+
+    def test_application_logo_upload(self):
+        with mock.patch('uuid.uuid4') as uuid_mock:
+            uuid_mock.return_value = '1234567890'
+            filename = user_profile_picture(self.test_user, 'hola.png')
+            self.assertNotEqual(filename, 'app_logo/1234567890.png')
+
+    def test_application_logo_default_ext(self):
+        with mock.patch('uuid.uuid4') as uuid_mock:
+            uuid_mock.return_value = '987654321'
+            filename = user_profile_picture(self.test_user, 'hola')
+            self.assertNotEqual(filename, 'app_logo/987654321.png')
 
     def test_user_already_logged_in_get(self):
         """
@@ -35,6 +62,15 @@ class LoginViewTestCase(TestCase):
         response = self.client.get('%s?next=%s' % (self.login_url, self.next_))
         self.assertRedirects(response, self.next_)
 
+    def test_user_already_logged_in_get_with_empty_next(self):
+        """
+        Tests the redirect on opening login page when user is already logged in.
+        Request must be redirected to get query param 'next'
+        """
+        self._user_login()
+        response = self.client.get('%s?next=%s' % (self.login_url, ''))
+        self.assertRedirects(response, self.login_redirect_url)
+
     def test_user_not_logged_in_get(self):
         """
         Test in case user is not logged in. Should return 200 status for 'account:login' page
@@ -51,8 +87,30 @@ class LoginViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.template_name)
 
+    def test_user_not_logged_in_without_next(self):
+        """
+        Test when ?next= is not present in URL. Rendered form should have hidden input with name next and value ''
+        """
+        response = self.client.get(self.login_url)
+        self.assertEqual(response.status_code, 200)
+        six.assertRegex(self, response.content, 'name=[\'"]next[\'"].*?value=[\'"]{2}')
+
     def test_post_request_correct_credentials(self):
         response = self.client.post(self.login_url, {'username': 'test_user', 'password': 'test123'})
+        self.assertRedirects(response, self.login_redirect_url)
+
+    def test_post_request_correct_credentials_with_next(self):
+        """
+        Posting data with next in action URL. Should be redirect to next
+        """
+        response = self.client.post(self.login_url, {'username': 'test_user', 'password': 'test123', 'next': '/user/'})
+        self.assertRedirects(response, '/user/')
+
+    def test_post_request_correct_credentials_with_empty_next(self):
+        """
+        Posting data with empty next in action URL. Should be redirect to login_redirect_url
+        """
+        response = self.client.post(self.login_url, {'username': 'test_user', 'password': 'test123', 'next': ''})
         self.assertRedirects(response, self.login_redirect_url)
 
     def test_post_request_incorrect_credentials(self):
