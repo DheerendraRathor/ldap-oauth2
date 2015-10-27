@@ -45,8 +45,9 @@
         anchors.add('h3');
     </script>
     <script src="{% static 'widget/js/login.js' %}" type="application/javascript"></script>
-    <script src="{% static 'sso/js/doc.js' %}" type="application/javascript"></script>
     <script type="application/javascript">
         window.history.pushState({}, '', '{{ active_tab.url }}');
+        var is_widget_loaded = {% if active_tab.tab == 'widgets'  %}true{% else %}false{% endif %};
     </script>
+    <script src="{% static 'sso/js/doc.js' %}" type="application/javascript"></script>
 {% endblock %}

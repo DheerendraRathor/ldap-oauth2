@@ -32,6 +32,10 @@ $("#widgets-tab").click(function () {
         sso_js.init();
     }, 400);
 });
+if (is_widget_loaded){
+    initialized = true;
+    sso_js.init();
+}
 $("a[role='tab']").click(function () {
     window.history.pushState({}, '', $(this).data('url'));
     document.title = $(this).data('title');
