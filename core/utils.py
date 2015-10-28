@@ -16,6 +16,15 @@ def get_default_scopes(application):
 
 
 def attr_to_dict(instance, key=None):
+    """
+    Convert an instance to dictionary by following rules:
+    1. If instance is model then covert it directly to dictionary using forms.model_to_dict
+    2. If instance is dictionary or dict like object, return it
+    3. If instace is string type or list type, return {key: instance}
+    :param instance: A python object
+    :param key: @str
+    :return: @dict
+    """
     if isinstance(instance, Model):
         return model_to_dict(instance)
     if isinstance(instance, collections.Mapping):
@@ -159,7 +168,6 @@ HOSTELS = [
 
 
 class TabNav(object):
-
     def __init__(self, tab, name=None, template_name=None, base_url=None, is_default=False):
         if not tab or not base_url:
             raise ValueError('tab and base_url cannot be None')

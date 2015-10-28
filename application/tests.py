@@ -5,15 +5,11 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from oauth2_provider.models import AccessToken
 from django.utils.timezone import now
+from django.test import mock
 
 from .models import Application, application_logo
 from .admin import ApplicationAdmin
 from account.models import UserProfile
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 
 
 class ApplicationModelTestCase(TestCase):

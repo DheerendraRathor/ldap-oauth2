@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
+import django.utils.six as six
+from django.test import mock
 
 try:
     from urllib.parse import quote_plus
@@ -10,12 +12,6 @@ except ImportError:
 
 from .models import UserProfile, user_profile_picture
 
-import django.utils.six as six
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 
 
 class LoginViewTestCase(TestCase):
