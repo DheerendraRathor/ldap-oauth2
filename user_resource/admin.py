@@ -7,7 +7,7 @@ from .models import InstituteAddress, Program, ContactNumber, SecondaryEmail, Se
 class InstituteAddressAdmin(SimpleHistoryAdmin):
     list_display = ['id', 'user', 'hostel', 'room']
     list_filter = ['hostel']
-    search_fields = ['user__username', 'room']
+    search_fields = ['user__username', 'user__first_name', 'room']
 
 
 class ProgramAdmin(SimpleHistoryAdmin):
@@ -30,9 +30,12 @@ class SecondaryEmailAdmin(SimpleHistoryAdmin):
 
 
 class SentMessageAdmin(SimpleHistoryAdmin):
-    list_display = ['id', 'message_id', 'sender', 'status', 'error_message', 'created', ]
-    list_filter = ['status']
-    search_fields = ['sender', 'user', ]
+    list_display = ['id', 'message_id', 'sender', 'user', 'status', 'created', ]
+    list_filter = ['status', 'sender', ]
+    search_fields = ['sender__id', 'sender__name', 'user__username', 'user__first_name', 'message_id', ]
+
+    class Media:
+        js = ['admin/js/list_filter_collapse.js', ]
 
 
 admin.site.register(InstituteAddress, InstituteAddressAdmin)
