@@ -1,7 +1,8 @@
 from django import forms
-from .models import InstituteAddress, Program
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
+
+from .models import InstituteAddress, Program
 from core.utils import BLANK_SEXES
 
 
@@ -42,7 +43,6 @@ class InstituteAddressForm(forms.ModelForm):
 
 
 class ProgramForm(forms.ModelForm):
-
     def clean(self):
         cleaned_data = super(ProgramForm, self).clean()
         join_year = cleaned_data.get('join_year')
@@ -52,6 +52,11 @@ class ProgramForm(forms.ModelForm):
             if graduation_year <= join_year:
                 validation_err = forms.ValidationError(_('How come you graduated before you joined?'), code='bad_input')
                 self.add_error('graduation_year', validation_err)
+
+            if join_year >= graduation_year:
+                validation_err = forms.ValidationError(
+                    _('How come you joined after you graduated? You must be in alternate timeline!'), code='bade_input')
+                self.add_error('join_year', validation_err)
 
     class Meta:
         model = Program
