@@ -25,8 +25,7 @@ install:
 script:
   - cp sso/settings_user.py.sample sso/settings_user.py
   - python manage.py check
-  - isort_output=$(isort -rc --check-only .)
-  - if [[ $isort_output == *"ERROR:"* ]]; then echo $isort_output; exit 1; fi
+  - isort -rc --check-only --diff .
   - python manage.py collectstatic --noinput
   - python manage.py migrate --noinput
   - coverage run --source '.' manage.py test
