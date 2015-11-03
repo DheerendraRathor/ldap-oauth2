@@ -285,4 +285,4 @@ logging.config.dictConfig(LOGGING)
 
 X_FRAME_OPTIONS = 'DENY'
 
-from .settings_user import *  # noqa
+from .settings_user import *  # noqa isort:skip

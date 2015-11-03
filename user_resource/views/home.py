@@ -1,20 +1,22 @@
-from collections import defaultdict
 import json
+from collections import defaultdict
 
 from braces.views import LoginRequiredMixin
-from django.http.response import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import ListView, View
-from oauth2_provider.models import AccessToken, get_application_model as get_oauth2_application_model
-from oauth2_provider.settings import oauth2_settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.http.response import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView, View
+from oauth2_provider.models import get_application_model as get_oauth2_application_model
+from oauth2_provider.models import AccessToken
+from oauth2_provider.settings import oauth2_settings
 from rest_framework.fields import get_attribute
 
-from ..forms import InstituteAddressForm, ProgramForm, ProfilePictureForm, SexUpdateForm
-from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
-from core.utils import attr_to_dict
 from core.mixins import FormErrorPageMixin
 from core.templatetags.model_media import model_field_media_url
+from core.utils import attr_to_dict
+
+from ..forms import InstituteAddressForm, ProfilePictureForm, ProgramForm, SexUpdateForm
+from ..models import ContactNumber, InstituteAddress, Program, SecondaryEmail
 
 
 class UserApplicationListView(LoginRequiredMixin, ListView):

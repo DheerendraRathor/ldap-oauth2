@@ -9,3 +9,4 @@ gunicorn
 psycopg2
 python-memcached
 django-simple-history
+isort

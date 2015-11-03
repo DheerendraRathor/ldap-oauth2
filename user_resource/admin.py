@@ -1,7 +1,7 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 
-from .models import InstituteAddress, Program, ContactNumber, SecondaryEmail, SentMessage
+from .models import ContactNumber, InstituteAddress, Program, SecondaryEmail, SentMessage
 
 
 class InstituteAddressAdmin(SimpleHistoryAdmin):

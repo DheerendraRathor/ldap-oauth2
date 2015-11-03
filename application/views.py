@@ -1,14 +1,15 @@
-from django.views.generic import UpdateView
 from braces.views import LoginRequiredMixin
-from oauth2_provider.views.application import ApplicationRegistration
-from oauth2_provider.models import get_application_model as get_oauth2_application_model
-from oauth2_provider.views import AuthorizationView
-from oauth2_provider.settings import oauth2_settings
-from oauth2_provider.http import HttpResponseUriRedirect
+from django.views.generic import UpdateView
 from oauth2_provider.exceptions import OAuthToolkitError
+from oauth2_provider.http import HttpResponseUriRedirect
+from oauth2_provider.models import get_application_model as get_oauth2_application_model
+from oauth2_provider.settings import oauth2_settings
+from oauth2_provider.views import AuthorizationView
+from oauth2_provider.views.application import ApplicationRegistration
+
+from core.utils import get_default_scopes
 
 from .forms import RegistrationForm
-from core.utils import get_default_scopes
 
 
 class ApplicationRegistrationView(ApplicationRegistration):

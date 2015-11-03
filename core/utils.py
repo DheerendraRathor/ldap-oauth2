@@ -2,11 +2,11 @@ import collections
 
 import six
 from django.conf import settings
-from django.db.models.fields import BLANK_CHOICE_DASH
-from django.utils.translation import ugettext_lazy as _
-from django.forms.models import model_to_dict
-from django.db.models import Model
 from django.core.urlresolvers import reverse
+from django.db.models import Model
+from django.db.models.fields import BLANK_CHOICE_DASH
+from django.forms.models import model_to_dict
+from django.utils.translation import ugettext_lazy as _
 
 
 def get_default_scopes(application):

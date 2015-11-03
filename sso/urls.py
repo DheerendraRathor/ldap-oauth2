@@ -25,6 +25,7 @@ import account.urls
 import application.urls
 import user_resource.urls
 import widget.urls
+
 from .views import DocView, IndexView
 
 urlpatterns = [

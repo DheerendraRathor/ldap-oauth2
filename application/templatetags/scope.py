@@ -1,4 +1,5 @@
 from django import template
+
 from core.utils import get_default_scopes
 
 register = template.Library()

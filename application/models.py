@@ -1,15 +1,14 @@
-from uuid import uuid4
 import os
+from uuid import uuid4
 
-from django.db import models
-from oauth2_provider.models import AbstractApplication
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ValidationError
 from django.conf import settings
-from oauth2_provider.models import AccessToken
-from simple_history.models import HistoricalRecords
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
+from oauth2_provider.models import AbstractApplication, AccessToken
+from simple_history.models import HistoricalRecords
 
 try:
     from urllib.parse import urljoin

@@ -1,16 +1,16 @@
-from django.test import TestCase
-from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
-from django.conf import settings
 import django.utils.six as six
-from django.test import mock
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.test import TestCase, mock
+
+from .models import UserProfile, user_profile_picture
 
 try:
     from urllib.parse import quote_plus
 except ImportError:
     from urllib import quote_plus
 
-from .models import UserProfile, user_profile_picture
 
 
 

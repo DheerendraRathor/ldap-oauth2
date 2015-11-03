@@ -1,9 +1,9 @@
-from django.views.generic import TemplateView
-from django.templatetags.static import static
 from django.core.mail.message import make_msgid
+from django.templatetags.static import static
+from django.views.generic import TemplateView
 
-from core.utils import SORTED_DISCIPLINES, DEGREES, HOSTELS, SEXES, TabNav
 from account.models import UserProfile
+from core.utils import DEGREES, HOSTELS, SEXES, SORTED_DISCIPLINES, TabNav
 
 
 class IndexView(TemplateView):

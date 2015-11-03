@@ -1,13 +1,14 @@
 from datetime import timedelta
 
-from oauth2_provider.oauth2_validators import OAuth2Validator
-from oauth2_provider.models import RefreshToken, AccessToken
-from django.utils import timezone
-from django.shortcuts import get_object_or_404
-from oauth2_provider.settings import oauth2_settings
-from oauth2_provider.models import get_application_model as get_oauth2_application_model
-from core.utils import get_default_scopes
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from oauth2_provider.models import get_application_model as get_oauth2_application_model
+from oauth2_provider.models import AccessToken, RefreshToken
+from oauth2_provider.oauth2_validators import OAuth2Validator
+from oauth2_provider.settings import oauth2_settings
+
+from core.utils import get_default_scopes
 
 
 class CustomOAuth2Validator(OAuth2Validator):

@@ -1,9 +1,10 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
+
+from core.utils import BLANK_SEXES
 
 from .models import InstituteAddress, Program
-from core.utils import BLANK_SEXES
 
 
 class ProfilePictureForm(forms.Form):

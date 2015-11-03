@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from .views import ApplicationRegistrationView, ApplicationUpdateView, CustomAuthorizationView
 
+from .views import ApplicationRegistrationView, ApplicationUpdateView, CustomAuthorizationView
 
 urlpatterns = [
     url(r'^authorize/$', CustomAuthorizationView.as_view(), name='authorize'),

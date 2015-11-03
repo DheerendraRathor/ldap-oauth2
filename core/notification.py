@@ -1,4 +1,5 @@
 import smtplib
+
 from django.core.mail.backends.smtp import EmailBackend
 from django.core.mail.utils import DNS_NAME
 

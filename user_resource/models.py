@@ -1,13 +1,13 @@
-from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from simple_history.models import HistoricalRecords
-from django.utils.encoding import python_2_unicode_compatible
 
 from application.models import Application
-from core.utils import SORTED_DISCIPLINES, DEGREES, HOSTELS
+from core.utils import DEGREES, HOSTELS, SORTED_DISCIPLINES
 
 
 def validate_join_year(value):

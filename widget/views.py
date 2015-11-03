@@ -1,7 +1,8 @@
-from django.views.generic import TemplateView
-from django.views.decorators.clickjacking import xframe_options_exempt
-from django.utils.decorators import method_decorator
 import re
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.generic import TemplateView
 
 
 class LoginWidget(TemplateView):

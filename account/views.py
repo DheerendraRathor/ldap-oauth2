@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
-from django.http.response import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.views.generic import View
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
+from django.http.response import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.views.generic import View
+
+from core.mixins import SensitivePostParametersMixin
 
 from .forms import LoginForm
-from core.mixins import SensitivePostParametersMixin
 
 try:
     from urllib.parse import quote_plus

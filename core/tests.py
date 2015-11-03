@@ -1,13 +1,14 @@
-from django.test import TestCase, override_settings, RequestFactory
+import django.utils.six as six
 from django.conf import settings
 from django.contrib.auth.models import User
-import django.utils.six as six
+from django.test import RequestFactory, TestCase, override_settings
 
-from application.models import Application
-from .utils import get_default_scopes, attr_to_dict, TabNav
 from account.models import UserProfile
-from .templatetags.model_media import model_field_media_url
+from application.models import Application
+
 from .templatetags.absolute_url import absolute_url
+from .templatetags.model_media import model_field_media_url
+from .utils import TabNav, attr_to_dict, get_default_scopes
 
 
 class CoreUtilsTest(TestCase):

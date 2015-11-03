@@ -1,7 +1,7 @@
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import View
-from django.utils.decorators import method_decorator
-from django.shortcuts import render
 
 
 class SensitivePostParametersMixin(View):

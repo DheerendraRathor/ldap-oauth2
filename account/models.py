@@ -1,10 +1,10 @@
 import os
 from uuid import uuid4
 
-from django.db import models
 from django.contrib.auth.models import User
-from simple_history.models import HistoricalRecords
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from simple_history.models import HistoricalRecords
 
 from core.utils import SEXES
 

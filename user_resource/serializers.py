@@ -1,7 +1,9 @@
-from rest_framework import serializers
-from .models import Program, ContactNumber, SecondaryEmail, InstituteAddress
-from django.contrib.auth.models import User
 import copy
+
+from django.contrib.auth.models import User
+from rest_framework import serializers
+
+from .models import ContactNumber, InstituteAddress, Program, SecondaryEmail
 from .oauth import DEFAULT_FIELDS, USER_FIELDS
 
 

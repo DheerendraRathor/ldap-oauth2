@@ -1,15 +1,15 @@
-from django.test import TestCase
+from django.conf import settings
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.core.exceptions import ValidationError
-from oauth2_provider.models import AccessToken
+from django.test import TestCase, mock
 from django.utils.timezone import now
-from django.test import mock
+from oauth2_provider.models import AccessToken
 
-from .models import Application, application_logo
-from .admin import ApplicationAdmin
 from account.models import UserProfile
+
+from .admin import ApplicationAdmin
+from .models import Application, application_logo
 
 
 class ApplicationModelTestCase(TestCase):

@@ -1,17 +1,17 @@
-from smtplib import SMTPException
 import logging
+from smtplib import SMTPException
 
-from rest_framework import viewsets
-from rest_framework.response import Response
-from oauth2_provider.ext.rest_framework.permissions import TokenHasScope
 from django.contrib.auth.models import User
-from rest_framework.status import HTTP_400_BAD_REQUEST
-from rest_framework.decorators import list_route
 from django.core.mail import EmailMessage
+from oauth2_provider.ext.rest_framework.permissions import TokenHasScope
+from rest_framework import viewsets
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 
-from ..serializers import UserSerializer, SendMailSerializer
-from ..oauth import SCOPE_TO_FIELD_MAP, DEFAULT_FIELDS, USER_FIELDS
 from ..models import SentMessage
+from ..oauth import DEFAULT_FIELDS, SCOPE_TO_FIELD_MAP, USER_FIELDS
+from ..serializers import SendMailSerializer, UserSerializer
 
 logger = logging.getLogger(__name__)
 
