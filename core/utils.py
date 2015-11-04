@@ -1,6 +1,6 @@
 import collections
 
-import six
+import django.utils.six as six
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Model
@@ -34,13 +34,15 @@ def attr_to_dict(instance, key=None):
         return {key: instance}
 
 
+def get_choices_with_blank_dash(choices):
+    return BLANK_CHOICE_DASH + list(choices)
+
+
 SEXES = [
     ('male', 'Male'),
     ('female', 'Female'),
     ('other', 'Other'),
 ]
-
-BLANK_SEXES = BLANK_CHOICE_DASH + SEXES
 
 DISCIPLINES = [
     # Departments

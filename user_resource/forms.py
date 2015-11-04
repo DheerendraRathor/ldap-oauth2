@@ -2,7 +2,7 @@ from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
-from core.utils import BLANK_SEXES
+from core.utils import SEXES, get_choices_with_blank_dash
 
 from .models import InstituteAddress, Program
 
@@ -23,7 +23,7 @@ class ProfilePictureForm(forms.Form):
 
 
 class SexUpdateForm(forms.Form):
-    sex = forms.ChoiceField(choices=BLANK_SEXES, required=False,
+    sex = forms.ChoiceField(choices=get_choices_with_blank_dash(SEXES), required=False,
                             widget=forms.Select(
                                 attrs={'class': 'form-control', },
                             ))
@@ -78,4 +78,5 @@ class ProgramForm(forms.ModelForm):
         }
         labels = {
             'department': 'Discipline',
+            'graduation_year': '(Expected) Graduation Year',
         }

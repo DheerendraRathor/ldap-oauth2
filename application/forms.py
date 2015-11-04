@@ -1,10 +1,14 @@
 from django import forms
 
+from core.utils import get_choices_with_blank_dash
+
 from .models import Application
 
 
 class RegistrationForm(forms.ModelForm):
     name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    authorization_grant_type = forms.ChoiceField(choices=get_choices_with_blank_dash(Application.GRANT_TYPES[:2]),
+                                                 widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Application
@@ -31,9 +35,6 @@ class RegistrationForm(forms.ModelForm):
                 attrs={'class': 'form-control', }
             ),
             'client_type': forms.Select(
-                attrs={'class': 'form-control', }
-            ),
-            'authorization_grant_type': forms.Select(
                 attrs={'class': 'form-control', }
             ),
             'redirect_uris': forms.Textarea(

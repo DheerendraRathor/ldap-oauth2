@@ -51,7 +51,7 @@ class Program(models.Model):
     _history_ = HistoricalRecords()
 
     def __str__(self):
-        return "%s, %s" % (self.degree, self.department)
+        return "%s, %s" % (self.get_degree_display(), self.get_department_display())
 
 
 @python_2_unicode_compatible
