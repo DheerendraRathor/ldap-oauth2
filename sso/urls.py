@@ -15,6 +15,8 @@ Including another URLconf
 """
 import re
 
+import jet.dashboard.urls
+import jet.urls
 import oauth2_provider.urls
 from django.conf import settings
 from django.conf.urls import include, url
@@ -25,8 +27,6 @@ import account.urls
 import application.urls
 import user_resource.urls
 import widget.urls
-import jet.urls
-import jet.dashboard.urls
 
 from .views import DocView, IndexView
 
