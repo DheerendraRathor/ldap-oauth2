@@ -71,7 +71,6 @@ AUTH_LDAP_PROFILE_FLAGS_BY_DN_REGEX = {
 }
 
 INSTALLED_APPS = (
-    'jet.dashboard',
     'jet',
     'django.contrib.admin',
     'django.contrib.auth',

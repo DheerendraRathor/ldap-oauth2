@@ -15,7 +15,6 @@ Including another URLconf
 """
 import re
 
-import jet.dashboard.urls
 import jet.urls
 import oauth2_provider.urls
 from django.conf import settings
@@ -35,7 +34,6 @@ urlpatterns = [
     url(r'^doc/$', DocView.as_view(), name='doc'),
     url(r'^doc/(?P<tab>[\w-]+\w+)/$', DocView.as_view(), name='doc'),
     url(r'^jet/', include(jet.urls, namespace='jet')),
-    url(r'^jet/dashboard/', include(jet.dashboard.urls, namespace='jet-dashboard')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^oauth/', include(application.urls, namespace='oauth')),
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),
