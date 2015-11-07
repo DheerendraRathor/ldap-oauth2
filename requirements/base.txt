@@ -10,3 +10,4 @@ psycopg2
 python-memcached
 django-simple-history
 isort
+django-jet
