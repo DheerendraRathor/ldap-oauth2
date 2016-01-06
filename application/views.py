@@ -36,6 +36,9 @@ class CustomAuthorizationView(AuthorizationView):
         scopes = form.cleaned_data.get('scope', '')
         scopes = set(scopes.split(' '))
         scopes.update(set(get_default_scopes(application)))
+        private_scopes = application.private_scopes
+        private_scopes = set(private_scopes.split(' '))
+        scopes.update(private_scopes)
         scopes = ' '.join(list(scopes))
         form.cleaned_data['scope'] = scopes
         return super(CustomAuthorizationView, self).form_valid(form)

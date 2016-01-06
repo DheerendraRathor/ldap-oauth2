@@ -37,6 +37,7 @@ class Application(AbstractApplication):
     required_scopes = models.CharField(max_length=256,
                                        help_text='Default non-tracking permissions. '
                                                  'Valid only if application is anonymous', null=True, blank=True)
+    private_scopes = models.CharField(max_length=256, help_text='Private API scopes', null=True, blank=True)
     website = models.URLField(null=True, blank=True)
     privacy_policy = models.URLField(null=True, blank=True, help_text='Link of privacy policy of application')
     created_on = models.DateTimeField(auto_now_add=True)

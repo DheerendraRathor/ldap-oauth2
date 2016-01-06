@@ -71,7 +71,6 @@ AUTH_LDAP_PROFILE_FLAGS_BY_DN_REGEX = {
 }
 
 INSTALLED_APPS = (
-    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -190,6 +189,7 @@ OAUTH2_PROVIDER = {
         'program': 'Your roll number, department, course, joining year and graduation year',
         'secondary_emails': 'Your alternate emails',
         'send_mail': 'Send email to you via SSO',
+        'priv_rooms': 'Private API: Get details all rooms',
     },
     'OAUTH2_VALIDATOR_CLASS': 'application.validators.CustomOAuth2Validator',
     'REQUEST_APPROVAL_PROMPT': 'auto',

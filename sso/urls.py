@@ -24,6 +24,7 @@ from django.views.static import serve
 
 import account.urls
 import application.urls
+import resources.urls
 import user_resource.urls
 import widget.urls
 
@@ -33,13 +34,13 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^doc/$', DocView.as_view(), name='doc'),
     url(r'^doc/(?P<tab>[\w-]+\w+)/$', DocView.as_view(), name='doc'),
-    url(r'^jet/', include(jet.urls, namespace='jet')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^oauth/', include(application.urls, namespace='oauth')),
     url(r'^oauth/', include(oauth2_provider.urls, namespace='oauth2_provider')),
     url(r'^account/', include(account.urls, namespace='account')),
     url(r'^user/', include(user_resource.urls, namespace='user')),
-    url(r'^widget/', include(widget.urls, namespace='widgets'))
+    url(r'^resources/', include(resources.urls, namespace='resources')),
+    url(r'^widget/', include(widget.urls, namespace='widgets')),
 ]
 
 # Fail safe! If nginx is down, this might come handy.
