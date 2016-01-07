@@ -15,7 +15,6 @@ Including another URLconf
 """
 import re
 
-import jet.urls
 import oauth2_provider.urls
 from django.conf import settings
 from django.conf.urls import include, url
