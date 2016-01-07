@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from application.models import Application
-from core.utils import DEGREES, HOSTELS, SORTED_DISCIPLINES
+from core.utils import DEGREES, HOSTELS, HOSTELS_WITH_WINGS, ROOM_VALIDATION_REGEX, SORTED_DISCIPLINES
 
 
 def validate_join_year(value):
@@ -32,6 +32,12 @@ class InstituteAddress(models.Model):
     room = models.CharField(max_length=8, null=True, blank=True)
     hostel = models.CharField(max_length=8, choices=HOSTELS, null=True, blank=True)
     _history_ = HistoricalRecords()
+
+    def clean(self):
+        if self.room:
+            if self.hostel in HOSTELS_WITH_WINGS:
+                if not ROOM_VALIDATION_REGEX.match(self.room):
+                    raise ValidationError(_('Room number must have wing name like A-123'))
 
     def __str__(self):
         if self.hostel:

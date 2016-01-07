@@ -1,4 +1,5 @@
 import collections
+import re
 
 import django.utils.six as six
 from django.conf import settings
@@ -166,6 +167,10 @@ HOSTELS = [
     ['tansa', 'Tansa'],
     ['qip', 'QIP'],
 ]
+
+HOSTELS_WITH_WINGS = ['10', '12', '13', '14', '15', '16']
+
+ROOM_VALIDATION_REGEX = re.compile(r'[A-Z]-\d+')
 
 
 class TabNav(object):

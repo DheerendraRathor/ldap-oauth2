@@ -1,10 +1,11 @@
 from oauth2_provider.ext.rest_framework.permissions import TokenHasScope
 from rest_framework import viewsets
+from rest_framework.decorators import list_route
 
 from core.pagination import DefaultLimitOffsetPagination
 from user_resource.models import InstituteAddress
+
 from .serializers import UserRoomSerializer
-from rest_framework.decorators import list_route
 
 
 class ResourcesViewset(viewsets.GenericViewSet):
