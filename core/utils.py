@@ -168,7 +168,7 @@ HOSTELS = [
     ['qip', 'QIP'],
 ]
 
-HOSTELS_WITH_WINGS = ['10', '12', '13', '14', '15', '16']
+HOSTELS_WITH_WINGS = ['10', '11', '12', '13', '14', '15', '16']
 
 ROOM_VALIDATION_REGEX = re.compile(r'[A-Z]-\d+')
 
