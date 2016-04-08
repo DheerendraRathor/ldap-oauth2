@@ -5,7 +5,14 @@
 
 OAUTH 2.0 Provider for LDAP
 ===========================
-This application usage the standard OAuth2.0 flow described in [RFC 6749](https://tools.ietf.org/html/rfc6749) 
+This application usage the standard OAuth2.0 flow described in [RFC 6749](https://tools.ietf.org/html/rfc6749)
+
+Detailed documentation is present at: https://gymkhana.iitb.ac.in/sso/doc/
+
+Special Feature
+---------------
+- Selective Permissions option for users (like facebook)
+- Atomic Permissions for fields
 
 URLs:
 -----
