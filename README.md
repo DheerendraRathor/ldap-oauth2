@@ -5,7 +5,7 @@
 
 OAUTH 2.0 Provider for LDAP
 ===========================
-This application usage the standard OAuth2.0 flow described in [RFC 6749](https://tools.ietf.org/html/rfc6749)
+This application follows the standard OAuth2.0 flow described in [RFC 6749](https://tools.ietf.org/html/rfc6749)
 
 Detailed documentation is present at: https://gymkhana.iitb.ac.in/sso/doc/
 
@@ -59,5 +59,5 @@ TODO:
 * ~~Atomize permissions~~
 * ~~Add endpoint to send email on behalf of app~~
 * ~~Create **Login with SSO** widgets~~
-* Like with SSO widget?
+* ~~~Like with SSO widget?~~~ Dropped the idea.
 
