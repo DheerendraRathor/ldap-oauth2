@@ -12,7 +12,7 @@ Steps:
 ------
 1. Install all requirements by running `pip install -r requirements.txt` in project root
     - To install some python libraries like `python-ldap` or `psycopg2` you might need to install some OS based 
-    packages. Please refer to their individual installation guideline on their homepages
+    packages. Please refer to their individual installation guideline on their homepages.
 2. Copy configurable settings file `sso/settings_user.py.sample` to `sso/settings_user.py`
 3. Edit `sso/settings_user.py` and add configurations and credentials
 4. If you are planning to run in production, you should add database settings in `sso/settings_user.py`
@@ -21,3 +21,9 @@ Steps:
 7. Create superuser by running `python manage.py createsuperuser`
 8. Run `python manage.py runserver`. Open browser at `http://localhost:8000/`
 9. Congrats! Installation is complete!
+
+Ubuntu-specific instructions (16.04+):
+--------------------------------------
+1. Install python3-pip and necessary LDAP libraries: `sudo apt-get install python3-pip libsasl2-dev libldap2-dev libssl-dev`
+2. Install requirements: `pip3 install -r requirements/base.txt`
+Proceed as above for the remainder.
